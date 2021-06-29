@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const AppointmentSchema = new mongoose.Schema({
-    meeting_id: {
+    meetingId: {
         type: mongoose.Types.ObjectId,
         ref: 'meeting'
     },
