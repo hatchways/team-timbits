@@ -1,7 +1,8 @@
 const asyncHandler =  require('express-async-handler');
 const validatorResults = require('express-validator');
 const Appointment = require('../models/Appointment');
-const User = require('../models/User');
+const Meeting = require('../models/Meeting');
+const moment = require('moment-timezone');
 //CREATE /appointment -> Create an appointment
 //meeting_id, name, email, time (datetime), timezone
 //GET /appointments -> list of appointments for logged in user
@@ -10,19 +11,15 @@ const User = require('../models/User');
 // @des    Creates appointment
 // @access Public
 exports.createAppointment = asyncHandler(async (req, res) => {
-    const errors = validatorResults(req);
-    if(!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
-
-    const { name, email, time, timezone } = req.body();
-
+    const { name, email, time } = req.body;
+    const meeting = await Meeting.findOne({ meetingId: req.params.user_id });
+    
     const appointmentFields = {};
-    appointmentFields.meetingId = req.meetingId.id
+    appointmentFields.meetingId = meeting;
     if(name) appointmentFields.name = name;
     if(email) appointmentFields.email = email;
     if(time) appointmentFields.time = time;
-    if(timezone) appointmentFields.timezone = timezone;
+    appointmentFields.timezone = moment.tz.guess();
 
     const newAppointment = new Appointment(appointmentFields);
     await newAppointment.save();
