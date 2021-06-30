@@ -19,7 +19,7 @@ const AppointmentSchema = new mongoose.Schema({
     },
     timezone: {
         type: Date,
-        default: Date.getTimezoneOffset()
+        default: Date.getTimezoneOffset
     }
 });
 
