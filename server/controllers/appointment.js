@@ -28,17 +28,20 @@ exports.createAppointment = asyncHandler(async (req, res) => {
 
 
 // @route  GET api/appointments
-// @des    Gets all appointments by id
+// @des    Gets all appointments by user id
 // @access Public
-exports.getAllAppointments = asyncHandler(async (req, res) => {
-    try {
-        const appointments = await Appointment.findOne({ user: req.params.user_id });
+exports.getAllUserAppointments = asyncHandler(async (req, res) => {
+    try{
+        const appointments = await Appointment.findById(req.params.id);
 
-        if(!appointments) return res.status(400).json({ msg: 'Appointments not found.'});
+        if(!appointments) {
+            return res.status(404).json({ msg: 'Appointments not found.'});
+        }
+
         res.json(appointments);
-    } catch (err) {
-        if(err.kind == 'ObjectId') {
-            return res.status(400).json({ msg: 'Appointments not found'});
+    } catch(err) {
+        if(err.kind == 'ObjectsId') {
+            return res.status(404).json({ msg: 'Appointments not found.'});
         }
         res.status(500).send('Server Error');
     }
