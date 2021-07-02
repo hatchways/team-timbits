@@ -44,5 +44,16 @@ exports.getUserByUsername = asyncHandler(async (req, res, next) => {
 // @desc Update user
 // @access Private
 exports.updateUser = asyncHandler(async (req, res, next) => {
+  const user = await User.findOne({ user: req.params.user });
 
+  if(!user) {
+    return res.status(400).json({ msg: 'User not found' });
+  }
+
+  user.username = req.body.username;
+  user.email = req.body.email;
+
+  await user.save();
+
+  res.status(200).json({ user });
 });
