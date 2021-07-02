@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const asyncHandler = require("express-async-handler");
 
+
 // @route POST /users
 // @desc Search for users
 // @access Private
@@ -20,4 +21,28 @@ exports.searchUsers = asyncHandler(async (req, res, next) => {
   }
 
   res.status(200).json({ users: users });
+});
+
+
+
+// @route GET /:username
+// @desc Search for username
+// @access Private
+exports.getUserByUsername = asyncHandler(async (req, res, next) => {
+
+  const usernameExists = await User.findOne({ username: req.params.username });
+
+  if(!usernameExists) {
+    res.status(400).json({ msg: 'Username not found' });
+  }
+
+  return res.status(200).json({ usernameExists });
+});
+
+
+// @route POST /:id
+// @desc Update user
+// @access Private
+exports.updateUser = asyncHandler(async (req, res, next) => {
+
 });
