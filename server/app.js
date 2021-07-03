@@ -12,6 +12,7 @@ const logger = require("morgan");
 const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
 const meetingRouter = require("./routes/meeting");
+const appointmentRouter = require("./routes/appointment");
 
 const { json, urlencoded } = express;
 
@@ -45,13 +46,12 @@ app.use((req, res, next) => {
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/meeting", meetingRouter);
+app.use("/appointment", appointmentRouter);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/client/build")));
 
-  app.get("*", (req, res) =>
-    res.sendFile(path.resolve(__dirname), "client", "build", "index.html")
-  );
+  app.get("*", (req, res) => res.sendFile(path.resolve(__dirname), "client", "build", "index.html"));
 } else {
   app.get("/", (req, res) => {
     res.send("API is running");
