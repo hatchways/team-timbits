@@ -10,9 +10,9 @@ const useStyles = makeStyles({
     textAlign: 'center',
     color: theme.palette.text.secondary,
   },
-    control: {
-      padding: theme.spacing(2),
-    },
+  control: {
+    padding: theme.spacing(2),
+  },
 });
 
 export default useStyles;
