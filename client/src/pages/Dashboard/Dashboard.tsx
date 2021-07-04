@@ -8,6 +8,7 @@ import { useSocket } from '../../context/useSocketContext';
 import { useHistory } from 'react-router-dom';
 //import ChatSideBanner from '../../components/ChatSideBanner/ChatSideBanner';
 import NavBar from '../../components/NavBar/NavBar';
+import EventType from '../../components/EventType/EventType';
 import { useEffect } from 'react';
 
 export default function Dashboard(): JSX.Element {
@@ -33,8 +34,12 @@ export default function Dashboard(): JSX.Element {
     <Container maxWidth={'lg'} component="main" className={`${classes.root} ${classes.dashboard}`}>
       <CssBaseline />
       <Grid container>
-        {/* <ChatSideBanner loggedInUser={loggedInUser} /> */}
-        <NavBar loggedInUser={loggedInUser} />
+        <Grid container>
+          <NavBar loggedInUser={loggedInUser} />
+        </Grid>
+        <Grid container>
+          <EventType loggedInUser={loggedInUser} />
+        </Grid>
       </Grid>
     </Container>
   );
