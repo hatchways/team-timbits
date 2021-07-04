@@ -1,15 +1,12 @@
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Paper from '@material-ui/core/Paper';
-import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
 import { FormikHelpers } from 'formik';
-import Typography from '@material-ui/core/Typography';
 import useStyles from './useStyles';
+import { CssBaseline, Box, Grid, Paper, Typography } from '@material-ui/core';
 import register from '../../helpers/APICalls/register';
 import SignUpForm from './SignUpForm/SignUpForm';
 import AuthHeader from '../../components/AuthHeader/AuthHeader';
 import { useAuth } from '../../context/useAuthContext';
 import { useSnackBar } from '../../context/useSnackbarContext';
+import AppLogo from '../../components/AppLogo';
 
 export default function Register(): JSX.Element {
   const classes = useStyles();
@@ -38,23 +35,27 @@ export default function Register(): JSX.Element {
   };
 
   return (
-    <Grid container component="main" className={classes.root}>
+    <Grid container component="main" justify="center" className={classes.root}>
       <CssBaseline />
-      <Grid item xs={12} sm={8} md={7} elevation={6} component={Paper} square>
-        <Box className={classes.authWrapper}>
-          <AuthHeader linkTo="/login" asideText="Already have an account?" btnText="Login" />
-          <Box width="100%" maxWidth={450} p={3} alignSelf="center">
-            <Grid container>
-              <Grid item xs>
-                <Typography className={classes.welcome} component="h1" variant="h5">
-                  Create an account
-                </Typography>
-              </Grid>
-            </Grid>
-            <SignUpForm handleSubmit={handleSubmit} />
-          </Box>
-          <Box p={1} alignSelf="center" />
+      <Grid xs={12} sm={7} md={5}>
+        <Box m={4}>
+          <AppLogo />
         </Box>
+        <Paper elevation={6} square>
+          <Box className={classes.formContainer}>
+            <Box maxWidth={450} alignSelf="center" m={4}>
+              <Typography component="h1" variant="h5">
+                Sign up with CalendApp
+              </Typography>
+            </Box>
+            <Box width="100%" maxWidth={450} p={3} alignSelf="center">
+              <SignUpForm handleSubmit={handleSubmit} />
+            </Box>
+            <Box width="100%" alignSelf="center">
+              <AuthHeader linkTo="/login" asideText="Already have an account?" btnText="Log in" />
+            </Box>
+          </Box>
+        </Paper>
       </Grid>
     </Grid>
   );
