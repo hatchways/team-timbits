@@ -7,6 +7,7 @@ import useStyles from '../Meeting/useStyles';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Divider from '@material-ui/core/Divider';
 import ScheduleIcon from '@material-ui/icons/Schedule';
+import AddIcon from '@material-ui/icons/Add';
 
 interface Props {
   loggedInUser: User;
@@ -25,7 +26,10 @@ const Meetings = ({ loggedInUser }: Props): JSX.Element => {
         <Typography variant="h5">{loggedInUser.username}</Typography>
         <Typography variant="h5">{loggedInUser.email}</Typography>
         <Button variant="outlined" color="primary" href="#outlined-buttons" className={classes.right}>
-          + New Event
+          <Typography variant="h6">
+            <AddIcon />
+            New Event
+          </Typography>
         </Button>
       </Grid>
       <Grid item xs={12}>
