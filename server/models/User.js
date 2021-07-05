@@ -4,22 +4,26 @@ const bcrypt = require("bcryptjs");
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
-    required: true,
-    unique: true
+    unique: true,
   },
   email: {
     type: String,
-    required: true,
-    unique: true
+  },
+  gmail: {
+    type: String,
+    unique: true,
+  },
+  googleId: {
+    type: String,
+    unique: true,
   },
   password: {
     type: String,
-    required: true
   },
   register_date: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
 userSchema.methods.matchPassword = async function (enteredPassword) {
