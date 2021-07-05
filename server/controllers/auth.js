@@ -111,7 +111,10 @@ exports.loadUser = asyncHandler(async (req, res, next) => {
 // @access Public
 exports.logoutUser = asyncHandler(async (req, res, next) => {
   res.clearCookie("token");
-
+  //pasport.js method to clear passport object
+  req.logout();
+  //express-session method to clear session variables.
+  req.session.destroy();
   res.send("You have successfully logged out");
 });
 
