@@ -6,7 +6,6 @@ import useStyles from './useStyles';
 import { useAuth } from '../../context/useAuthContext';
 import { useSocket } from '../../context/useSocketContext';
 import { useHistory } from 'react-router-dom';
-//import ChatSideBanner from '../../components/ChatSideBanner/ChatSideBanner';
 import NavBar from '../../components/NavBar/NavBar';
 import EventType from '../../components/EventType/EventType';
 import { useEffect } from 'react';
@@ -26,7 +25,6 @@ export default function Dashboard(): JSX.Element {
   if (loggedInUser === undefined) return <CircularProgress />;
   if (!loggedInUser) {
     history.push('/login');
-    // loading for a split seconds until history.push works
     return <CircularProgress />;
   }
 

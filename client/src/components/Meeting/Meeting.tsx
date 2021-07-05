@@ -1,7 +1,5 @@
 import React from 'react';
-//import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
-//import Container from '@material-ui/core/Container';
 import { Button, Grid, GridSpacing, Paper } from '@material-ui/core';
 import AvatarDisplay from '../AvatarDisplay/AvatarDisplay';
 import { User } from '../../interface/User';
