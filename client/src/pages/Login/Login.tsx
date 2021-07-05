@@ -7,11 +7,17 @@ import AuthHeader from '../../components/AuthHeader/AuthHeader';
 import { useAuth } from '../../context/useAuthContext';
 import { useSnackBar } from '../../context/useSnackbarContext';
 import AppLogo from './../../components/AppLogo';
+import checkUserEmail from '../../helpers/APICalls/checkUserEmail';
+import LoginFormSimple from './LoginFormSimple/LoginFormSimple';
+import GoogleConnect from '../../components/GoogleConnect/GoogleConnect';
+import { useState } from 'react';
 
 export default function Login(): JSX.Element {
   const classes = useStyles();
   const { updateLoginContext } = useAuth();
   const { updateSnackBarMessage } = useSnackBar();
+  const [showSimpleForm, setShowSimpleForm] = useState(true);
+  const [showGoogleConnect, setShowGoogleConnect] = useState(false);
 
   const handleSubmit = (
     { email, password }: { email: string; password: string },
@@ -33,10 +39,28 @@ export default function Login(): JSX.Element {
     });
   };
 
+  const handleSubmitSimple = ({ email }: { email: string }, { setSubmitting }: FormikHelpers<{ email: string }>) => {
+    checkUserEmail(email).then((data) => {
+      if (data.error) {
+        //user email does not exists in database
+        setSubmitting(false);
+        updateSnackBarMessage('User email does not  exists, plz try sign up');
+      } else if (data.success) {
+        //user email exists in database, continue to login process
+        setShowGoogleConnect(true);
+        updateLoginContext(data.success);
+      }
+    });
+  };
+  if (showGoogleConnect) {
+    //TODO redirect to signup googleConnect compoenent, currently redirects to login
+    return <GoogleConnect asideText="Dont have an account?" btnText="Signup" />;
+  }
+
   return (
     <Grid container component="main" justify="center" className={classes.root}>
       <CssBaseline />
-      <Grid xs={12} sm={7} md={5}>
+      <Grid item xs={12} sm={7} md={5}>
         <Box m={4}>
           <AppLogo />
         </Box>
@@ -47,9 +71,15 @@ export default function Login(): JSX.Element {
                 Log in to your account
               </Typography>
             </Box>
-            <Box width="100%" maxWidth={450} p={3} alignSelf="center">
-              <LoginForm handleSubmit={handleSubmit} />
-            </Box>
+            {showSimpleForm ? (
+              <Box width="100%" maxWidth={450} p={3} alignSelf="center">
+                <LoginFormSimple handleSubmit={handleSubmitSimple} />
+              </Box>
+            ) : (
+              <Box width="100%" maxWidth={450} p={3} alignSelf="center">
+                <LoginForm handleSubmit={handleSubmit} />
+              </Box>
+            )}
             <Box width="100%" alignSelf="center">
               <AuthHeader linkTo="/signup" asideText="Don't have an account?" btnText="Sign Up" />
             </Box>
