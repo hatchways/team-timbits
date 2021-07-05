@@ -4,7 +4,7 @@ const http = require("http");
 const express = require("express");
 const socketio = require("socket.io");
 const { notFound, errorHandler } = require("./middleware/error");
-const connectDB = require("./db");
+const connectDB = require("./boot/db");
 const configurePassport = require("./boot/passportConfig");
 const { join } = require("path");
 const cookieParser = require("cookie-parser");
@@ -19,11 +19,12 @@ const appointmentRouter = require("./routes/appointment");
 
 const { json, urlencoded } = express;
 
-connectDB();
 const app = express();
 const server = http.createServer(app);
 
+connectDB();
 configurePassport();
+
 const io = socketio(server, {
   cors: {
     origin: "*",
