@@ -1,13 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const { validateRegister, validateLogin } = require("../validate");
 const passport = require("passport");
-const { protect, passportProtect } = require("../middleware/auth");
-const { registerUser, loginUser, loadUser, logoutUser, checkUserEmail } = require("../controllers/auth");
-
-router.route("/register").post(validateRegister, registerUser);
-
-router.route("/login").post(validateLogin, loginUser);
+const { passportProtect } = require("../middleware/auth");
+const { loadUser, logoutUser, checkUserEmail } = require("../controllers/auth");
 
 router.route("/user").get(passportProtect, loadUser);
 
