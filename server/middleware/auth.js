@@ -18,4 +18,11 @@ const protect = (req, res, next) => {
   }
 };
 
-module.exports = protect;
+const passportProtect = (req, res, next) => {
+  if (!req.isAuthenticated()) {
+    return res.status(401).send("No token, authorization denied");
+  }
+  next();
+};
+
+module.exports = { protect, passportProtect };
