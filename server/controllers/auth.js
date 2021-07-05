@@ -88,21 +88,18 @@ exports.loginUser = asyncHandler(async (req, res, next) => {
 // @desc Get user data with valid token
 // @access Private
 exports.loadUser = asyncHandler(async (req, res, next) => {
-  const user = await User.findById(req.user.id);
-
+  const user = await User.findOne({ googleId: req.user.googleId });
   if (!user) {
     res.status(401);
     throw new Error("Not authorized");
   }
-
   res.status(200).json({
     success: {
       user: {
-        id: user._id,
-        username: user.username,
-        email: user.email
-      }
-    }
+        id: user._id, //user mongoDB document id
+        email: user.gmail,
+      },
+    },
   });
 });
 
