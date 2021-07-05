@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const protect = require("../middleware/auth");
+const { protect } = require("../middleware/auth");
 const { searchUsers, getUserByUsername, updateUser } = require("../controllers/user");
 const { route } = require("./auth");
 
