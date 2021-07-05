@@ -62,7 +62,14 @@ const EventType = ({ loggedInUser }: Props): JSX.Element => {
       <Typography className={classes.title} variant="h6">
         MyCalendarApp
       </Typography>
-      <Tabs value={value} onChange={handleChange} indicatorColor="primary" textColor="primary" centered>
+      <Tabs
+        value={value}
+        className={classes.left}
+        onChange={handleChange}
+        indicatorColor="primary"
+        textColor="primary"
+        centered
+      >
         <Tab label="Meetings" {...a11yProps(0)} />
         <Tab label="Schelduled Meetings" {...a11yProps(1)} />
       </Tabs>

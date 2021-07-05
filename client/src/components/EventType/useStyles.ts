@@ -9,6 +9,9 @@ const useStyles = makeStyles({
     marginTop: '13px',
     marginLeft: '15px',
   },
+  left: {
+    float: 'left',
+  },
 });
 
 export default useStyles;
