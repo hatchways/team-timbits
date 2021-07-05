@@ -114,3 +114,19 @@ exports.logoutUser = asyncHandler(async (req, res, next) => {
 
   res.send("You have successfully logged out");
 });
+
+// @route GET /auth/email/:email
+// @desc check if email exist in database
+// @access Public
+exports.checkUserEmail = asyncHandler(async (req, res, next) => {
+  const user = await User.findOne({ gmail: req.params.email });
+
+  if (!user) {
+    res.status(200).json({
+      error: {
+        msg: "Email not found",
+      },
+    });
+  }
+  return res.status(200).json({ success: { email: user.email } });
+});
