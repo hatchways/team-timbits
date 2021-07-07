@@ -14,7 +14,7 @@ router
   .route("/google")
   .get(passport.authenticate("google", { scope: ["profile", "email", "https://www.googleapis.com/auth/calendar"] }));
 
-router.route("/google/callback").get(passport.authenticate("google", { failureRedirect: "/failure" }), (req, res) => {
+router.route("/google/callback").get(passport.authenticate("google"), (req, res) => {
   res.redirect("http://localhost:3000/dashboard");
 });
 
