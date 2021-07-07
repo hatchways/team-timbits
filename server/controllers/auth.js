@@ -14,7 +14,7 @@ exports.loadUser = asyncHandler(async (req, res, next) => {
     success: {
       user: {
         id: user._id, //user mongoDB document id
-        email: user.gmail,
+        email: user.email,
       },
     },
   });
@@ -35,7 +35,7 @@ exports.logoutUser = asyncHandler(async (req, res, next) => {
 // @desc check if email exist in database
 // @access Public
 exports.checkUserEmail = asyncHandler(async (req, res, next) => {
-  const user = await User.findOne({ gmail: req.params.email });
+  const user = await User.findOne({ email: req.params.email });
 
   if (!user) {
     res.status(200).json({

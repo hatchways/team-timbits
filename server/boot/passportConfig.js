@@ -20,7 +20,7 @@ module.exports = function () {
         if (!user) {
           user = await User.create({
             googleId: profile.id,
-            gmail: profile.emails[0].value,
+            email: profile.emails[0].value,
           });
         }
         cb(null, user);
