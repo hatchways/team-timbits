@@ -7,8 +7,8 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import { AuthProvider } from './context/useAuthContext';
 import { SocketProvider } from './context/useSocketContext';
 import { SnackBarProvider } from './context/useSnackbarContext';
-
 import './App.css';
+import NewEventType from './components/NewEventType/NewEventType';
 
 function App(): JSX.Element {
   return (
@@ -23,6 +23,7 @@ function App(): JSX.Element {
                 <Route exact path="/dashboard">
                   <Dashboard />
                 </Route>
+                <Route exact path="/new-event-type" component={NewEventType} />
                 <Route path="*">
                   <Redirect to="/login" />
                 </Route>
