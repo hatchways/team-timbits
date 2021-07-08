@@ -2,7 +2,13 @@ import { Divider } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 
-function ConnectedPage({ btnText, handleConfirmSubmit, email }) {
+interface Props {
+    btnText: string,
+    handleConfirmSubmit: any,
+    email: any,
+}
+
+function Confirm({ btnText, handleConfirmSubmit, email }: Props) {
   return (
     <div>
       <h3>
@@ -22,10 +28,10 @@ function ConnectedPage({ btnText, handleConfirmSubmit, email }) {
   );
 }
 
-ConnectedPage.propTypes = {
+Confirm.propTypes = {
   email: PropTypes.string.isRequired,
   btnText: PropTypes.string.isRequired,
   handleConfirmSubmit: PropTypes.func.isRequired,
 };
 
-export default ConnectedPage;
+export default Confirm;
