@@ -4,9 +4,12 @@ const http = require("http");
 const express = require("express");
 const socketio = require("socket.io");
 const { notFound, errorHandler } = require("./middleware/error");
-const connectDB = require("./db");
+const connectDB = require("./boot/db");
+const configurePassport = require("./boot/passportConfig");
 const { join } = require("path");
 const cookieParser = require("cookie-parser");
+const passport = require("passport");
+const session = require("express-session");
 const logger = require("morgan");
 
 const authRouter = require("./routes/auth");
@@ -16,9 +19,11 @@ const appointmentRouter = require("./routes/appointment");
 
 const { json, urlencoded } = express;
 
-connectDB();
 const app = express();
 const server = http.createServer(app);
+
+connectDB();
+configurePassport();
 
 const io = socketio(server, {
   cors: {
@@ -37,6 +42,19 @@ app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(join(__dirname, "public")));
+
+// Sessions
+app.use(
+  session({
+    secret: process.env.EXPRESS_SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use((req, res, next) => {
   req.io = io;
