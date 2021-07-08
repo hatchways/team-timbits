@@ -6,7 +6,7 @@ const asyncHandler = require("express-async-handler");
 // @desc Get user data with valid token
 // @access Private
 exports.loadUser = asyncHandler(async (req, res, next) => {
-  const user = await User.findOne({ googleId: req.user.googleId });
+  const user = await User.findOne({ id: req.user.id });
   if (!user) {
     res.status(401);
     throw new Error("Not authorized");
@@ -14,8 +14,12 @@ exports.loadUser = asyncHandler(async (req, res, next) => {
   res.status(200).json({
     success: {
       user: {
-        id: user._id, //user mongoDB document id
+        username: user.username,
         email: user.email,
+        strategy: user.strategy,
+        id: user.id,
+        picture: user.picture,
+        mongoId: user._id, //user mongoDB document id
       },
     },
   });

@@ -1,6 +1,10 @@
 export interface User {
-  email: string;
   username: string;
+  email: string;
+  strategy: string;
+  id: number;
+  picture: string;
+  mongoId: number;
 }
 
 export interface SearchUsersApiData {
