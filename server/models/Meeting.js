@@ -5,8 +5,21 @@ const meetingSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",
   },
+  name: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  description: {
+    type: String,
+  },
   duration: {
     type: Number,
+  },
+  url: {
+    type: String,
+    unique: true,
+    required: true,
   },
 });
 
