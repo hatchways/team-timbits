@@ -1,15 +1,15 @@
-import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
+
 import { TextField, InputAdornment } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
 import moment from 'moment-timezone';
+import CustomButton from '../OnboardingButton';
 
 interface Props {
   url: string,
-  setUrl: string,
-  setTimeZone: string,
+  setUrl: any,
+  setTimeZone: any,
   btnText: string,
   handleProfileSettingSubmit: any,
 }
@@ -26,11 +26,11 @@ function ProfileSetting({ url, setUrl, setTimeZone, btnText, handleProfileSettin
           id="url-field"
           variant="outlined"
           value={url}
-          //onChange={}
+          onChange={(e) => setUrl(e.target.value)}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start" component="div">
-                calendapp.com/
+                | userLastname
               </InputAdornment>
             ),
           }}
@@ -46,19 +46,18 @@ function ProfileSetting({ url, setUrl, setTimeZone, btnText, handleProfileSettin
           id="timezone-field"
           options={moment.tz.names()}
           getOptionLabel={(option) => option + ' (EST' + moment.tz(option).format('Z') + ')'}
-          renderInput={(params) => <TextField {...params} label="Type a city or zone" variant="outlined" />}
-          onChange={(e, v) => (v)}
+          renderInput={(params) => <TextField {...params} label="Select your timezone" variant="outlined" />}
+          onChange={(e, v) => setTimeZone(v)}
         />
       </Grid>
       <div>
-        {/* <OnboardingButton  progressText={btnText} submitForm={handleProfileSettingSubmit} /> */}
+        <CustomButton text={btnText} submitForm={handleProfileSettingSubmit} />
       </div>
     </Grid>
   );
 }
 
 ProfileSetting.propTypes = {
-  classes: PropTypes.object.isRequired,
   url: PropTypes.string.isRequired,
   setUrl: PropTypes.func.isRequired,
   setTimeZone: PropTypes.func.isRequired,
