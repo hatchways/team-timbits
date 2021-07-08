@@ -5,8 +5,8 @@ import Login from './pages/Login/Login';
 import Signup from './pages/SignUp/SignUp';
 import Dashboard from './pages/Dashboard/Dashboard';
 import { AuthProvider } from './context/useAuthContext';
-import { SocketProvider } from './context/useSocketContext';
 import { SnackBarProvider } from './context/useSnackbarContext';
+import GoogleConnect from './components/GoogleConnect/GoogleConnect';
 import './App.css';
 import NewEventType from './components/NewEventType/NewEventType';
 
@@ -16,19 +16,18 @@ function App(): JSX.Element {
       <BrowserRouter>
         <SnackBarProvider>
           <AuthProvider>
-            <SocketProvider>
-              <Switch>
-                <Route exact path="/login" component={Login} />
-                <Route exact path="/signup" component={Signup} />
-                <Route exact path="/dashboard">
-                  <Dashboard />
-                </Route>
-                <Route exact path="/new-event-type" component={NewEventType} />
-                <Route path="*">
-                  <Redirect to="/login" />
-                </Route>
-              </Switch>
-            </SocketProvider>
+            <Switch>
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/signup" component={Signup} />
+              <Route exact path="/dashboard">
+                <Dashboard />
+              </Route>
+              <Route exact path="/google" component={GoogleConnect} />
+              <Route exact path="/new-event-type" component={NewEventType} />
+              <Route path="*">
+                <Redirect to="/login" />
+              </Route>
+            </Switch>
           </AuthProvider>
         </SnackBarProvider>
       </BrowserRouter>
