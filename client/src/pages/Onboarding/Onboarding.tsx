@@ -6,6 +6,19 @@ import { Paper, Divider } from "@material-ui/core";
 import ProfileSetting from "../../components/Onboarding/ProfileSetting/ProfileSetting";
 import ProgressBar from "../../components/Onboarding/ProgressBar";
 import Availability from "../../components/Onboarding/Availability/Availability";
+import Confirm from "../../components/Onboarding/Confirm/Confirm";
+import { useAuth } from "../../context/useAuthContext";
+
+interface Props {
+  url: string,
+  timezone: any,
+  hours: string,
+  days: string,
+  type: string,
+  activeStep: any,
+}
+
+const { loggedInUser } = useAuth();
 
 const progressText = {
   profileSetting: {
@@ -21,16 +34,9 @@ const progressText = {
     btnText: 'Done'
   }
 };
-interface Props {
-  url: string,
-  timezone: string,
-  hours: string,
-  days: string,
-  type: string,
-  activeStep: any,
-}
 
-function Onboarding({ type, activeStep }: Props) {
+
+function Onboarding({ url, timezone, hours, days, type, activeStep }: Props) {
   const [url, setURL] = useState('');
   const [timezone, setTimeZone] = useState('');
   const [hours, setHours] = useState({ start: '6:00', end: '21:00' })
@@ -61,13 +67,15 @@ function getSteps(this: any, type: string) {
     );
   }
   if (type === 'confirm') {
-
+    const email = loggedInUser?.email;
+    return <Confirm btnText={progressText[type].btnText} handleConfirmSubmit={handleConfirmSubmit} email={email} /> //add email
   }
   if (type === 'availability') {
     return (
       <Availability
         submitForm={submitForm}
         hours={this.hours}
+        btnText={progressText[type].btnText}
         setHours={this.setHours}
         days={this.days}
         setDays={this.setDays} 
@@ -105,6 +113,7 @@ const submitForm = () => {
     hours,
     days,
   };
+
   const sub = // CREATE A auth file;
 
   fetch(`/api/user/profile/${sub}`, {

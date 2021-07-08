@@ -2,16 +2,18 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { TextField, FormGroup, FormControlLabel, Checkbox } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import CustomButton from '../OnboardingButton';
 
 interface Props {
-    setHours: string,
+    setHours: any,
     hours: Array<string>,
-    setDays: string,
+    setDays: any,
     days: Array<string>,
     submitForm: any,
+    btnText: object,
 }
 
-const checkbox = withStyles((theme) => ({
+const CustomCheckbox = withStyles((theme) => ({
   root: {
     color: theme.palette.primary.light,
     '&$checked': {
@@ -21,13 +23,13 @@ const checkbox = withStyles((theme) => ({
   checked: {},
 }))((props) => <Checkbox color="default" {...props} />);
 
-function Availability({ setHours, hours, setDays, days, submitForm }: Props) {
+function Availability({ setHours, hours, setDays, days, submitForm , btnText}: Props) {
   const handleDays = (e: { target: { name: any; checked: any; }; }) => {
-    //setDays({ ...days, [e.target.name]: e.target.checked });
+    setDays({ ...days, [e.target.name]: e.target.checked });
   };
 
   const handleHours = (e: { target: { name: any; value: any; }; }) => {
-    //setHours({ ...hours, [e.target.name]: e.target.value });
+    setHours({ ...hours, [e.target.name]: e.target.value });
   };
 
   function renderCheckBoxes(days: { [x: string]: any; }) {
@@ -75,11 +77,13 @@ function Availability({ setHours, hours, setDays, days, submitForm }: Props) {
           {renderCheckBoxes(days)}
         </FormGroup>
       </div>
+      <CustomButton text={btnText} submitForm={submitForm} />
     </React.Fragment>
   );
 }
 
 Availability.propTypes = {
+  btnText: PropTypes.object.isRequired,
   setHours: PropTypes.func.isRequired,
   hours: PropTypes.object.isRequired,
   setDays: PropTypes.func.isRequired,
@@ -87,4 +91,4 @@ Availability.propTypes = {
   submitForm: PropTypes.func.isRequired,
 };
 
-export default (Availability);
+export default Availability;

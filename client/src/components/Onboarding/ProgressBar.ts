@@ -18,11 +18,13 @@ const styles = (theme: any) => ({
   },
 });
 
-function ProgressBar(props: any) {
+function ProgressBar(props) {
   const { activeStep } = props;
 
-
+  return (
+      <LinearProgress variant="determinate" value={activeStep} />
+  )
 };
 
 
-export default (ProgressBar);
+export default ProgressBar;
