@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const passport = require("passport");
 const asyncHandler = require("express-async-handler");
 
 // @route GET /auth/user
@@ -46,3 +47,23 @@ exports.checkUserEmail = asyncHandler(async (req, res, next) => {
   }
   return res.status(200).json({ success: { email: user.email } });
 });
+
+// @route GET /auth/google
+// @desc Authorize user and obtain credentials
+// @access Public
+exports.googleAuth = passport.authenticate('google', {
+  scope: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/calendar.events', 'email' ],
+  accessType: 'offline'
+})
+
+
+// @route GET /auth/google/redirect
+// @desc Redirect user to either a success or failure screen
+// @access Public
+exports.googleRedirect = passport.authenticate('google', {
+    failureMessage: 'Cannot login to Google, please try again later',
+    failureRedirect: 'temp',
+    successRedirect: `${process.env.FRONT_END}/dashboard`
+  }), (req, res) => {
+    res.status(201);
+}

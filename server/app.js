@@ -1,17 +1,23 @@
 const colors = require("colors");
+
 const path = require("path");
 const http = require("http");
+
 const express = require("express");
 const socketio = require("socket.io");
 const { notFound, errorHandler } = require("./middleware/error");
 const connectDB = require("./boot/db");
-const configurePassport = require("./boot/passportConfig");
 const { join } = require("path");
 const cookieParser = require("cookie-parser");
-const passport = require("passport");
-const session = require("express-session");
 const logger = require("morgan");
 
+const session = require("express-session");
+
+// Passport
+const passport = require("passport");
+require("./boot/passportConfig");
+
+// Routes
 const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
 const meetingRouter = require("./routes/meeting");
@@ -19,11 +25,9 @@ const appointmentRouter = require("./routes/appointment");
 
 const { json, urlencoded } = express;
 
+connectDB();
 const app = express();
 const server = http.createServer(app);
-
-connectDB();
-configurePassport();
 
 const io = socketio(server, {
   cors: {
@@ -38,17 +42,27 @@ io.on("connection", (socket) => {
 if (process.env.NODE_ENV === "development") {
   app.use(logger("dev"));
 }
+
+// Middleware
 app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(join(__dirname, "public")));
 
+app.use((req, res, next) => {
+  req.io = io;
+  next();
+});
+
 // Sessions
 app.use(
   session({
-    secret: process.env.EXPRESS_SESSION_SECRET,
+    secret: `${process.env.EXPRESS_SESSION_SECRET}`,
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24
+    }
   })
 );
 
@@ -56,10 +70,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use((req, res, next) => {
-  req.io = io;
-  next();
-});
 
 app.use("/auth", authRouter);
 app.use("/users", userRouter);

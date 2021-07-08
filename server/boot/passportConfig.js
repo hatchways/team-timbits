@@ -1,37 +1,41 @@
 const passport = require("passport");
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const User = require("../models/User");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
-//configure passport.js
-module.exports = function () {
-  passport.use(
-    new GoogleStrategy(
-      {
-        clientID: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: "/auth/google/callback",
-        passReqToCallback: true,
-      },
-      async function (req, accessToken, refreshToken, profile, cb) {
-        //add accessToken to session
-        req.session.accessToken = accessToken;
+passport.serializeUser((user, done) => {
+  done(null, user)
+})
 
-        let user = await User.findOne({ googleId: profile.id });
-        if (!user) {
-          user = await User.create({
-            googleId: profile.id,
-            email: profile.emails[0].value,
-          });
-        }
-        cb(null, user);
-      }
-    )
-  );
-  passport.serializeUser(function (user, cb) {
-    cb(null, user);
-  });
+passport.deserializeUser((id, done) => {
+  User.findById(id).then(user => {
+      done(null, user)
+  })
+})
 
-  passport.deserializeUser(function (obj, cb) {
-    cb(null, obj);
-  });
-};
+passport.use(
+  new GoogleStrategy({
+      callbackURL: '/auth/google/redirect',
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      passReqToCallback: true,
+  }, (req, accessToken, refreshToken, profile, done) => {
+      //add accessToken to session
+      req.session.accessToken = accessToken;
+      User.findOne({ id: profile.id }).then((currentUser) => {
+          if(currentUser){
+              done(null, currentUser)
+          } else {
+              new User({
+                  username: profile.displayName,
+                  email: profile._json.email,
+                  strategy: 'google',
+                  id: profile.id,
+                  picture: profile._json.picture,
+                  refreshToken: refreshToken,
+              }).save().then((newUser) => {
+                  done(null, newUser)
+              })
+          }
+      })
+  })
+)
