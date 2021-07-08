@@ -4,6 +4,7 @@ import { Grid, Box, TextField, Typography, Button, Paper } from '@material-ui/co
 import NavBar from '../NavBar/NavBar';
 import createEvent from './../../helpers/APICalls/createMeeting';
 import { Event } from '../../interface/Event';
+import { useHistory } from 'react-router-dom';
 
 const defaultFormValues = {
   eventName: '',
@@ -22,17 +23,15 @@ interface Props {
 }
 const NewEventType = ({ initialFormValues = defaultFormValues }: Props): JSX.Element => {
   const classes = useStyles();
+  const history = useHistory();
 
   const handleFormSubmit = ({ eventName, eventDescription, eventUrl, eventDuration }: Event) => {
     createEvent({ eventName, eventDescription, eventUrl, eventDuration }).then((data) => {
       if (data.success) {
-        console.log('🚀 ~ file: NewEventType.tsx ~ line 15 ~ createEvent ~ data.success', data.success);
-        //history.redirect("/dashboard")
-      } else {
-        console.log('data.error', data.error);
+        history.push('/dashboard');
       }
+      //TODO catch error
     });
-    //handle-response
   };
 
   return (
