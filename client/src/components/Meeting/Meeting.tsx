@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Typography from '@material-ui/core/Typography';
-import { Button, Grid, GridSpacing, Paper } from '@material-ui/core';
+import { Box, Button, Grid, GridSpacing, Paper } from '@material-ui/core';
 import AvatarDisplay from '../AvatarDisplay/AvatarDisplay';
 import { User } from '../../interface/User';
 import useStyles from '../Meeting/useStyles';
@@ -8,6 +8,8 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import Divider from '@material-ui/core/Divider';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import AddIcon from '@material-ui/icons/Add';
+import fetchEvents from './../../helpers/APICalls/fetchEvents';
+import { Alert } from '@material-ui/lab';
 
 interface Props {
   loggedInUser: User;
@@ -16,7 +18,27 @@ interface Props {
 
 const Meetings = ({ loggedInUser }: Props): JSX.Element => {
   const classes = useStyles();
+  const [events, setEvents] = useState([]);
+  const [error, setError] = useState(false);
   const [spacing] = React.useState<GridSpacing>(2);
+
+  useEffect(() => {
+    fetchEvents().then((data) => {
+      if (data.error) {
+        setError(true);
+        setTimeout(() => {
+          setError(false);
+        }, 2000);
+      } else if (data.success) {
+        setEvents(data.success);
+      }
+    });
+    // eslint-disable-next-line
+  }, []);
+
+  const copyToClipBoard = (url: string) => {
+    navigator.clipboard.writeText(url);
+  };
 
   return (
     <Grid container spacing={3}>
@@ -34,17 +56,30 @@ const Meetings = ({ loggedInUser }: Props): JSX.Element => {
       </Grid>
       <Grid item xs={12}>
         <Grid container direction="row" alignItems="center" justify="center" spacing={spacing}>
-          {[0, 1, 2].map((value) => (
-            <Grid key={value} item xs={3}>
+          {events?.map((eachEvent: any, index: any) => (
+            <Grid key={index} item xs={3}>
               <Paper className={classes.paper}>
-                <Typography variant="h5">15 min Meeting</Typography>
-                <SettingsIcon />
+                <Box m={2}>
+                  <Box display="flex" justifyContent="flex-end">
+                    <SettingsIcon />
+                  </Box>
+                  <Typography variant="h5">{eachEvent.name}</Typography>
+                </Box>
                 <Divider />
-                <ScheduleIcon />
-                <Typography variant="h5">15</Typography>
-                <Button variant="outlined" color="primary" href="#outlined-buttons">
-                  Create Meeting
-                </Button>
+                <Box m={2} display="flex" justifyContent="space-between">
+                  <Box display="flex">
+                    <ScheduleIcon />
+                    <Typography variant="h5">{eachEvent.duration}</Typography>
+                  </Box>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    href="#outlined-buttons"
+                    onClick={() => copyToClipBoard(eachEvent.url)}
+                  >
+                    Copy Link
+                  </Button>
+                </Box>
               </Paper>
             </Grid>
           ))}
@@ -52,6 +87,7 @@ const Meetings = ({ loggedInUser }: Props): JSX.Element => {
         <Button variant="outlined" color="primary" href="#outlined-buttons" className={classes.right}>
           Getting Started!
         </Button>
+        {error && <Alert severity="error">Error occured while recieving events</Alert>}
       </Grid>
     </Grid>
   );
