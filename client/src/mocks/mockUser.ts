@@ -8,7 +8,7 @@ const mockLoggedInUser: User = {
   strategy: 'google',
   id: 12312312312,
   picture: 'asdasdasd',
-  mongoId: 123123123,
+  mongoId: '123123123',
 };
 
 const mockOtherUser1: User = {
@@ -17,7 +17,7 @@ const mockOtherUser1: User = {
   strategy: 'google',
   id: 12312312312,
   picture: 'asdasdasd',
-  mongoId: 123123123,
+  mongoId: '123123123',
 };
 const mockOtherUser2: User = {
   username: 'Mock test user 2',
@@ -25,7 +25,7 @@ const mockOtherUser2: User = {
   strategy: 'google',
   id: 12312312312,
   picture: 'asdasdasd',
-  mongoId: 123123123,
+  mongoId: '123123123',
 };
 const mockOtherUser3: User = {
   username: 'Mock test user 3',
@@ -33,7 +33,7 @@ const mockOtherUser3: User = {
   strategy: 'google',
   id: 12312312312,
   picture: 'asdasdasd',
-  mongoId: 123123123,
+  mongoId: '123123123',
 };
 
 const mockOtherUsers: User[] = [mockOtherUser1, mockOtherUser2, mockOtherUser3];

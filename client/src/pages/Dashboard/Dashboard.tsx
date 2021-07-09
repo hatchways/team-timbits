@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 // Material-UI and Style
@@ -10,7 +9,6 @@ import useStyles from './useStyles';
 
 // Context
 import { useAuth } from '../../context/useAuthContext';
-import { useSocket } from '../../context/useSocketContext';
 
 // Components
 import NavBar from '../../components/NavBar/NavBar';
@@ -20,13 +18,8 @@ export default function Dashboard(): JSX.Element {
   const classes = useStyles();
 
   const { loggedInUser } = useAuth();
-  const { initSocket } = useSocket();
 
   const history = useHistory();
-
-  useEffect(() => {
-    initSocket();
-  }, [initSocket]);
 
   if (loggedInUser === undefined) return <CircularProgress />;
   if (!loggedInUser) {
