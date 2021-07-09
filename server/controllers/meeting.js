@@ -4,27 +4,30 @@ const asyncHandler = require("express-async-handler");
 
 exports.createMeeting = asyncHandler(async (req, res, next) => {
   const { name, description, duration, url } = req.body;
-  //const id = req.session.userId
-  const id = "60df3ce18133445ba87a4fee";
-  const generatedUrl = `/event/${id}/${url}`;
-  const meetingCreated = await Meeting.create({
-    userId: id,
-    name,
-    description,
-    duration,
-    url: generatedUrl,
-  });
-  if (meetingCreated) {
-    res.status(200).json({ eventId: meetingCreated._id });
+
+  const generatedUrl = `/event/${req.user._id}/${url}`;
+  try {
+    const meetingCreated = await Meeting.create({
+      userId: req.user._id,
+      name,
+      description,
+      duration,
+      url: generatedUrl,
+    });
+    if (meetingCreated) {
+      res.status(200).json({ eventId: meetingCreated._id });
+    }
+  } catch (err) {
+    res.status(400).send(err);
   }
-  //TODO handle error
 });
 
 exports.getMeetings = asyncHandler(async (req, res, next) => {
-  const { username } = req.body;
-  const loggedInUser = await User.findOne({ username });
-
-  Meeting.find({ userId: loggedInUser._id }).then((meetings) => {
-    res.json(meetings);
-  });
+  Meeting.find({ userId: req.user._id })
+    .then((meetings) => {
+      res.status(200).json(meetings);
+    })
+    .catch((error) => {
+      res.status(400).json(error);
+    });
 });
