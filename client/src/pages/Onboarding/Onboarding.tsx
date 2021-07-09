@@ -1,158 +1,129 @@
-import { useState } from "react";
-import { useHistory } from "react-router-dom";
-import PropTypes from 'prop-types';
-import handleFetchErrors from '../../helpers/utils';
-import { Paper, Divider } from "@material-ui/core";
-import ProfileSetting from "../../components/Onboarding/ProfileSetting/ProfileSetting";
-import ProgressBar from "../../components/Onboarding/ProgressBar";
-import Availability from "../../components/Onboarding/Availability/Availability";
-import Confirm from "../../components/Onboarding/Confirm/Confirm";
-import { useAuth } from "../../context/useAuthContext";
+import React, { useEffect } from 'react';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import Stepper from '@material-ui/core/Stepper';
+import Step from '@material-ui/core/Step';
+import StepLabel from '@material-ui/core/StepLabel';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import { FormikHelpers } from 'formik';
+import checkUserUrl from '../../helpers/APICalls/checkUserUrl';
+import Confirm from '../../components/Onboarding/Confirm/Confirm';
+import { useAuth } from '../../context/useAuthContext';
+import ProfileSetting from '../../components/Onboarding/ProfileSetting/ProfileSetting';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { useHistory } from 'react-router-dom';
+import { useSocket } from '../../context/useSocketContext';
+import Availability from '../../components/Onboarding/Availability/Availability';
+import { Dashboard } from '@material-ui/icons';
 
-interface Props {
-  url: string,
-  timezone: any,
-  hours: string,
-  days: string,
-  type: string,
-  activeStep: any,
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      width: '100%',
+    },
+    backButton: {
+      marginRight: theme.spacing(1),
+    },
+    instructions: {
+      marginTop: theme.spacing(1),
+      marginBottom: theme.spacing(1),
+    },
+  }),
+);
+
+function getSteps() {
+  return ['Welcome to CalendApp', 'Your Google Calendar is connected', 'Set your availability'];
 }
-
-const { loggedInUser } = useAuth();
-
-const progressText = {
-  profileSetting: {
-    header: 'Welcome to CalendApp',
-    btnText: 'Continue',
-  },
-  confirm: {
-    header: 'Your Google Calendar is connected',
-    btnText: 'Continue',
-  },
-  availability: {
-    header: 'Set your availability',
-    btnText: 'Done'
-  }
-};
-
-
-function Onboarding({ url, timezone, hours, days, type, activeStep }: Props) {
-  const [url, setURL] = useState('');
-  const [timezone, setTimeZone] = useState('');
-  const [hours, setHours] = useState({ start: '6:00', end: '21:00' })
-  const [days, setDays] = useState({
-    Sunday: false,
-    Monday: true,
-    Tuesday: true,
-    Wednesday: true,
-    Thursday: true,
-    Friday: true,
-    Saturday: false,
-  });
-}
-
-let history = useHistory();
-
-function getSteps(this: any, type: string) {
-  if (type === 'profileSetting') {
-    return (
-      <ProfileSetting
-        handleProfileSettingSubmit={handleProfileSettingSubmit}
-        btnText={progressText[type].btnText}
-        url={this.url}
-        timezone={this.timezone}
-        setUrl={this.setUrl}
-        setTimeZone={this.setTimeZone}
-      />
-    );
-  }
-  if (type === 'confirm') {
-    const email = loggedInUser?.email;
-    return <Confirm btnText={progressText[type].btnText} handleConfirmSubmit={handleConfirmSubmit} email={email} /> //add email
-  }
-  if (type === 'availability') {
-    return (
-      <Availability
-        submitForm={submitForm}
-        hours={this.hours}
-        btnText={progressText[type].btnText}
-        setHours={this.setHours}
-        days={this.days}
-        setDays={this.setDays} 
-      />
-    );
-  }
-}
-
-const handleConfirmSubmit = () => {
-  history.push('/availability');
-};
-
-const handleProfileSettingSubmit = () => {
-  if (url === '' || timezone === '') {
-    return;
-  }
-  fetch(`/api/user/url?=${url}`) 
-  .then(handleFetchErrors)
-  .then((res) => res.json())
-  .then((data) => {
-    if (!data.isUnique) {
-      return;
+const HandleProfileSubmit = (
+  { url, timezone }: { url: string; timezone: string },
+  { setSubmitting }: FormikHelpers<{ url: string; timezone: string }>,
+) => {
+  const { updateLoginContext } = useAuth();
+  checkUserUrl(url).then((data) => {
+    if (data.error) {
+      setSubmitting(false);
+    } else if (data.success) {
+      updateLoginContext(data.success);
     }
-    history.push('/confirm');
-  })
-  .catch((err) => {
-    console.error(err);
-  })
+  });
+};
+
+function GetStepContent(stepIndex: number) {
+  const { loggedInUser } = useAuth();
+  const { initSocket } = useSocket();
+
+  const history = useHistory();
+
+  useEffect(() => {
+    initSocket();
+  }, [initSocket]);
+
+  if (loggedInUser === undefined) return <CircularProgress />;
+  if (!loggedInUser) {
+    history.push('/login');
+    return <CircularProgress />;
+  }
+
+  switch (stepIndex) {
+    case 0:
+      return <ProfileSetting handleSubmit={HandleProfileSubmit} />;
+    case 1:
+      return <Confirm loggedInUser={loggedInUser} />;
+    case 2:
+      return <Availability />;
+    case 3:
+      return <Dashboard />;
+    default:
+      return 'No more steps';
+  }
 }
 
-const submitForm = () => {
-  const profileInfo = {
-    url,
-    timeZone,
-    hours,
-    days,
+export default function HorizontalLabelPositionBelowStepper() {
+  const classes = useStyles();
+  const [activeStep, setActiveStep] = React.useState(0);
+  const steps = getSteps();
+
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
-  const sub = // CREATE A auth file;
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
 
-  fetch(`/api/user/profile/${sub}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(profileInfo),
-  })
-    .then(handleFetchErrors)
-    .then((res) => {
-      if (res.status !== 200) return;
-      history.push('/dashboard');
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+  const handleReset = () => {
+    setActiveStep(0);
+  };
 
-
-    return (
-      <Paper elevation={6} className={classes.paper}>
-        <div className={classes.headRow}>
-          <div className={classes.headContent}>
-            <h2>{progressText.header}</h2>
-            <ProgressBar activeStep={activeStep} />
+  return (
+    <div className={classes.root}>
+      <Stepper activeStep={activeStep} alternativeLabel>
+        {steps.map((label) => (
+          <Step key={label}>
+            <StepLabel>{label}</StepLabel>
+          </Step>
+        ))}
+      </Stepper>
+      <div>
+        {activeStep === steps.length ? (
+          <div>
+            <Typography className={classes.instructions}>All steps completed</Typography>
+            <Button onClick={handleReset}>Reset</Button>
           </div>
-          <Divider className={classes.divider} />
-        </div>
-        {getSteps(type)}
-      </Paper>
-    );
-    
-};
-
-
-Onboarding.propTypes = {
-  classes: PropTypes.object.isRequired,
-  type: PropTypes.string.isRequired,
-  activeStep: PropTypes.number.isRequired,
-};
-
-export default (Onboarding);
+        ) : (
+          <div>
+            <Typography className={classes.instructions}>{GetStepContent(activeStep)}</Typography>
+            <div>
+              <Button disabled={activeStep === 0} onClick={handleBack} className={classes.backButton}>
+                Back
+              </Button>
+              <Button variant="contained" color="primary" onClick={handleNext}>
+                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+              </Button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
