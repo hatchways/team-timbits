@@ -25,7 +25,7 @@ exports.createMeeting = asyncHandler(async (req, res, next) => {
 exports.getMeetings = asyncHandler(async (req, res, next) => {
   Meeting.find({ userId: req.user._id })
     .then((meetings) => {
-      res.status(200).json(meetings);
+      res.status(200).json({ success: meetings });
     })
     .catch((error) => {
       res.status(400).json(error);
