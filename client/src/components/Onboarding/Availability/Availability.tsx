@@ -1,38 +1,27 @@
-import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import React, { useState } from 'react';
 import { TextField, FormGroup, FormControlLabel, Checkbox } from '@material-ui/core';
-import PropTypes from 'prop-types';
-import CustomButton from '../OnboardingButton';
 
-interface Props {
-    setHours: any,
-    hours: Array<string>,
-    setDays: any,
-    days: Array<string>,
-    submitForm: any,
-    btnText: object,
-}
+export default function Availability(): JSX.Element {
+  const [hours, setHours] = useState({ start: '9:00', end: '17:00' });
+  const [days, setDays] = useState({
+    Sunday: false,
+    Monday: true,
+    Tuesday: true,
+    Wednesday: true,
+    Thursday: true,
+    Friday: true,
+    Saturday: false,
+  });
 
-const CustomCheckbox = withStyles((theme) => ({
-  root: {
-    color: theme.palette.primary.light,
-    '&$checked': {
-      color: theme.palette.primary.main,
-    },
-  },
-  checked: {},
-}))((props) => <Checkbox color="default" {...props} />);
-
-function Availability({ setHours, hours, setDays, days, submitForm , btnText}: Props) {
-  const handleDays = (e: { target: { name: any; checked: any; }; }) => {
+  const handleDays = (e: { target: { name: any; checked: any } }) => {
     setDays({ ...days, [e.target.name]: e.target.checked });
   };
 
-  const handleHours = (e: { target: { name: any; value: any; }; }) => {
+  const handleHours = (e: { target: { name: any; value: any } }) => {
     setHours({ ...hours, [e.target.name]: e.target.value });
   };
 
-  function renderCheckBoxes(days: { [x: string]: any; }) {
+  function renderCheckBoxes(days: { [x: string]: any }) {
     return Object.keys(days).map((day) => {
       return (
         <FormControlLabel
@@ -73,22 +62,8 @@ function Availability({ setHours, hours, setDays, days, submitForm , btnText}: P
 
       <div>
         <div>Available Days: </div>
-        <FormGroup row>
-          {renderCheckBoxes(days)}
-        </FormGroup>
+        <FormGroup row>{renderCheckBoxes(days)}</FormGroup>
       </div>
-      <CustomButton text={btnText} submitForm={submitForm} />
     </React.Fragment>
   );
 }
-
-Availability.propTypes = {
-  btnText: PropTypes.object.isRequired,
-  setHours: PropTypes.func.isRequired,
-  hours: PropTypes.object.isRequired,
-  setDays: PropTypes.func.isRequired,
-  days: PropTypes.object.isRequired,
-  submitForm: PropTypes.func.isRequired,
-};
-
-export default Availability;
