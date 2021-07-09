@@ -13,6 +13,7 @@ const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
 const meetingRouter = require("./routes/meeting");
 const appointmentRouter = require("./routes/appointment");
+const onboardingRouter = require("./routes/onboarding");
 
 const { json, urlencoded } = express;
 
@@ -47,6 +48,7 @@ app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/meeting", meetingRouter);
 app.use("/appointment", appointmentRouter);
+app.use("/onboarding", onboardingRouter);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/client/build")));
