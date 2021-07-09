@@ -21,11 +21,11 @@ function App(): JSX.Element {
               <Switch>
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/signup" component={Signup} />
-                <Route exact path="/onboarding">
-                  <Onboarding />
-                </Route>
                 <Route exact path="/dashboard">
                   <Dashboard />
+                </Route>
+                <Route exact path="/onboarding">
+                  <Onboarding />
                 </Route>
                 <Route path="*">
                   <Redirect to="/login" />
