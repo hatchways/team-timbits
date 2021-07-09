@@ -1,37 +1,34 @@
 import { Divider } from '@material-ui/core';
-import PropTypes from 'prop-types';
-import Button from '@material-ui/core/Button';
+import { Typography } from '@material-ui/core';
+import { User } from '../../../interface/User';
 
 interface Props {
-    btnText: string,
-    handleConfirmSubmit: any,
-    email: any,
+  loggedInUser: User;
 }
 
-function Confirm({ btnText, handleConfirmSubmit, email }: Props) {
+function Confirm({ loggedInUser }: Props) {
   return (
     <div>
       <h3>
-        Here's how CalendApp will work with <span>{email}</span>:
+        <Typography>
+          Here how CalendApp will work with <span>{loggedInUser.email}</span>
+        </Typography>
       </h3>
       <Divider />
       <div>
-        1. We will check "<span>{email}</span>" for conflicts
+        <Typography>
+          1. We will check <span>{loggedInUser.email}</span> for conflicts
+        </Typography>
       </div>
       <Divider />
       <div>
-        2. We will add event to "<span>{email}</span>"
+        <Typography>
+          2. We will add event to <span>{loggedInUser.email}</span>
+        </Typography>
       </div>
       <Divider />
-      <Button text={btnText} submitForm={handleConfirmSubmit} />
     </div>
   );
 }
-
-Confirm.propTypes = {
-  email: PropTypes.string.isRequired,
-  btnText: PropTypes.string.isRequired,
-  handleConfirmSubmit: PropTypes.func.isRequired,
-};
 
 export default Confirm;
