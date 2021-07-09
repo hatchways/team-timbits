@@ -4,7 +4,7 @@ export interface User {
   strategy: string;
   id: number;
   picture: string;
-  mongoId: number;
+  mongoId: string;
 }
 
 export interface SearchUsersApiData {

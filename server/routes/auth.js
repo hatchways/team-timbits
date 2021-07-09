@@ -19,9 +19,4 @@ router.route('/google').get(googleAuth);
 
 router.route('/google/redirect').get(googleRedirect);
 
-// Once user is logged in ensure that the proper values are emitted
-router.route('/temp').get((req, res) => {
-  console.log(req.session)
-})
-
 module.exports = router;
