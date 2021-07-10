@@ -1,8 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const passport = require("passport");
 const { passportProtect } = require("../middleware/auth");
-const { loadUser, logoutUser, checkUserEmail } = require("../controllers/auth");
+const { 
+  loadUser, 
+  logoutUser, 
+  checkUserEmail,
+  googleAuth,
+  googleRedirect 
+} = require("../controllers/auth");
 
 router.route("/user").get(passportProtect, loadUser);
 
@@ -10,12 +15,8 @@ router.route("/logout").get(logoutUser);
 
 router.route("/email/:email").post(checkUserEmail);
 
-router
-  .route("/google")
-  .get(passport.authenticate("google", { scope: ["profile", "email", "https://www.googleapis.com/auth/calendar"] }));
+router.route('/google').get(googleAuth);
 
-router.route("/google/callback").get(passport.authenticate("google"), (req, res) => {
-  res.redirect("http://localhost:3000/dashboard");
-});
+router.route('/google/redirect').get(googleRedirect);
 
 module.exports = router;
