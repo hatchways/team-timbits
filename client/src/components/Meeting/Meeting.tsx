@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+// Material-UI and Style
 import Typography from '@material-ui/core/Typography';
-import { Box, Button, Grid, GridSpacing, Paper } from '@material-ui/core';
-import AvatarDisplay from '../AvatarDisplay/AvatarDisplay';
-import { User } from '../../interface/User';
+import { Button, Grid, GridSpacing, Paper } from '@material-ui/core';
 import useStyles from '../Meeting/useStyles';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Divider from '@material-ui/core/Divider';
@@ -10,6 +11,12 @@ import ScheduleIcon from '@material-ui/icons/Schedule';
 import AddIcon from '@material-ui/icons/Add';
 import fetchEvents from './../../helpers/APICalls/fetchEvents';
 import { Alert } from '@material-ui/lab';
+
+// Components
+import AvatarDisplay from '../AvatarDisplay/AvatarDisplay';
+
+// Interface
+import { User } from '../../interface/User';
 
 interface Props {
   loggedInUser: User;
@@ -66,20 +73,11 @@ const Meetings = ({ loggedInUser }: Props): JSX.Element => {
                   <Typography variant="h5">{eachEvent.name}</Typography>
                 </Box>
                 <Divider />
-                <Box m={2} display="flex" justifyContent="space-between">
-                  <Box display="flex">
-                    <ScheduleIcon />
-                    <Typography variant="h5">{eachEvent.duration}</Typography>
-                  </Box>
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    href="#outlined-buttons"
-                    onClick={() => copyToClipBoard(eachEvent.url)}
-                  >
-                    Copy Link
-                  </Button>
-                </Box>
+                <ScheduleIcon />
+                <Typography variant="h5">15</Typography>
+                <Button variant="outlined" color="primary">
+                  <Link to={`/${loggedInUser.username}/15min`}>Create Meeting</Link>
+                </Button>
               </Paper>
             </Grid>
           ))}
