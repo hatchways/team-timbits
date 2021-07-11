@@ -40,7 +40,7 @@ const Meetings = ({ loggedInUser }: Props): JSX.Element => {
         </Button>
       </Grid>
       <Grid item xs={12}>
-        <Grid container direction="row" alignItems="center" justify="center" spacing={spacing}>
+        <Grid container direction="row" alignItems="center" justifyContent="center" spacing={spacing}>
           {[0, 1, 2].map((value) => (
             <Grid key={value} item xs={3}>
               <Paper className={classes.paper}>
