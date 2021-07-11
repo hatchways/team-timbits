@@ -1,15 +1,15 @@
 import { Formik } from 'formik';
 import useStyles from './useStyles';
 import { Grid, Box, TextField, Typography, Button, Paper } from '@material-ui/core';
-import NavBar from '../NavBar/NavBar';
 import createEvent from './../../helpers/APICalls/createMeeting';
 import { Event } from '../../interface/Event';
 import { useHistory } from 'react-router-dom';
+import * as Yup from 'yup';
 
 const defaultFormValues = {
   eventName: '',
   eventDescription: '',
-  eventDuration: '',
+  eventDuration: '30',
   eventUrl: '',
 };
 interface InitialFormValuesTypes {
@@ -25,6 +25,13 @@ const NewEventType = ({ initialFormValues = defaultFormValues }: Props): JSX.Ele
   const classes = useStyles();
   const history = useHistory();
 
+  const schema = Yup.object().shape({
+    eventName: Yup.string().min(3, 'Too Short!').max(50, 'Too Long!').required('Required'),
+    eventDescription: Yup.string().min(25, 'Too Short!').max(200, 'Too Long!'),
+    eventDuration: Yup.number().positive().integer().required('Required'),
+    eventUrl: Yup.string(),
+  });
+
   const handleFormSubmit = ({ eventName, eventDescription, eventUrl, eventDuration }: Event) => {
     createEvent({ eventName, eventDescription, eventUrl, eventDuration }).then((data) => {
       if (data.success) {
@@ -36,13 +43,13 @@ const NewEventType = ({ initialFormValues = defaultFormValues }: Props): JSX.Ele
 
   return (
     <>
-      <NavBar loggedInUser={{ username: 'fatih', email: 'email@email.com' }} />
       <Box className={classes.root}>
         <Grid container justify="center">
           <Grid item xs={12} sm={8} md={6} component={Paper} elevation={6}>
-            <Formik initialValues={initialFormValues} onSubmit={handleFormSubmit}>
-              {({ handleSubmit, handleChange, values }) => (
+            <Formik initialValues={initialFormValues} onSubmit={handleFormSubmit} validationSchema={schema}>
+              {({ handleSubmit, handleChange, values, errors }) => (
                 <form onSubmit={handleSubmit} className={classes.form}>
+                  <pre>{JSON.stringify(errors, null, 2)}</pre>
                   <Typography gutterBottom component={'h1'} variant={'h4'}>
                     Create New Event/Meeting
                   </Typography>
@@ -57,6 +64,8 @@ const NewEventType = ({ initialFormValues = defaultFormValues }: Props): JSX.Ele
                         name="eventName"
                         value={values.eventName}
                         onChange={handleChange}
+                        helperText={errors.eventName || ''}
+                        error={!!errors.eventName}
                       />
                     </Grid>
                     <Grid item>
@@ -68,6 +77,8 @@ const NewEventType = ({ initialFormValues = defaultFormValues }: Props): JSX.Ele
                         name="eventDescription"
                         value={values.eventDescription}
                         onChange={handleChange}
+                        helperText={errors.eventDescription || ''}
+                        error={!!errors.eventDescription}
                       />
                     </Grid>
                     <Grid item>
@@ -80,6 +91,8 @@ const NewEventType = ({ initialFormValues = defaultFormValues }: Props): JSX.Ele
                         type="number"
                         value={values.eventDuration}
                         onChange={handleChange}
+                        helperText={errors.eventDuration || ''}
+                        error={!!errors.eventDuration}
                       />
                     </Grid>
                     <Grid item>
@@ -92,6 +105,8 @@ const NewEventType = ({ initialFormValues = defaultFormValues }: Props): JSX.Ele
                         value={values.eventUrl}
                         placeholder="sprint-meeting"
                         onChange={handleChange}
+                        helperText={errors.eventUrl || ''}
+                        error={!!errors.eventUrl}
                       />
                     </Grid>
                     <Button className={classes.button}>Create</Button>
