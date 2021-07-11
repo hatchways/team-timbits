@@ -1,4 +1,4 @@
-import { Formik } from 'formik';
+import { Form, Formik } from 'formik';
 import useStyles from './useStyles';
 import { Grid, Box, TextField, Typography, Button, Paper } from '@material-ui/core';
 import createEvent from './../../helpers/APICalls/createMeeting';
@@ -31,7 +31,7 @@ const NewEventType = ({ initialFormValues = defaultFormValues }: Props): JSX.Ele
     eventName: Yup.string().min(3, 'Too Short!').max(50, 'Too Long!').required('Required'),
     eventDescription: Yup.string().min(25, 'Too Short!').max(200, 'Too Long!'),
     eventDuration: Yup.number().positive().integer().required('Required'),
-    eventUrl: Yup.string(),
+    eventUrl: Yup.string().min(5, 'Too Short!').max(25, 'Too Long!'),
   });
 
   const handleFormSubmit = ({ eventName, eventDescription, eventUrl, eventDuration }: Event) => {
@@ -50,8 +50,8 @@ const NewEventType = ({ initialFormValues = defaultFormValues }: Props): JSX.Ele
         <Grid container justify="center">
           <Grid item xs={12} sm={8} md={6} component={Paper} elevation={6}>
             <Formik initialValues={initialFormValues} onSubmit={handleFormSubmit} validationSchema={schema}>
-              {({ handleSubmit, handleChange, values, errors }) => (
-                <form onSubmit={handleSubmit} className={classes.form}>
+              {({ handleChange, values, errors }) => (
+                <Form className={classes.form}>
                   <Typography gutterBottom component={'h1'} variant={'h4'}>
                     Create New Event/Meeting
                   </Typography>
@@ -111,9 +111,11 @@ const NewEventType = ({ initialFormValues = defaultFormValues }: Props): JSX.Ele
                         error={!!errors.eventUrl}
                       />
                     </Grid>
-                    <Button className={classes.button}>Create</Button>
+                    <Button type="submit" className={classes.button}>
+                      Create Event
+                    </Button>
                   </Grid>
-                </form>
+                </Form>
               )}
             </Formik>
           </Grid>
