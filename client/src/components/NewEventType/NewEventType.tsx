@@ -5,6 +5,7 @@ import createEvent from './../../helpers/APICalls/createMeeting';
 import { Event } from '../../interface/Event';
 import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
+import { useSnackBar } from '../../context/useSnackbarContext';
 
 const defaultFormValues = {
   eventName: '',
@@ -22,6 +23,7 @@ interface Props {
   initialFormValues?: InitialFormValuesTypes;
 }
 const NewEventType = ({ initialFormValues = defaultFormValues }: Props): JSX.Element => {
+  const { updateSnackBarMessage } = useSnackBar();
   const classes = useStyles();
   const history = useHistory();
 
@@ -36,8 +38,9 @@ const NewEventType = ({ initialFormValues = defaultFormValues }: Props): JSX.Ele
     createEvent({ eventName, eventDescription, eventUrl, eventDuration }).then((data) => {
       if (data.success) {
         history.push('/dashboard');
+      } else {
+        updateSnackBarMessage('Error: Could not successfully create your meeting');
       }
-      //TODO catch error
     });
   };
 
