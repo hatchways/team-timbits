@@ -52,7 +52,6 @@ const NewEventType = ({ initialFormValues = defaultFormValues }: Props): JSX.Ele
             <Formik initialValues={initialFormValues} onSubmit={handleFormSubmit} validationSchema={schema}>
               {({ handleSubmit, handleChange, values, errors }) => (
                 <form onSubmit={handleSubmit} className={classes.form}>
-                  <pre>{JSON.stringify(errors, null, 2)}</pre>
                   <Typography gutterBottom component={'h1'} variant={'h4'}>
                     Create New Event/Meeting
                   </Typography>
