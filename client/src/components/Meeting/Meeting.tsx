@@ -1,43 +1,44 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 
 // Material-UI and Style
 import Typography from '@material-ui/core/Typography';
-import { Button, Grid, GridSpacing, Paper } from '@material-ui/core';
+import { Box, Button, Grid, Paper } from '@material-ui/core';
 import useStyles from '../Meeting/useStyles';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Divider from '@material-ui/core/Divider';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import AddIcon from '@material-ui/icons/Add';
 import fetchEvents from './../../helpers/APICalls/fetchEvents';
-import { Alert } from '@material-ui/lab';
 
 // Components
 import AvatarDisplay from '../AvatarDisplay/AvatarDisplay';
 
 // Interface
 import { User } from '../../interface/User';
+import { useSnackBar } from '../../context/useSnackbarContext';
 
 interface Props {
   loggedInUser: User;
   handleDrawerToggle?: () => void;
 }
 
+const circularColorPicker = (index: number) => {
+  const colors = ['#7900FF', '#89B800', '#FF7000'];
+  const modularArithmetic = index % 3;
+  return colors[modularArithmetic];
+};
+
 const Meetings = ({ loggedInUser }: Props): JSX.Element => {
+  const { updateSnackBarMessage } = useSnackBar();
   const classes = useStyles();
   const [events, setEvents] = useState([]);
-  const [error, setError] = useState(false);
-  const [spacing] = React.useState<GridSpacing>(2);
 
   useEffect(() => {
     fetchEvents().then((data) => {
-      if (data.error) {
-        setError(true);
-        setTimeout(() => {
-          setError(false);
-        }, 2000);
-      } else if (data.success) {
+      if (data.success) {
         setEvents(data.success);
+      } else {
+        updateSnackBarMessage('Could not recieve events from backend server');
       }
     });
     // eslint-disable-next-line
@@ -46,48 +47,66 @@ const Meetings = ({ loggedInUser }: Props): JSX.Element => {
   const copyToClipBoard = (url: string) => {
     navigator.clipboard.writeText(url);
   };
-
   return (
-    <Grid container spacing={3}>
-      <Grid item xs={12}>
-        <Divider />
-        <AvatarDisplay loggedIn user={loggedInUser} />
-        <Typography variant="h5">{loggedInUser.username}</Typography>
-        <Typography variant="h5">{loggedInUser.email}</Typography>
-        <Button variant="outlined" color="primary" href="#outlined-buttons" className={classes.right}>
-          <Typography variant="h6">
+    <Box>
+      <Grid container xs={12} direction="row" className={classes.profileSection}>
+        <Box display="flex">
+          <Box>
+            <AvatarDisplay loggedIn user={loggedInUser} />
+          </Box>
+          <Box marginLeft={2}>
+            <Typography component="h3" className={classes.title}>
+              {loggedInUser.username}
+            </Typography>
+            <Typography variant="subtitle1">{loggedInUser.email}</Typography>
+          </Box>
+        </Box>
+        <Box>
+          <Button variant="outlined" color="primary" className={classes.newEventButton}>
             <AddIcon />
-            New Event
-          </Typography>
-        </Button>
+            <Typography variant="h6">New Event</Typography>
+          </Button>
+        </Box>
       </Grid>
-      <Grid item xs={12}>
-        <Grid container direction="row" alignItems="center" justify="center" spacing={spacing}>
-          {events?.map((eachEvent: any, index: any) => (
-            <Grid key={index} item xs={3}>
-              <Paper className={classes.paper}>
-                <Box m={2}>
-                  <Box display="flex" justifyContent="flex-end">
-                    <SettingsIcon />
-                  </Box>
-                  <Typography variant="h5">{eachEvent.name}</Typography>
+      <Divider className={classes.divider} />
+      <Grid container xs={12} className={classes.meetingContainer} spacing={3}>
+        {events?.map((eachEvent: any, index: any) => (
+          <Grid key={index} item xs={12} md={4}>
+            <Box className={classes.cardStylingBar} style={{ backgroundColor: circularColorPicker(index) }}></Box>
+            <Paper className={classes.meetingCard}>
+              <Box marginBottom={2} textAlign="left">
+                <Box display="flex" justifyContent="flex-end">
+                  <SettingsIcon />
                 </Box>
-                <Divider />
-                <ScheduleIcon />
-                <Typography variant="h5">15</Typography>
-                <Button variant="outlined" color="primary">
-                  <Link to={`/${loggedInUser.username}/15min`}>Create Meeting</Link>
-                </Button>
-              </Paper>
-            </Grid>
-          ))}
-        </Grid>
-        <Button variant="outlined" color="primary" href="#outlined-buttons" className={classes.right}>
-          Getting Started!
-        </Button>
-        {error && <Alert severity="error">Error occured while recieving events</Alert>}
+                <Box paddingX={2}>
+                  <Typography variant="h5" className={classes.title}>
+                    {eachEvent.name}
+                  </Typography>
+                  <Typography variant="body1">{eachEvent.description}</Typography>
+                </Box>
+              </Box>
+              <Box>
+                <Divider className={classes.divider} />
+                <Box display="flex" justifyContent="space-between">
+                  <Box display="flex" alignItems="center">
+                    <ScheduleIcon />
+                    <Typography variant="h5">{eachEvent.duration}</Typography>
+                  </Box>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => copyToClipBoard(eachEvent.url)}
+                    className={classes.copyLinkButton}
+                  >
+                    Copy Link
+                  </Button>
+                </Box>
+              </Box>
+            </Paper>
+          </Grid>
+        ))}
       </Grid>
-    </Grid>
+    </Box>
   );
 };
 
