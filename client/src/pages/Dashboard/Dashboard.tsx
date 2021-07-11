@@ -1,26 +1,25 @@
+import { useHistory } from 'react-router-dom';
+
+// Material-UI and Style
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import useStyles from './useStyles';
+
+// Context
 import { useAuth } from '../../context/useAuthContext';
-import { useSocket } from '../../context/useSocketContext';
-import { useHistory } from 'react-router-dom';
+
+// Components
 import NavBar from '../../components/NavBar/NavBar';
 import EventType from '../../components/EventType/EventType';
-import { useEffect } from 'react';
 
 export default function Dashboard(): JSX.Element {
   const classes = useStyles();
 
   const { loggedInUser } = useAuth();
-  const { initSocket } = useSocket();
 
   const history = useHistory();
-
-  useEffect(() => {
-    initSocket();
-  }, [initSocket]);
 
   if (loggedInUser === undefined) return <CircularProgress />;
   if (!loggedInUser) {

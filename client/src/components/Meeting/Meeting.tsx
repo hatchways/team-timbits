@@ -1,14 +1,21 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
+// Material-UI and Style
 import Typography from '@material-ui/core/Typography';
 import { Button, Grid, GridSpacing, Paper } from '@material-ui/core';
-import AvatarDisplay from '../AvatarDisplay/AvatarDisplay';
-import { User } from '../../interface/User';
 import useStyles from '../Meeting/useStyles';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Divider from '@material-ui/core/Divider';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import AddIcon from '@material-ui/icons/Add';
 import { Link } from 'react-router-dom';
+
+// Components
+import AvatarDisplay from '../AvatarDisplay/AvatarDisplay';
+
+// Interface
+import { User } from '../../interface/User';
 
 interface Props {
   loggedInUser: User;
@@ -45,8 +52,8 @@ const Meetings = ({ loggedInUser }: Props): JSX.Element => {
                 <Divider />
                 <ScheduleIcon />
                 <Typography variant="h5">15</Typography>
-                <Button variant="outlined" color="primary" href="#outlined-buttons">
-                  Create Meeting
+                <Button variant="outlined" color="primary">
+                  <Link to={`/${loggedInUser.username}/15min`}>Create Meeting</Link>
                 </Button>
               </Paper>
             </Grid>
