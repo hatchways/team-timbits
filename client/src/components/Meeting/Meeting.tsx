@@ -9,8 +9,6 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import Divider from '@material-ui/core/Divider';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import AddIcon from '@material-ui/icons/Add';
-import { Link } from 'react-router-dom';
-
 // Components
 import AvatarDisplay from '../AvatarDisplay/AvatarDisplay';
 
