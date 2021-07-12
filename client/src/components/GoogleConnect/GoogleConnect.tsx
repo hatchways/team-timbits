@@ -2,12 +2,13 @@ import { CssBaseline, Typography, Grid, Paper, Box, Link, Button } from '@materi
 import useStyles from './useStyles';
 import AppLogo from '../AppLogo';
 import AuthHeader from '../AuthHeader/AuthHeader';
-import { useHistory } from 'react-router-dom';
 
-export default function GoogleConnect(): JSX.Element {
+interface Props {
+  rootPage: string;
+}
+
+export default function GoogleConnect({ rootPage }: Props): JSX.Element {
   const classes = useStyles();
-  const history = useHistory();
-  console.log('🚀 ~ GoogleConnect ~ history', history);
 
   return (
     <Grid container component="main" alignContent="center" justify="center" className={classes.root}>
