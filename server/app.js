@@ -21,6 +21,7 @@ const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
 const meetingRouter = require("./routes/meeting");
 const appointmentRouter = require("./routes/appointment");
+const paymentRouter = require("./routes/payment");
 
 const { json, urlencoded } = express;
 
@@ -45,8 +46,8 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      maxAge: 1000 * 60 * 60 * 24
-    }
+      maxAge: 1000 * 60 * 60 * 24,
+    },
   })
 );
 
@@ -54,11 +55,11 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/meeting", meetingRouter);
 app.use("/appointment", appointmentRouter);
+app.use("/payment", paymentRouter);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/client/build")));
