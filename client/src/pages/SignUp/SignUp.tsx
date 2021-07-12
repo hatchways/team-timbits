@@ -29,7 +29,7 @@ export default function Register(): JSX.Element {
     });
   };
   if (showGoogleConnect) {
-    return <GoogleConnect />;
+    return <GoogleConnect rootPage="Signup" />;
   }
   return (
     <Grid container component="main" justify="center" className={classes.root}>

@@ -7,7 +7,7 @@ interface Props {
   rootPage: string;
 }
 
-export default function GoogleConnect({ rootPage }: Props): JSX.Element {
+export default function GoogleConnect({ rootPage = 'Connect' }: Props): JSX.Element {
   const classes = useStyles();
 
   return (
@@ -50,7 +50,7 @@ export default function GoogleConnect({ rootPage }: Props): JSX.Element {
                       />
                     </g>
                   </svg>
-                  Connect with Google
+                  {`${rootPage} with Google`}
                 </Button>
               </Link>
             </Box>
