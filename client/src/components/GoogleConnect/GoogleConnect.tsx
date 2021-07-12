@@ -2,14 +2,12 @@ import { CssBaseline, Typography, Grid, Paper, Box, Link, Button } from '@materi
 import useStyles from './useStyles';
 import AppLogo from '../AppLogo';
 import AuthHeader from '../AuthHeader/AuthHeader';
+import { useHistory } from 'react-router-dom';
 
-interface Props {
-  asideText: string;
-  btnText: string;
-}
-
-export default function GoogleConnect({ asideText, btnText }: Props): JSX.Element {
+export default function GoogleConnect(): JSX.Element {
   const classes = useStyles();
+  const history = useHistory();
+  console.log('🚀 ~ GoogleConnect ~ history', history);
 
   return (
     <Grid container component="main" alignContent="center" justify="center" className={classes.root}>
@@ -55,9 +53,9 @@ export default function GoogleConnect({ asideText, btnText }: Props): JSX.Elemen
                 </Button>
               </Link>
             </Box>
-            {/* TODO */}
+
             <Box width="100%" alignSelf="center">
-              <AuthHeader linkTo="/login" asideText={asideText} btnText={btnText} />
+              <AuthHeader linkTo="/" asideText="(This is not me.)" btnText="Go Back" />
             </Box>
           </Box>
         </Paper>

@@ -21,7 +21,7 @@ export default function Register(): JSX.Element {
       if (data.success) {
         //user email exists in database
         setSubmitting(false);
-        updateSnackBarMessage('User email already exists, plz try log in');
+        updateSnackBarMessage('User email already exists, please try log in');
       } else if (data.error) {
         //user email does not exists in database, continue to signup process
         setShowGoogleConnect(true);
@@ -29,7 +29,7 @@ export default function Register(): JSX.Element {
     });
   };
   if (showGoogleConnect) {
-    return <GoogleConnect asideText="Already have an account?" btnText="Log in" />;
+    return <GoogleConnect />;
   }
   return (
     <Grid container component="main" justify="center" className={classes.root}>

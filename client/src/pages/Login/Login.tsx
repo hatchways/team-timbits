@@ -31,7 +31,7 @@ export default function Login(): JSX.Element {
   };
   if (showGoogleConnect) {
     //TODO redirect to signup googleConnect compoenent, currently redirects to login
-    return <GoogleConnect asideText="Dont have an account?" btnText="Signup" />;
+    return <GoogleConnect />;
   }
 
   return (
