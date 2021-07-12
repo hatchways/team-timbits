@@ -1,14 +1,14 @@
-import { MuiThemeProvider } from '@material-ui/core';
 import { theme } from './themes/theme';
-import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
+import { AuthProvider } from './context/useAuthContext';
+import { SnackBarProvider } from './context/useSnackbarContext';
 import Login from './pages/Login/Login';
 import Signup from './pages/SignUp/SignUp';
 import Dashboard from './pages/Dashboard/Dashboard';
+import Scheduler from './pages/Scheduler/Scheduler';
+import GoogleConnect from './components/GoogleConnect/GoogleConnect';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { MuiThemeProvider } from '@material-ui/core';
 import Onboarding from './pages/Onboarding/Onboarding';
-import { AuthProvider } from './context/useAuthContext';
-import { SnackBarProvider } from './context/useSnackbarContext';
-
-import './App.css';
 
 function App(): JSX.Element {
   return (
@@ -22,6 +22,9 @@ function App(): JSX.Element {
               <Route exact path="/google" component={GoogleConnect} />
               <Route exact path="/dashboard">
                 <Dashboard />
+              </Route>
+              <Route exact path="/:username/:time">
+                <Scheduler />
               </Route>
               <Route exact path="/onboarding">
                 <Onboarding />
