@@ -12,6 +12,9 @@ const logger = require("morgan");
 
 const session = require("express-session");
 
+//SendGrid Email
+const sgMail = require("@sendgrid/mail");
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 // Passport
 const passport = require("passport");
 require("./boot/passportConfig");
