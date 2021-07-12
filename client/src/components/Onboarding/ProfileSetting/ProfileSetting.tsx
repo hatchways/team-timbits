@@ -5,9 +5,9 @@ import moment from 'moment-timezone';
 import { Formik, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import { Typography } from '@material-ui/core';
-import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useAuth } from '../../../context/useAuthContext';
+import { useEffect } from 'react';
 import { useSocket } from '../../../context/useSocketContext';
 
 interface Props {
@@ -17,7 +17,7 @@ interface Props {
       timezone,
     }: {
       url: string;
-      timezone: any;
+      timezone: string;
     },
     {
       setStatus,
@@ -51,31 +51,16 @@ const ProfileSetting = ({ handleSubmit }: Props): JSX.Element => {
         url: '',
         timezone: '',
       }}
+      isSubmitting={true}
+      isValidating={true}
       validationSchema={Yup.object().shape({
-        url: Yup.string()
-          .required('Url is required')
-          .test('oneOfAKindUrl', 'url is not valid', function (url: any) {
-            if (url === '') {
-              return;
-            }
-            fetch(`/api/user/uniqueUrl?url=${url}`)
-              .then((res) => res.json())
-              .then((data) => {
-                if (!data.isUnique) {
-                  return;
-                }
-              })
-              .catch((err) => {
-                console.error(err);
-              });
-            return url;
-          }),
-        timezone: Yup.string().required('Please choose a timezone'),
+        url: Yup.string().required('Url is required'),
+        timezone: Yup.string().required('Please choose a timezone'), // set up a test
       })}
       onSubmit={handleSubmit}
     >
       {({ handleSubmit, handleChange, values, touched, errors }) => (
-        <form onSubmit={handleSubmit} noValidate>
+        <form onSubmit={handleSubmit}>
           <Grid container spacing={4} alignItems="center">
             <Grid item xs={4}>
               <Typography variant="h6">Create Your CalendApp URL: </Typography>
