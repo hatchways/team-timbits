@@ -24,6 +24,7 @@ const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
 const meetingRouter = require("./routes/meeting");
 const appointmentRouter = require("./routes/appointment");
+const emailRouter = require("./routes/email");
 
 const { json, urlencoded } = express;
 
@@ -62,6 +63,7 @@ app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/meeting", meetingRouter);
 app.use("/appointment", appointmentRouter);
+app.use("/email", emailRouter);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/client/build")));
