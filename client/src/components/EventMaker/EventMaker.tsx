@@ -1,7 +1,7 @@
 import { Form, Formik } from 'formik';
 import useStyles from './useStyles';
 import { Grid, Box, TextField, Typography, Button, Paper } from '@material-ui/core';
-import createEvent from './../../helpers/APICalls/createMeeting';
+import createEvent from '../../helpers/APICalls/createMeeting';
 import { Event } from '../../interface/Event';
 import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
@@ -22,7 +22,7 @@ interface InitialFormValuesTypes {
 interface Props {
   initialFormValues?: InitialFormValuesTypes;
 }
-const NewEventType = ({ initialFormValues = defaultFormValues }: Props): JSX.Element => {
+const EventMaker = ({ initialFormValues = defaultFormValues }: Props): JSX.Element => {
   const { updateSnackBarMessage } = useSnackBar();
   const classes = useStyles();
   const history = useHistory();
@@ -125,4 +125,4 @@ const NewEventType = ({ initialFormValues = defaultFormValues }: Props): JSX.Ele
   );
 };
 
-export default NewEventType;
+export default EventMaker;

@@ -3,7 +3,7 @@ import { CircularProgress } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import NavBar from '../../components/NavBar/NavBar';
-import NewEventType from '../../components/NewEventType/NewEventType';
+import EventMaker from '../../components/EventMaker/EventMaker';
 import { useAuth } from '../../context/useAuthContext';
 
 export default function Dashboard(): JSX.Element {
@@ -17,7 +17,7 @@ export default function Dashboard(): JSX.Element {
     <Container maxWidth={'lg'} component="main">
       <CssBaseline />
       <NavBar loggedInUser={loggedInUser} />
-      <NewEventType />
+      <EventMaker />
     </Container>
   );
 }

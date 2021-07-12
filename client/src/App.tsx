@@ -16,7 +16,7 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import Scheduler from './pages/Scheduler/Scheduler';
 import GoogleConnect from './components/GoogleConnect/GoogleConnect';
 import './App.css';
-import NewEventType from './components/NewEventType/NewEventType';
+import EventMaker from './components/EventMaker/EventMaker';
 
 function App(): JSX.Element {
   return (
@@ -31,7 +31,7 @@ function App(): JSX.Element {
                 <Dashboard />
               </Route>
               <Route exact path="/google" component={GoogleConnect} />
-              <Route exact path="/new-event-type" component={NewEventType} />
+              <Route exact path="/new-event-type" component={EventMaker} />
               <Route exact path="/:username/:time">
                 <Scheduler />
               </Route>
