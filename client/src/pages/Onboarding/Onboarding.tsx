@@ -14,7 +14,9 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { useHistory } from 'react-router-dom';
 import { useSocket } from '../../context/useSocketContext';
 import Availability from '../../components/Onboarding/Availability/Availability';
-import { Dashboard } from '@material-ui/icons';
+import updateUser from '../../helpers/APICalls/updateUser';
+import checkUserAvailability from '../../helpers/APICalls/checkUserAvailability';
+import updateUserAvailability from '../../helpers/APICalls/updateUserAvailability';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -38,14 +40,26 @@ const HandleProfileSubmit = (
   { url, timezone }: { url: string; timezone: string },
   { setSubmitting }: FormikHelpers<{ url: string; timezone: string }>,
 ) => {
-  const { updateLoginContext } = useAuth();
   checkUserUrl(url).then((data) => {
     if (data.error) {
       setSubmitting(false);
     } else if (data.success) {
-      updateLoginContext(data.success);
+      updateUser(url, timezone); 
     }
   });
+};
+
+const HandleAvailabilitySubmit = (
+  { hours, days }: { hours: string; days: string },
+  { setSubmitting }: FormikHelpers<{ hours: string; days: string }>,
+) => {
+  checkUserAvailability( hours, days ).then((data) => {
+    if (data.error) {
+      setSubmitting(false);
+    } else if (data.success) {
+      updateUserAvailability(hours, days);
+    }
+  })
 };
 
 function GetStepContent(stepIndex: number) {
@@ -70,9 +84,7 @@ function GetStepContent(stepIndex: number) {
     case 1:
       return <Confirm loggedInUser={loggedInUser} />;
     case 2:
-      return <Availability />;
-    case 3:
-      return <Dashboard />;
+      return <Availability handleSubmit={HandleAvailabilitySubmit} />;
     default:
       return 'No more steps';
   }
