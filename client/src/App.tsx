@@ -14,7 +14,6 @@ import Login from './pages/Login/Login';
 import Signup from './pages/SignUp/SignUp';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Scheduler from './pages/Scheduler/Scheduler';
-import GoogleConnect from './components/GoogleConnect/GoogleConnect';
 
 function App(): JSX.Element {
   return (
@@ -25,7 +24,6 @@ function App(): JSX.Element {
             <Switch>
               <Route exact path="/login" component={Login} />
               <Route exact path="/signup" component={Signup} />
-              <Route exact path="/google" component={GoogleConnect} />
               <Route exact path="/dashboard">
                 <Dashboard />
               </Route>
