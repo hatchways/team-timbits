@@ -21,7 +21,7 @@ export default function Login(): JSX.Element {
       if (data.error) {
         //user email does not exists in database
         setSubmitting(false);
-        updateSnackBarMessage('User email does not  exists, plz try sign up');
+        updateSnackBarMessage('User email does not  exists, please try sign up');
       } else if (data.success) {
         //user email exists in database, continue to login process
         setShowGoogleConnect(true);
@@ -31,7 +31,7 @@ export default function Login(): JSX.Element {
   };
   if (showGoogleConnect) {
     //TODO redirect to signup googleConnect compoenent, currently redirects to login
-    return <GoogleConnect />;
+    return <GoogleConnect rootPage="Login" />;
   }
 
   return (
