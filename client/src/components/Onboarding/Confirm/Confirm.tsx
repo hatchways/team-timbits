@@ -6,7 +6,7 @@ interface Props {
   loggedInUser: User;
 }
 
-function Confirm({ loggedInUser }: Props) {
+function Confirm({ loggedInUser }: Props): JSX.Element {
   return (
     <div>
       <h3>
