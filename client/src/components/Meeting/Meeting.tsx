@@ -24,8 +24,8 @@ interface Props {
 
 const circularColorPicker = (index: number) => {
   const colors = ['#7900FF', '#89B800', '#FF7000'];
-  const modularArithmetic = index % 3;
-  return colors[modularArithmetic];
+  const currentIndex = index % 3;
+  return colors[currentIndex];
 };
 
 const Meetings = ({ loggedInUser }: Props): JSX.Element => {
