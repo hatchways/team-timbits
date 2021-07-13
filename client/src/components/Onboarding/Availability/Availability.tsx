@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TextField, FormGroup, FormControlLabel, Checkbox } from '@material-ui/core';
-import { Formik, FormikHelpers, yupToFormErrors } from 'formik';
+import { Formik, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 
 interface Props {
@@ -69,7 +69,7 @@ const Availability = ({ handleSubmit }: Props): JSX.Element => {
      })}
      onSubmit={handleSubmit}
     >
-      {({handleSubmit, handleChange, touched, errors}: any) => (
+      {({handleSubmit, handleChange, touched, errors}) => (
         <form onSubmit={handleSubmit}>
           <div>
         <div>Available Hours: </div>
