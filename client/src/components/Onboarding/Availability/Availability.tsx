@@ -57,7 +57,7 @@ const Availability = ({ handleSubmit }: Props): JSX.Element => {
 
   return (
     <Formik
-     initalValues={{
+     initialValues={{
        hours: '',
        days: '',
      }}
