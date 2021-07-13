@@ -69,14 +69,14 @@ const Availability = ({ handleSubmit }: Props): JSX.Element => {
      })}
      onSubmit={handleSubmit}
     >
-      {({handleSubmit, handleChange, values, touched, errors}: any) => (
+      {({handleSubmit, handleChange, touched, errors}: any) => (
         <form onSubmit={handleSubmit}>
           <div>
         <div>Available Hours: </div>
         <div>
           <TextField
             id="start-hours-field"
-            value={values.hours}
+            value={hours}
             helperText={touched.hours ? errors.hours : ''}
             error={ touched.hours && Boolean(errors.hours)}
             variant="outlined"
@@ -87,7 +87,9 @@ const Availability = ({ handleSubmit }: Props): JSX.Element => {
           <span>-</span>
           <TextField
             id="end-hours-field"
-            value={values.hours}
+            value={hours}
+            helperText={touched.hours ? errors.hours : ''}
+            error={ touched.hours && Boolean(errors.hours)}
             variant="outlined"
             type="time"
             name="end"
@@ -98,7 +100,7 @@ const Availability = ({ handleSubmit }: Props): JSX.Element => {
 
       <div>
         <div>Available Days: </div>
-        <FormGroup row>{renderCheckBoxes(values.days)}</FormGroup>
+        <FormGroup row>{renderCheckBoxes(days)}</FormGroup>
       </div>
         </form>
       )}
