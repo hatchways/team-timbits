@@ -1,11 +1,10 @@
-import React from 'react';
 import useStyles from './useStyles';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
-import { useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
+import PublicIcon from '@material-ui/icons/Public';
 
 import moment from 'moment-timezone';
 
@@ -16,9 +15,10 @@ interface InfoProps {
   mdWidth: boolean;
   smWidth: boolean;
   timezone: string;
+  meeting: string | undefined;
 }
 
-function Info({ username, time, selectedDay, timezone, mdWidth, smWidth }: InfoProps): JSX.Element {
+function Info({ username, time, selectedDay, timezone, mdWidth, smWidth, meeting }: InfoProps): JSX.Element {
   const classes = useStyles();
   const weekday = moment(selectedDay).format('dddd');
   const day = moment(selectedDay).format('MMMM DD yy');
@@ -42,6 +42,20 @@ function Info({ username, time, selectedDay, timezone, mdWidth, smWidth }: InfoP
             </>
           )}
         </Box>
+        {meeting ? (
+          <>
+            <Box className={`${mdWidth ? classes.mdBox : classes.xsBox}`}>
+              <CalendarTodayIcon style={{ float: 'left', fontSize: '1.5rem' }} />
+              <Typography className={classes.meetingLength}>{meeting}</Typography>
+            </Box>
+            <Box className={`${mdWidth ? classes.mdBox : classes.xsBox}`}>
+              <PublicIcon style={{ float: 'left', fontSize: '1.5rem' }} />
+              <Typography className={classes.meetingLength}>{timezone}</Typography>
+            </Box>
+          </>
+        ) : (
+          <></>
+        )}
       </Box>
     </Grid>
   );

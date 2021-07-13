@@ -41,20 +41,42 @@ const Meetings = ({ loggedInUser }: Props): JSX.Element => {
       </Grid>
       <Grid item xs={12}>
         <Grid container direction="row" alignItems="center" justify="center" spacing={spacing}>
-          {[0, 1, 2].map((value) => (
-            <Grid key={value} item xs={3}>
-              <Paper className={classes.paper}>
-                <Typography variant="h5">15 min Meeting</Typography>
-                <SettingsIcon />
-                <Divider />
-                <ScheduleIcon />
-                <Typography variant="h5">15</Typography>
-                <Button variant="outlined" color="primary">
-                  <Link to={`/${loggedInUser.username}/15min`}>Create Meeting</Link>
-                </Button>
-              </Paper>
-            </Grid>
-          ))}
+          <Grid item xs={3}>
+            <Paper className={classes.paper}>
+              <Typography variant="h5">15 min Meeting</Typography>
+              <SettingsIcon />
+              <Divider />
+              <ScheduleIcon />
+              <Typography variant="h5">15</Typography>
+              <Button variant="outlined" color="primary">
+                <Link to={`/${loggedInUser.username}/15min`}>Create Meeting</Link>
+              </Button>
+            </Paper>
+          </Grid>
+          <Grid item xs={3}>
+            <Paper className={classes.paper}>
+              <Typography variant="h5">30 min Meeting</Typography>
+              <SettingsIcon />
+              <Divider />
+              <ScheduleIcon />
+              <Typography variant="h5">30</Typography>
+              <Button variant="outlined" color="primary">
+                <Link to={`/${loggedInUser.username}/30min`}>Create Meeting</Link>
+              </Button>
+            </Paper>
+          </Grid>
+          <Grid item xs={3}>
+            <Paper className={classes.paper}>
+              <Typography variant="h5">60 min Meeting</Typography>
+              <SettingsIcon />
+              <Divider />
+              <ScheduleIcon />
+              <Typography variant="h5">60</Typography>
+              <Button variant="outlined" color="primary">
+                <Link to={`/${loggedInUser.username}/60min`}>Create Meeting</Link>
+              </Button>
+            </Paper>
+          </Grid>
         </Grid>
         <Button variant="outlined" color="primary" href="#outlined-buttons" className={classes.right}>
           Getting Started!

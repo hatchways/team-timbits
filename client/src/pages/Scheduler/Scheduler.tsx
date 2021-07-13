@@ -119,6 +119,7 @@ function Scheduler(): JSX.Element {
                   mdWidth={mdWidth}
                   smWidth={smWidth}
                   timezone={timezone}
+                  meeting={undefined}
                 />
                 <Grid
                   item
@@ -188,6 +189,9 @@ function Scheduler(): JSX.Element {
                       hours={hours}
                       time={time}
                       smWidth={smWidth}
+                      username={username}
+                      mdWidth={mdWidth}
+                      timeNoLetters={withoutLetters}
                     />
                   </Box>
                 </Grid>
