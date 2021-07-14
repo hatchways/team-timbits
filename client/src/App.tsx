@@ -15,6 +15,7 @@ import Signup from './pages/SignUp/SignUp';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Scheduler from './pages/Scheduler/Scheduler';
 import GoogleConnect from './components/GoogleConnect/GoogleConnect';
+import Onboarding from './pages/Onboarding/Onboarding';
 
 function App(): JSX.Element {
   return (
@@ -31,6 +32,9 @@ function App(): JSX.Element {
               </Route>
               <Route exact path="/:username/:time">
                 <Scheduler />
+              </Route>
+              <Route exact path="/onboarding">
+                <Onboarding />
               </Route>
               <Route path="*">
                 <Redirect to="/login" />
