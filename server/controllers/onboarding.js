@@ -12,9 +12,7 @@ exports.checkUserUrl = asyncHandler(async (req, res, next) => {
         return res.status(400).json({ msg: 'Url is not valid' });
     }
      
-    const user = new User({
-      url: req.boby.url,
-    });
+    user.url = req.body.url;
 
     await user.save();
     res.json({ user });
@@ -34,10 +32,8 @@ exports.createUserAvailability = asyncHandler(async (req, res) => {
       return res.status(400).json({ msg: 'hours, days, are required fields.'});
   }
    
-  const availability = new Availability({
-    hours: req.body.hours,
-    days: req.body.days
-  });
+  availability.hours = req.body.hours;
+  availability.days = req.body.hours;
 
   await availability.save();
   res.json({ availability });
