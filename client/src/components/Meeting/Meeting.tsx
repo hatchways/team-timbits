@@ -74,9 +74,9 @@ const Meetings = ({ loggedInUser }: Props): JSX.Element => {
       </Grid>
       <Divider className={classes.divider} />
       <Grid container xs={12} className={classes.meetingContainer} spacing={3}>
-        {events?.map((eachEvent: any, index: any) => (
-          <Grid key={index} item xs={12} md={4}>
-            <Box className={classes.cardStylingBar} style={{ backgroundColor: circularColorPicker(index) }}></Box>
+        {events?.map((eachEvent: any, index: number) => (
+          <Grid key={eachEvent.id} item xs={12} md={4}>
+            <Grid className={classes.cardStylingBar} style={{ backgroundColor: circularColorPicker(index) }}></Grid>
             <Paper className={classes.meetingCard}>
               <Box marginBottom={2} textAlign="left">
                 <Box display="flex" justifyContent="flex-end">
@@ -89,9 +89,9 @@ const Meetings = ({ loggedInUser }: Props): JSX.Element => {
                   <Typography variant="body1">{eachEvent.description}</Typography>
                 </Box>
               </Box>
-              <Box>
+              <Grid>
                 <Divider className={classes.divider} />
-                <Box display="flex" justifyContent="space-between">
+                <Grid container className={classes.cardFooter}>
                   <Box display="flex" alignItems="center">
                     <ScheduleIcon />
                     <Typography variant="h5">{eachEvent.duration}</Typography>
@@ -104,8 +104,8 @@ const Meetings = ({ loggedInUser }: Props): JSX.Element => {
                   >
                     Copy Link
                   </Button>
-                </Box>
-              </Box>
+                </Grid>
+              </Grid>
             </Paper>
           </Grid>
         ))}

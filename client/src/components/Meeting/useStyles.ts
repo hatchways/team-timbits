@@ -46,6 +46,11 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     paddingTop: theme.spacing(2),
   },
+  cardFooter: {
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingTop: theme.spacing(2),
+  },
   meetingContainer: {},
   title: {
     fontWeight: 700,
