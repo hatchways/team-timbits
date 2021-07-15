@@ -65,8 +65,7 @@ const Meetings = ({ loggedInUser }: Props): JSX.Element => {
         </Grid>
         <Grid item>
           <Grid container>
-            <Button variant="outlined" color="primary" className={classes.newEventButton}>
-              <AddIcon />
+            <Button variant="outlined" color="primary" className={classes.newEventButton} startIcon={<AddIcon />}>
               <Typography variant="h6">New Event</Typography>
             </Button>
           </Grid>
