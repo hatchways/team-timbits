@@ -9,9 +9,10 @@ const connectDB = require("./boot/db");
 const { join } = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-
 const session = require("express-session");
 
+//Stripe
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 // Passport
 const passport = require("passport");
 require("./boot/passportConfig");
@@ -21,7 +22,6 @@ const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
 const meetingRouter = require("./routes/meeting");
 const appointmentRouter = require("./routes/appointment");
-const paymentRouter = require("./routes/payment");
 
 const { json, urlencoded } = express;
 
@@ -59,7 +59,6 @@ app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/meeting", meetingRouter);
 app.use("/appointment", appointmentRouter);
-app.use("/payment", paymentRouter);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/client/build")));
