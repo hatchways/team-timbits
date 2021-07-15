@@ -8,5 +8,4 @@ router.route("/").get(passportProtect, searchUsers);
 router.route("/:username").get(getUserByUsername);
 router.route("/:id").post(updateUser);
 
-
 module.exports = router;

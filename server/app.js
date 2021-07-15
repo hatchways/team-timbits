@@ -1,3 +1,5 @@
+const colors = require("colors");
+
 const path = require("path");
 const http = require("http");
 
@@ -10,9 +12,6 @@ const logger = require("morgan");
 
 const session = require("express-session");
 
-//SendGrid Email
-const sgMail = require("@sendgrid/mail");
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 // Passport
 const passport = require("passport");
 require("./boot/passportConfig");
@@ -23,7 +22,6 @@ const userRouter = require("./routes/user");
 const meetingRouter = require("./routes/meeting");
 const appointmentRouter = require("./routes/appointment");
 const paymentRouter = require("./routes/payment");
-const onboardingRouter = require("./routes/onboarding");
 
 const { json, urlencoded } = express;
 
@@ -62,7 +60,6 @@ app.use("/users", userRouter);
 app.use("/meeting", meetingRouter);
 app.use("/appointment", appointmentRouter);
 app.use("/payment", paymentRouter);
-app.use("/onboarding", onboardingRouter);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/client/build")));
