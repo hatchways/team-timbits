@@ -9,19 +9,16 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import Divider from '@material-ui/core/Divider';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import AddIcon from '@material-ui/icons/Add';
-
+import { useAuth } from '../../context/useAuthContext';
 // Components
 import AvatarDisplay from '../AvatarDisplay/AvatarDisplay';
 
-// Interface
-import { User } from '../../interface/User';
-
 interface Props {
-  loggedInUser: User;
   handleDrawerToggle?: () => void;
 }
 
-const Meetings = ({ loggedInUser }: Props): JSX.Element => {
+const Meetings = (): JSX.Element => {
+  const { loggedInUser } = useAuth();
   const classes = useStyles();
   const [spacing] = React.useState<GridSpacing>(2);
 
@@ -29,9 +26,9 @@ const Meetings = ({ loggedInUser }: Props): JSX.Element => {
     <Grid container spacing={3}>
       <Grid item xs={12}>
         <Divider />
-        <AvatarDisplay loggedIn user={loggedInUser} />
-        <Typography variant="h5">{loggedInUser.username}</Typography>
-        <Typography variant="h5">{loggedInUser.email}</Typography>
+        <AvatarDisplay />
+        <Typography variant="h5">{loggedInUser?.username}</Typography>
+        <Typography variant="h5">{loggedInUser?.email}</Typography>
         <Button variant="outlined" color="primary" href="#outlined-buttons" className={classes.right}>
           <Typography variant="h6">
             <AddIcon />
@@ -50,7 +47,7 @@ const Meetings = ({ loggedInUser }: Props): JSX.Element => {
                 <ScheduleIcon />
                 <Typography variant="h5">15</Typography>
                 <Button variant="outlined" color="primary">
-                  <Link to={`/${loggedInUser.username}/15min`}>Create Meeting</Link>
+                  <Link to={`/${loggedInUser?.username}/15min`}>Create Meeting</Link>
                 </Button>
               </Paper>
             </Grid>

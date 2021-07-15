@@ -13,22 +13,15 @@ import EventType from '../../components/EventType/EventType';
 export default function Dashboard(): JSX.Element {
   const classes = useStyles();
 
-  const { loggedInUser } = useAuth();
-
-  if (!loggedInUser) {
-    //typescript is throwing errors without returning this.
-    return <CircularProgress />;
-  }
-
   return (
     <Container maxWidth={'lg'} component="main" className={`${classes.root} ${classes.dashboard}`}>
       <CssBaseline />
       <Grid container>
         <Grid container>
-          <NavBar loggedInUser={loggedInUser} />
+          <NavBar />
         </Grid>
         <Grid container>
-          <EventType loggedInUser={loggedInUser} />
+          <EventType />
         </Grid>
       </Grid>
     </Container>
