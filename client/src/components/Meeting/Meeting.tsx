@@ -16,6 +16,7 @@ import AvatarDisplay from '../AvatarDisplay/AvatarDisplay';
 // Interface
 import { User } from '../../interface/User';
 import { useSnackBar } from '../../context/useSnackbarContext';
+import { Event } from '../../interface/Event';
 
 interface Props {
   loggedInUser: User;
@@ -73,8 +74,8 @@ const Meetings = ({ loggedInUser }: Props): JSX.Element => {
       </Grid>
       <Divider className={classes.divider} />
       <Grid container xs={12} className={classes.meetingContainer} spacing={3}>
-        {events?.map((eachEvent: any, index: number) => (
-          <Grid key={eachEvent.id} item xs={12} md={4}>
+        {events?.map((eachEvent: Event, index: number) => (
+          <Grid key={eachEvent.url} item xs={12} md={4}>
             <Grid className={classes.cardStylingBar} style={{ backgroundColor: circularColorPicker(index) }}></Grid>
             <Paper className={classes.meetingCard}>
               <Box marginBottom={2} textAlign="left">
