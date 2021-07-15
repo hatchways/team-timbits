@@ -50,23 +50,27 @@ const Meetings = ({ loggedInUser }: Props): JSX.Element => {
   return (
     <Box>
       <Grid container xs={12} direction="row" className={classes.profileSection}>
-        <Box display="flex">
-          <Box>
-            <AvatarDisplay loggedIn user={loggedInUser} />
-          </Box>
-          <Box marginLeft={2}>
-            <Typography component="h3" className={classes.title}>
-              {loggedInUser.username}
-            </Typography>
-            <Typography variant="subtitle1">{loggedInUser.email}</Typography>
-          </Box>
-        </Box>
-        <Box>
-          <Button variant="outlined" color="primary" className={classes.newEventButton}>
-            <AddIcon />
-            <Typography variant="h6">New Event</Typography>
-          </Button>
-        </Box>
+        <Grid item>
+          <Grid container>
+            <Box>
+              <AvatarDisplay loggedIn user={loggedInUser} />
+            </Box>
+            <Box marginLeft={2}>
+              <Typography component="h3" className={classes.title}>
+                {loggedInUser.username}
+              </Typography>
+              <Typography variant="subtitle1">{loggedInUser.email}</Typography>
+            </Box>
+          </Grid>
+        </Grid>
+        <Grid item>
+          <Grid container>
+            <Button variant="outlined" color="primary" className={classes.newEventButton}>
+              <AddIcon />
+              <Typography variant="h6">New Event</Typography>
+            </Button>
+          </Grid>
+        </Grid>
       </Grid>
       <Divider className={classes.divider} />
       <Grid container xs={12} className={classes.meetingContainer} spacing={3}>
