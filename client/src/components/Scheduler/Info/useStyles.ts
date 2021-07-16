@@ -12,14 +12,12 @@ const useStyles = makeStyles(() => ({
     fontWeight: 300,
     opacity: '0.75',
     color: 'gray',
-    lineHeight: '2rem',
   },
   xsUsername: {
     fontSize: '1rem',
     fontWeight: 300,
     opacity: '0.75',
     color: 'gray',
-    lineHeight: '1.5rem',
     textAlign: 'center',
   },
   mdTime: {
@@ -28,25 +26,40 @@ const useStyles = makeStyles(() => ({
   },
   xsTime: {
     fontWeight: 'bold',
-    fontSize: '1.8rem',
+    fontSize: '1.3rem',
     textAlign: 'center',
   },
   mdBox: {
     height: '1.5rem',
-    marginTop: '0.8rem',
   },
   xsBox: {
-    height: '2.5rem',
-    marginTop: '0.5rem',
     display: 'flex',
     justifyContent: 'center',
   },
   meetingLength: {
-    float: 'left',
-    paddingTop: '1px',
-    marginLeft: '6px',
     fontWeight: 'bold',
     fontSize: '1rem',
+    paddingLeft: '0.5rem',
+    height: 'auto',
+  },
+  none: {
+    display: 'none',
+  },
+  absolute: {
+    position: 'absolute',
+  },
+  backButton: {
+    fontSize: '1.5rem',
+    border: '1px solid darkOrange',
+    background: 'snow',
+    borderRadius: '100%',
+    paddingLeft: '5px',
+    color: 'darkOrange',
+    '&:hover': {
+      color: 'snow',
+      background: 'darkOrange',
+      cursor: 'pointer',
+    },
   },
 }));
 

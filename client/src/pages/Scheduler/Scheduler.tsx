@@ -1,7 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import moment from 'moment-timezone';
 import Calendar, { Detail } from 'react-calendar';
-import { useParams } from 'react-router-dom';
 
 // Material-UI and Style
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -17,13 +16,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
-// TODO Still
-// Setup api call to calendar to retrieve schedule
-// Setup api call to retrieve user settings (time available and days available)
-// Reference the calendar api and block off tiles that are unavailable due to booked schedule
-// Api call to verify user and time which than loads the correct page
-// Store calendar owner availability in cloud as utc than convert it here and display it for the user in their desired timezone
-// For some reason August is appearing disabled, this is an error
+import { useScheduler } from '../../context/useSchedulerContext';
 
 // Components
 import Info from '../../components/Scheduler/Info/Info';
@@ -34,167 +27,128 @@ function Scheduler(): JSX.Element {
   const theme = useTheme();
   const classes = useStyles();
 
-  const xsHeight = useMediaQuery('(max-height:700px)');
-  const smHeight = useMediaQuery('(max-height:800px)');
+  const xsHeight = useMediaQuery('(max-height:600px)');
+  const smHeight = useMediaQuery('(max-height:650px)');
+  const mdHeight = useMediaQuery('(max-height:700px)');
 
   const smWidth = useMediaQuery(theme.breakpoints.up('sm'));
   const mdWidth = useMediaQuery(theme.breakpoints.up('md'));
 
-  // Local Store
+  const {
+    selectedDay,
+    updateSelectedDayContext,
+    timezone,
+    updateTimezoneContext,
+    schedule,
+    updateScheduleContext,
+    availability,
+    updateAvailabilityContext,
+    modal,
+    updateModalContext,
+  } = useScheduler();
 
-  // TEMPORARILY page is set to schedule by default as we don't have an api call yet
   const [page, setPage] = useState<string>('schedule');
-  // Day selected on calendar by user
-  const [selectedDay, setSelectedDay] = useState<Date | undefined>();
-
-  // Timezone of user
-  const [timezone, setTimezone] = useState<string>(moment.tz.guess());
-
-  // This value need to be retrieved from Google Calendar API
-  // This is the users current schedule
-  const [schedule, setSchedule] = useState<Array<Date>>([]);
-
-  // Placeholder, the users preferences should come from the predefined user settings
-  const availability: Array<string> = ['Saturday', 'Sunday'];
-  const [hours, setHours] = useState<Record<string, Array<string>>>({
-    Sunday: ['0:00', '23:59'],
-    Saturday: ['0:00', '23:59'],
-    Monday: ['0:00', '23:59'],
-    Tuesday: ['0:00', '23:59'],
-    Wednesday: ['0:00', '23:59'],
-    Thursday: ['0:00', '23:59'],
-    Friday: ['0:00', '23:59'],
-  });
-
-  // Retrieve meeting length & user from url
-  const { username, time }: { username: string; time: string } = useParams();
-  const withoutLetters = time.replace(/[A-z]/g, '');
 
   const checkAvailability = (date: Date, view: Detail) => {
-    // Checks if the day is set unavailable from users settings
-    if (availability.indexOf(moment(date).format('dddd')) !== -1) return true;
+    if (availability[moment(date).format('dddd')].length === 0) return true;
     else return false;
-    //unavailable.findIndex(moment(date).format('dddd')) ? true : false;
-    // const x = moment(date).format('dddd');
-    // console.log(x);
-    // ({ date, view }) =>
-    //                     view === 'month' && // Block day tiles only
-    //                     disabledDates.some(
-    //                       (disabledDate) =>
-    //                         date.getFullYear() === disabledDate.getFullYear() &&
-    //                         date.getMonth() === disabledDate.getMonth() &&
-    //                         date.getDate() === disabledDate.getDate(),
-    //                     )
   };
 
-  //useEffect(() => {
-  // insert API call here to ensure both user and time in url are valid
-  //parseInt(time) && API CALL TO CHECK USER  ? setPage('schedule') : setPage('error');
-  //}, [time]);
-
   const handleChange = (event: any) => {
-    setTimezone(event.target.value);
+    updateTimezoneContext(event.target.value);
   };
 
   switch (page) {
     case 'error':
-      return <h1>OOOPS</h1>;
+      return <h1>Error</h1>;
     case 'schedule':
       return (
         <>
           <CssBaseline />
           <Container className={classes.root}>
             <Box
-              style={mdWidth ? { height: '85vh' } : smWidth ? { height: '95vh' } : { height: '100vh' }}
-              mt={xsHeight ? 10 : smHeight ? 6 : 0}
-              mb={xsHeight ? 10 : smHeight ? 6 : 0}
               display="flex"
               alignItems="center"
+              mt={xsHeight ? 8 : smHeight ? 4 : mdHeight ? 2 : 0}
+              mb={xsHeight ? 8 : smHeight ? 4 : mdHeight ? 2 : 0}
+              style={mdWidth ? { height: '85vh' } : smWidth ? { height: '95vh' } : { height: '100vh' }}
             >
-              <Grid container className={mdWidth ? classes.mdWrapper : classes.xsWrapper} justify="center">
-                <Info
-                  username={username}
-                  time={withoutLetters}
-                  selectedDay={selectedDay}
-                  mdWidth={mdWidth}
-                  smWidth={smWidth}
-                  timezone={timezone}
-                  meeting={undefined}
-                />
-                <Grid
-                  item
-                  md={4}
-                  sm={6}
-                  xs={12}
-                  className={smWidth ? classes.block : selectedDay ? classes.none : classes.block}
-                >
-                  <Box mt={smWidth ? 9 : 7} ml={smWidth ? 6 : 0} pb={mdWidth ? 0 : 10} pl={smWidth ? 0 : 1}>
-                    <Typography
-                      style={{ fontSize: '1.5rem', fontWeight: 'bold' }}
-                      className={smWidth ? classes.normalText : classes.centerText}
+              <Grid
+                container
+                justify="center"
+                className={mdWidth ? classes.mdWrapper : smWidth ? classes.smWrapper : classes.xsWrapper}
+              >
+                <Info />
+                {!modal ? (
+                  <>
+                    <Grid
+                      item
+                      md={4}
+                      sm={6}
+                      xs={12}
+                      className={smWidth ? classes.block : selectedDay ? classes.none : classes.block}
                     >
-                      Select a Date & Time
-                    </Typography>
-                    <Calendar
-                      minDetail={'year'}
-                      next2Label={null}
-                      prev2Label={null}
-                      showNeighboringMonth={false}
-                      minDate={new Date()}
-                      onClickDay={(value, event) => setSelectedDay(value)}
-                      tileDisabled={({ date, view }) => checkAvailability(date, view)}
-                    />
-                    <Box display="flex" justifyContent={smWidth ? 'left' : 'center'}>
-                      <FormControl className={classes.formControl}>
-                        <Select
-                          value={timezone}
-                          onChange={handleChange}
-                          name="age"
-                          inputProps={{ 'aria-label': 'age' }}
+                      <Box mt={mdWidth ? 9 : 3} ml={smWidth ? 6 : 2} mb={mdWidth ? 0 : 3}>
+                        <Typography
+                          style={{ fontSize: '1.2rem', fontWeight: 'bold', marginRight: '16px', textAlign: 'center' }}
+                          className={smWidth ? classes.normalText : classes.centerText}
                         >
-                          {moment.tz.names().map((tz) => (
-                            <MenuItem value={tz} key={tz}>
-                              {tz}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                    </Box>
-                  </Box>
-                </Grid>
+                          Select a Date & Time
+                        </Typography>
+                        <Calendar
+                          minDetail={'year'}
+                          next2Label={null}
+                          prev2Label={null}
+                          showNeighboringMonth={false}
+                          minDate={new Date()}
+                          onClickDay={(value, event) => updateSelectedDayContext(value)}
+                          tileDisabled={({ date, view }) => checkAvailability(date, view)}
+                        />
 
-                <Grid
-                  item
-                  md={4}
-                  sm={6}
-                  xs={12}
-                  className={`${
-                    smWidth
-                      ? selectedDay
-                        ? classes.hidden
-                        : classes.invisible
-                      : selectedDay
-                      ? classes.block
-                      : classes.none
-                  } ${mdWidth ? classes.mdFlow : smWidth ? classes.smFlow : classes.xsFlow}`}
-                >
-                  <Box mt={smWidth ? 16 : 7} ml={smWidth ? 6 : 0} pb={smWidth ? 0 : 10} pl={smWidth ? 0 : 1}>
-                    <Time
-                      setSelectedDay={() => {
-                        setSelectedDay(undefined);
-                      }}
-                      selectedDay={selectedDay}
-                      timezone={timezone}
-                      schedule={schedule}
-                      hours={hours}
-                      time={time}
-                      smWidth={smWidth}
-                      username={username}
-                      mdWidth={mdWidth}
-                      timeNoLetters={withoutLetters}
-                    />
-                  </Box>
-                </Grid>
+                        <Box display="flex" justifyContent={smWidth ? 'left' : 'center'}>
+                          <FormControl className={classes.formControl}>
+                            <Select
+                              value={timezone}
+                              onChange={handleChange}
+                              name="age"
+                              inputProps={{ 'aria-label': 'age' }}
+                            >
+                              {moment.tz.names().map((tz) => (
+                                <MenuItem value={tz} key={tz}>
+                                  {tz}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                          </FormControl>
+                        </Box>
+                      </Box>
+                    </Grid>
+
+                    <Grid
+                      item
+                      md={4}
+                      sm={6}
+                      xs={12}
+                      className={`${
+                        smWidth
+                          ? selectedDay
+                            ? classes.hidden
+                            : classes.invisible
+                          : selectedDay
+                          ? classes.block
+                          : classes.none
+                      } ${mdWidth ? classes.mdFlow : smWidth ? classes.smFlow : classes.xsFlow}`}
+                    >
+                      <Box mt={mdWidth ? 16 : smWidth ? 10 : 3} ml={smWidth ? 6 : 0}>
+                        <Time />
+                      </Box>
+                    </Grid>
+                  </>
+                ) : (
+                  <Grid item md={8} xs={12}>
+                    <h1>Filler</h1>
+                  </Grid>
+                )}
               </Grid>
             </Box>
           </Container>

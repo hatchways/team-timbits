@@ -11,8 +11,6 @@ import { User } from '../../interface/User';
 import Box from '@material-ui/core/Box';
 import Meeting from '../../components/Meeting/Meeting';
 
-import axios from 'axios';
-
 interface Props {
   loggedInUser: User;
   handleDrawerToggle?: () => void;
@@ -59,12 +57,6 @@ const EventType = ({ loggedInUser }: Props): JSX.Element => {
       'aria-controls': `simple-tabpanel-${index}`,
     };
   }
-
-  useEffect(() => {
-    axios
-      .get(`/appointment/${loggedInUser.id}`, { withCredentials: true })
-      .then((res) => setAppointments(res.data.msg));
-  }, [loggedInUser.id]);
 
   return (
     <Paper className={classes.root}>

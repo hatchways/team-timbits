@@ -139,8 +139,12 @@ const useStyles = makeStyles((theme) => ({
     height: '38rem',
     boxShadow: '0 6px 20px 0 rgba(0, 0, 0, 0.19)',
   },
-  xsWrapper: {
+  smWrapper: {
     height: 'auto',
+    boxShadow: '0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+  },
+  xsWrapper: {
+    height: '41.205rem',
     boxShadow: '0 6px 20px 0 rgba(0, 0, 0, 0.19)',
   },
   formControl: {

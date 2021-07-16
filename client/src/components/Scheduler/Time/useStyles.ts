@@ -24,7 +24,6 @@ const useStyles = makeStyles(() => ({
     paddingRight: '1rem',
   },
   textCenter: {
-    width: '15rem',
     textAlign: 'center',
   },
   textNormal: {
@@ -34,16 +33,7 @@ const useStyles = makeStyles(() => ({
     display: 'none',
   },
   block: {
-    display: 'inline-block',
-  },
-  backButton: {
-    fontSize: '1.5rem',
-    border: '1px solid darkOrange',
-    background: 'snow',
-    borderRadius: '100%',
-    paddingLeft: '5px',
-    marginRight: '10px',
-    color: 'darkOrange',
+    display: 'block',
   },
 }));
 
