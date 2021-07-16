@@ -1,18 +1,25 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    minHeight: '100vh',
+const useStyles = makeStyles(() => ({
+  text: {
+    fontWeight: 'bold',
+    fontSize: '1rem',
   },
-  paper: {
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
+  textField: {
+    width: '15rem',
+    marginTop: '0.5rem',
   },
-  mdWrapper: {
-    backgroundColor: 'snow',
-    width: '100%',
-    height: '38rem',
-    boxShadow: '0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+  backButton: {
+    fontSize: '1rem',
+    border: '1px solid darkOrange',
+    background: 'darkOrange',
+    borderRadius: '5px',
+    marginTop: '2rem',
+    color: 'snow',
+    '&:hover': {
+      backgroundColor: 'darkOrange',
+      color: 'snow',
+    },
   },
 }));
 

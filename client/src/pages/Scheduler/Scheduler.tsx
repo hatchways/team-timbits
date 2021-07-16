@@ -21,6 +21,7 @@ import { useScheduler } from '../../context/useSchedulerContext';
 // Components
 import Info from '../../components/Scheduler/Info/Info';
 import Time from '../../components/Scheduler/Time/Time';
+import Confirm from '../../components/Confirm/Confirm';
 
 function Scheduler(): JSX.Element {
   // Material-UI & Style
@@ -146,7 +147,7 @@ function Scheduler(): JSX.Element {
                   </>
                 ) : (
                   <Grid item md={8} xs={12}>
-                    <h1>Filler</h1>
+                    <Confirm />
                   </Grid>
                 )}
               </Grid>
