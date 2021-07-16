@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const { checkAvailablitiy } = require('../controllers/availability');
+const { checkAvailabilitiy } = require('../controllers/availability');
 
-router.route('/availability/:day').get(checkAvailablitiy);
+router.route('/:user/:day').get(checkAvailabilitiy);
 
 module.exports = router;
