@@ -9,7 +9,6 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import Divider from '@material-ui/core/Divider';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import AddIcon from '@material-ui/icons/Add';
-
 // Components
 import AvatarDisplay from '../AvatarDisplay/AvatarDisplay';
 
@@ -32,12 +31,14 @@ const Meetings = ({ loggedInUser }: Props): JSX.Element => {
         <AvatarDisplay loggedIn user={loggedInUser} />
         <Typography variant="h5">{loggedInUser.username}</Typography>
         <Typography variant="h5">{loggedInUser.email}</Typography>
-        <Button variant="outlined" color="primary" href="#outlined-buttons" className={classes.right}>
-          <Typography variant="h6">
-            <AddIcon />
-            New Event
-          </Typography>
-        </Button>
+        <Link to="/new-event-type">
+          <Button variant="outlined" color="primary" href="#outlined-buttons" className={classes.right}>
+            <Typography variant="h6">
+              <AddIcon />
+              New Event
+            </Typography>
+          </Button>
+        </Link>
       </Grid>
       <Grid item xs={12}>
         <Grid container direction="row" alignItems="center" justifyContent="center" spacing={spacing}>
