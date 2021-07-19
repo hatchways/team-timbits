@@ -1,8 +1,8 @@
 export interface Event {
-  eventName: string;
-  eventDescription: string;
-  eventUrl: string;
-  eventDuration: string;
+  name: string;
+  description: string;
+  url: string;
+  duration: string;
 }
 
 export interface EventApiDataSuccess {

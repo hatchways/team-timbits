@@ -3,20 +3,25 @@ const User = require("../models/User");
 const asyncHandler = require("express-async-handler");
 
 exports.createMeeting = asyncHandler(async (req, res, next) => {
-  const { username, duration } = req.body;
-  const loggedInUser = await User.findOne({ username });
-  Meeting.create({
-    userId: loggedInUser._id,
-    duration: duration,
+  const { name, description, duration, url } = req.body;
+
+  const generatedUrl = `/event/${req.user._id}/${url}`;
+
+  const meetingCreated = await Meeting.create({
+    userId: req.user._id,
+    name,
+    description,
+    duration,
+    url: generatedUrl,
   });
-  res.status(200).json({ username, duration });
+  if (meetingCreated) {
+    res.status(200).json({ eventId: meetingCreated._id });
+  }
 });
 
 exports.getMeetings = asyncHandler(async (req, res, next) => {
-  const { username } = req.body;
-  const loggedInUser = await User.findOne({ username });
-
-  Meeting.find({ userId: loggedInUser._id }).then((meetings) => {
-    res.json(meetings);
-  });
+  const meetings = await Meeting.find({ userId: req.user._id });
+  if (meetings) {
+    res.status(200).json({ success: meetings });
+  }
 });
