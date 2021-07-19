@@ -15,6 +15,10 @@ import Signup from './pages/SignUp/SignUp';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Scheduler from './pages/Scheduler/Scheduler';
 import GoogleConnect from './components/GoogleConnect/GoogleConnect';
+<<<<<<< HEAD
+import Onboarding from './pages/Onboarding/Onboarding';
+=======
+>>>>>>> main
 import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 import EventMaker from './components/EventMaker/EventMaker';
@@ -33,6 +37,9 @@ function App(): JSX.Element {
               <Route exact path="/new-event-type" component={EventMaker} />
               <Route exact path="/:username/:time">
                 <Scheduler />
+              </Route>
+              <Route exact path="/onboarding">
+                <Onboarding />
               </Route>
               <Route path="*">
                 <Redirect to="/login" />

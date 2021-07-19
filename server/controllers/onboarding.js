@@ -32,10 +32,8 @@ exports.createUserAvailability = asyncHandler(async (req, res) => {
       return res.status(400).json({ msg: 'hours, days, are required fields.'});
   }
    
-  const availability = new Availability({
-    hours: req.body.hours,
-    days: req.body.days
-  });
+  availability.hours = req.body.hours;
+  availability.days = req.body.hours;
 
   await availability.save();
   res.json({ availability });
