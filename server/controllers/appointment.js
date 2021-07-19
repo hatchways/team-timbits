@@ -37,7 +37,7 @@ exports.getAllUserAppointments = asyncHandler(async (req, res) => {
         const userAppointments = await Appointment.findOne({ user: req.params.id });
 
         if(!userAppointments) {
-            return res.status(404).json({ msg: 'User has no appointments.'});
+            return res.status(201).json({ msg: 'User has no appointments.'});
         }
 
         res.json(userAppointments);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 //import { makeStyles } from '@material-ui/core/styles';
 import useStyles from '../EventType/useStyles';
 import Paper from '@material-ui/core/Paper';
@@ -12,6 +12,8 @@ import { useAuth } from '../../context/useAuthContext';
 import Box from '@material-ui/core/Box';
 import Meeting from '../../components/Meeting/Meeting';
 
+import axios from 'axios';
+
 interface Props {
   handleDrawerToggle?: () => void;
 }
@@ -24,7 +26,8 @@ interface TabPanelProps {
 
 const EventType = (): JSX.Element => {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
+  const [appointments, setAppointments] = useState(undefined);
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
@@ -57,6 +60,12 @@ const EventType = (): JSX.Element => {
     };
   }
 
+  useEffect(() => {
+    axios
+      .get(`/appointment/${loggedInUser.id}`, { withCredentials: true })
+      .then((res) => setAppointments(res.data.msg));
+  }, [loggedInUser.id]);
+
   return (
     <Paper className={classes.root}>
       <Typography className={classes.title} variant="h6">
@@ -75,6 +84,9 @@ const EventType = (): JSX.Element => {
       </Tabs>
       <TabPanel value={value} index={0}>
         <Meeting />
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        <h1>{appointments}</h1>
       </TabPanel>
     </Paper>
   );
