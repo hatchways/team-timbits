@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FormikHelpers } from 'formik';
 import useStyles from './useStyles';
-import { CssBaseline, Box, Grid, Paper, Typography, Button } from '@material-ui/core';
+import { CssBaseline, Box, Grid, Paper, Typography } from '@material-ui/core';
 import AuthHeader from '../../components/AuthHeader/AuthHeader';
 import { useAuth } from '../../context/useAuthContext';
 import { useSnackBar } from '../../context/useSnackbarContext';
@@ -31,7 +31,7 @@ export default function Register(): JSX.Element {
     return <GoogleConnect asideText="Already have an account?" btnText="Log in" />;
   }
   return (
-    <Grid container component="main" justify="center" className={classes.root}>
+    <Grid container component="main" justifyContent="center" className={classes.root}>
       <CssBaseline />
       <Grid item xs={12} sm={7} md={5}>
         <Box m={4}>
