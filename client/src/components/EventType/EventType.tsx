@@ -8,11 +8,11 @@ import { Typography } from '@material-ui/core';
 //import Grid from '@material-ui/core/Grid';
 //import AvatarDisplay from '../AvatarDisplay/AvatarDisplay';
 import { User } from '../../interface/User';
+import { useAuth } from '../../context/useAuthContext';
 import Box from '@material-ui/core/Box';
 import Meeting from '../../components/Meeting/Meeting';
 
 interface Props {
-  loggedInUser: User;
   handleDrawerToggle?: () => void;
 }
 
@@ -22,7 +22,7 @@ interface TabPanelProps {
   value: unknown;
 }
 
-const EventType = ({ loggedInUser }: Props): JSX.Element => {
+const EventType = (): JSX.Element => {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -74,7 +74,7 @@ const EventType = ({ loggedInUser }: Props): JSX.Element => {
         <Tab label="Schelduled Meetings" {...a11yProps(1)} />
       </Tabs>
       <TabPanel value={value} index={0}>
-        <Meeting loggedInUser={loggedInUser} />
+        <Meeting />
       </TabPanel>
     </Paper>
   );
