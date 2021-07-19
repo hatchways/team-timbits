@@ -4,3 +4,12 @@ export interface Event {
   url: string;
   duration: string;
 }
+
+export interface EventApiDataSuccess {
+  eventId: string;
+}
+
+export interface EventApiData {
+  error?: { message: string };
+  success?: EventApiDataSuccess;
+}
