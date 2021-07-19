@@ -15,10 +15,7 @@ import Signup from './pages/SignUp/SignUp';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Scheduler from './pages/Scheduler/Scheduler';
 import GoogleConnect from './components/GoogleConnect/GoogleConnect';
-<<<<<<< HEAD
 import Onboarding from './pages/Onboarding/Onboarding';
-=======
->>>>>>> main
 import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 import EventMaker from './components/EventMaker/EventMaker';
