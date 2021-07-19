@@ -59,9 +59,9 @@ const Meetings = (): JSX.Element => {
             </Box>
             <Box marginLeft={2}>
               <Typography component="h3" className={classes.title}>
-                {loggedInUser.username}
+                {loggedInUser?.username}
               </Typography>
-              <Typography variant="subtitle1">{loggedInUser.email}</Typography>
+              <Typography variant="subtitle1">{loggedInUser?.email}</Typography>
             </Box>
           </Grid>
         </Grid>
