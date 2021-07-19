@@ -35,7 +35,7 @@ export default function Login(): JSX.Element {
   }
 
   return (
-    <Grid container component="main" justify="center" className={classes.root}>
+    <Grid container component="main" justifyContent="center" className={classes.root}>
       <CssBaseline />
       <Grid item xs={12} sm={7} md={5}>
         <Box m={4}>
