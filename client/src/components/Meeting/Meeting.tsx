@@ -8,10 +8,11 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import Divider from '@material-ui/core/Divider';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import AddIcon from '@material-ui/icons/Add';
-import fetchEvents from './../../helpers/APICalls/fetchEvents';
-
+import { useAuth } from '../../context/useAuthContext';
 // Components
 import AvatarDisplay from '../AvatarDisplay/AvatarDisplay';
+
+import fetchEvents from './../../helpers/APICalls/fetchEvents';
 
 // Interface
 import { User } from '../../interface/User';
@@ -19,7 +20,6 @@ import { useSnackBar } from '../../context/useSnackbarContext';
 import { Event } from '../../interface/Event';
 
 interface Props {
-  loggedInUser: User;
   handleDrawerToggle?: () => void;
 }
 
@@ -29,7 +29,8 @@ const circularColorPicker = (index: number) => {
   return colors[currentIndex];
 };
 
-const Meetings = ({ loggedInUser }: Props): JSX.Element => {
+const Meetings = (): JSX.Element => {
+  const { loggedInUser } = useAuth();
   const { updateSnackBarMessage } = useSnackBar();
   const classes = useStyles();
   const [events, setEvents] = useState([]);
@@ -54,13 +55,13 @@ const Meetings = ({ loggedInUser }: Props): JSX.Element => {
         <Grid item>
           <Grid container>
             <Box>
-              <AvatarDisplay loggedIn user={loggedInUser} />
+              <AvatarDisplay />
             </Box>
             <Box marginLeft={2}>
               <Typography component="h3" className={classes.title}>
-                {loggedInUser.username}
+                {loggedInUser?.username}
               </Typography>
-              <Typography variant="subtitle1">{loggedInUser.email}</Typography>
+              <Typography variant="subtitle1">{loggedInUser?.email}</Typography>
             </Box>
           </Grid>
         </Grid>

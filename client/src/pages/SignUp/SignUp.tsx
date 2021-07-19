@@ -12,7 +12,6 @@ import GoogleConnect from '../../components/GoogleConnect/GoogleConnect';
 
 export default function Register(): JSX.Element {
   const classes = useStyles();
-  const { updateLoginContext } = useAuth();
   const { updateSnackBarMessage } = useSnackBar();
   const [showGoogleConnect, setShowGoogleConnect] = useState(false);
 
