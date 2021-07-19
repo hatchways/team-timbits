@@ -6,12 +6,12 @@ import moment from 'moment-timezone';
 // availableDays is meant to store the days and hours available as set by the user from the onboard page
 
 interface ISchedulerContext {
-  selectedDay: Date | undefined;
-  updateSelectedDayContext: (day: Date | undefined) => void;
-  timezone: string | undefined;
+  selectedDay?: Date;
+  updateSelectedDayContext: (day?: Date) => void;
+  timezone?: string;
   updateTimezoneContext: (tz: string) => void;
-  schedule: Array<Date> | undefined;
-  updateScheduleContext: (calendar: Array<Date> | undefined) => void;
+  schedule?: Array<Date>;
+  updateScheduleContext: (calendar?: Array<Date>) => void;
   availability: Record<string, Array<string>>;
   updateAvailabilityContext: (hours: Record<string, Array<string>>) => void;
   modal: boolean;
@@ -59,30 +59,30 @@ export const SchedulerProvider: FunctionComponent = ({ children }): JSX.Element 
   const [modal, setModal] = useState<boolean>(false);
   const [meeting, setMeeting] = useState<string>('');
 
-  const updateSelectedDayContext = useCallback((day: Date | undefined) => {
+  const updateSelectedDayContext = (day: Date | undefined) => {
     setSelectedDay(day);
-  }, []);
+  };
 
   const updateTimezoneContext = useCallback((tz: string | undefined) => {
     tz ? setTimezone(tz) : setTimezone(moment.tz.guess());
   }, []);
 
   // Update this to fetch information from the google api
-  const updateScheduleContext = useCallback((calendar: Array<Date> | undefined) => {
+  const updateScheduleContext = (calendar: Array<Date> | undefined) => {
     setSchedule(calendar);
-  }, []);
+  };
 
-  const updateAvailabilityContext = useCallback((hours: Record<string, Array<string>>) => {
+  const updateAvailabilityContext = (hours: Record<string, Array<string>>) => {
     setAvailability(hours);
-  }, []);
+  };
 
-  const updateModalContext = useCallback((open: boolean) => {
+  const updateModalContext = (open: boolean) => {
     setModal(open);
-  }, []);
+  };
 
-  const updateMeetingContext = useCallback((time: string) => {
+  const updateMeetingContext = (time: string) => {
     setMeeting(time);
-  }, []);
+  };
 
   useEffect(() => {
     updateTimezoneContext(undefined);
