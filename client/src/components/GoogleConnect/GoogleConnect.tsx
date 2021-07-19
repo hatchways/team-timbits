@@ -2,12 +2,14 @@ import { CssBaseline, Typography, Grid, Paper, Box, Link, Button } from '@materi
 import useStyles from './useStyles';
 import AppLogo from '../AppLogo';
 import AuthHeader from '../AuthHeader/AuthHeader';
+import { useAuth } from '../../context/useAuthContext';
 
 interface Props {
   rootPage: string;
 }
 
 export default function GoogleConnect({ rootPage = 'Connect' }: Props): JSX.Element {
+  const { loggedInUser } = useAuth();
   const classes = useStyles();
 
   return (
@@ -24,7 +26,7 @@ export default function GoogleConnect({ rootPage = 'Connect' }: Props): JSX.Elem
                 Welcome back,
               </Typography>
               <Typography className={classes.welcome} component="h1" variant="h5">
-                john-doe@gmail.com
+                {loggedInUser?.email}
               </Typography>
             </Box>
             <Box m={1} alignSelf="center">
