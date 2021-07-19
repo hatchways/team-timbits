@@ -11,7 +11,7 @@ export default function GoogleConnect({ rootPage = 'Connect' }: Props): JSX.Elem
   const classes = useStyles();
 
   return (
-    <Grid container component="main" alignContent="center" justify="center" className={classes.root}>
+    <Grid container component="main" alignContent="center" justifyContent="center" className={classes.root}>
       <CssBaseline />
       <Grid item xs={12} sm={7} md={5}>
         <Box m={4}>
