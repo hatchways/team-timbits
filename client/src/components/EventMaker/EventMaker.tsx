@@ -13,14 +13,14 @@ const defaultFormValues = {
   eventDuration: '30',
   eventUrl: '',
 };
-interface InitialFormValuesTypes {
+interface EventFormValuesTypes {
   eventName: string;
   eventDescription: string;
   eventDuration: string;
   eventUrl: string;
 }
 interface Props {
-  initialFormValues?: InitialFormValuesTypes;
+  initialFormValues?: EventFormValuesTypes;
 }
 const EventMaker = ({ initialFormValues = defaultFormValues }: Props): JSX.Element => {
   const { updateSnackBarMessage } = useSnackBar();
@@ -34,14 +34,16 @@ const EventMaker = ({ initialFormValues = defaultFormValues }: Props): JSX.Eleme
     eventUrl: Yup.string().min(5, 'Too Short!').max(25, 'Too Long!'),
   });
 
-  const handleFormSubmit = ({ eventName, eventDescription, eventUrl, eventDuration }: Event) => {
-    createEvent({ eventName, eventDescription, eventUrl, eventDuration }).then((data) => {
-      if (data.success) {
-        history.push('/dashboard');
-      } else {
-        updateSnackBarMessage('Error: Could not successfully create your meeting');
-      }
-    });
+  const handleFormSubmit = ({ eventName, eventDescription, eventUrl, eventDuration }: EventFormValuesTypes) => {
+    createEvent({ name: eventName, description: eventDescription, url: eventUrl, duration: eventDuration }).then(
+      (data) => {
+        if (data.success) {
+          history.push('/dashboard');
+        } else {
+          updateSnackBarMessage('Error: Could not successfully create your meeting');
+        }
+      },
+    );
   };
 
   return (
