@@ -16,7 +16,7 @@ export default function Dashboard(): JSX.Element {
   return (
     <Container maxWidth={'lg'} component="main">
       <CssBaseline />
-      <NavBar loggedInUser={loggedInUser} />
+      <NavBar />
       <EventMaker />
     </Container>
   );
