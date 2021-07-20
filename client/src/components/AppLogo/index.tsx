@@ -1,12 +1,12 @@
 import Box from '@material-ui/core/Box';
 import useStyles from './useStyles';
-import appLogo from '../../assets/applogo.png';
+import logo from '../../Images/logo.png';
 
 const AppLogo = (): JSX.Element => {
   const classes = useStyles();
   return (
     <Box className={classes.applogo}>
-      <img src={appLogo}></img>
+      <img src={logo}></img>
     </Box>
   );
 };

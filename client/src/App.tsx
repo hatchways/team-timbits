@@ -12,10 +12,9 @@ import { SchedulerProvider } from './context/useSchedulerContext';
 
 // Components
 import Login from './pages/Login/Login';
-import Signup from './pages/SignUp/SignUp';
+//import Signup from './pages/SignUp/SignUp';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Scheduler from './pages/Scheduler/Scheduler';
-import GoogleConnect from './components/GoogleConnect/GoogleConnect';
 
 function App(): JSX.Element {
   return (
@@ -26,14 +25,12 @@ function App(): JSX.Element {
             <SchedulerProvider>
               <Switch>
                 <Route exact path="/login" component={Login} />
-                <Route exact path="/signup" component={Signup} />
-                <Route exact path="/google" component={GoogleConnect} />
+                {/* <Route exact path="/signup" component={Signup} /> */}
+                {/* <Route exact path="/google" component={GoogleConnect} /> */}
                 <Route exact path="/dashboard">
                   <Dashboard />
                 </Route>
-                <Route exact path="/:username/:time">
-                  <Scheduler />
-                </Route>
+                <Route exact path="/:username/:time" component={Scheduler} />
                 <Route path="*">
                   <Redirect to="/login" />
                 </Route>
