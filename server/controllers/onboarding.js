@@ -6,13 +6,33 @@ const asyncHandler = require('express-async-handler');
 // @access Public
 exports.checkUserUrl = asyncHandler(async (req, res, next) => {
     const { url } = req.body;
-    const user = await User.findOne({ url: req.params.url , timezone: req.body.timezone});
+    const url = await User.findOne({ url: req.params.url });
 
     if (url === '' || !url.isUnique) {
         return res.status(400).json({ msg: 'Url is not valid' });
     }
      
+    res.status(200).json({msg: 'URL is valid'});
+
+});
+
+// @route  POST api/user/url/timezone
+// @des    Update user url & timezone
+// @access Public
+exports.updateUser = asyncHandler(async (req, res, next) => {
+    const { url, timezone } = req.body;
+    const user = await User.findOne({ url: req.params.url }, { timezone: req.params.timezone });
+
+    if (url === '' || !url.isUnique) {
+        return res.status(400).json({ msg: 'Url is not valid' });
+    }
+
+    if (!timezone) {
+        return res.status(400).json({ msg: 'Timezone is required'});
+    }
+     
     user.url = req.body.url;
+    user.timezone = req.body.timezone;
 
     await user.save();
     res.json({ user });
@@ -26,7 +46,7 @@ exports.checkUserUrl = asyncHandler(async (req, res, next) => {
 // @access Public
 exports.createUserAvailability = asyncHandler(async (req, res) => {
   const { hours, days } = req.body;
-  const  availability = await User.findOne({ availabilityId });
+  const  availability = await User.findOne({ availability });
 
   if(!hours && !days) {
       return res.status(400).json({ msg: 'hours, days, are required fields.'});

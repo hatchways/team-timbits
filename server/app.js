@@ -24,6 +24,7 @@ const userRouter = require("./routes/user");
 const meetingRouter = require("./routes/meeting");
 const appointmentRouter = require("./routes/appointment");
 const onboardingRouter = require("./routes/onboarding");
+const availableRouter = require("./routes/availability");
 
 const { json, urlencoded } = express;
 
@@ -61,6 +62,7 @@ app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/meeting", meetingRouter);
 app.use("/appointment", appointmentRouter);
+app.use("/availability", availableRouter);
 app.use("/onboarding", onboardingRouter);
 
 if (process.env.NODE_ENV === "production") {
