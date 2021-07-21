@@ -2,7 +2,6 @@ import useStyles from './useStyles';
 import { CssBaseline, Box, Grid, Paper, Typography } from '@material-ui/core';
 import { FormikHelpers } from 'formik';
 import AuthHeader from '../../components/AuthHeader/AuthHeader';
-import { useAuth } from '../../context/useAuthContext';
 import { useSnackBar } from '../../context/useSnackbarContext';
 import AppLogo from './../../components/AppLogo';
 import checkUserEmail from '../../helpers/APICalls/checkUserEmail';
@@ -12,7 +11,6 @@ import { useState } from 'react';
 
 export default function Login(): JSX.Element {
   const classes = useStyles();
-  const { updateLoginContext } = useAuth();
   const { updateSnackBarMessage } = useSnackBar();
   const [showGoogleConnect, setShowGoogleConnect] = useState(false);
 
@@ -21,21 +19,20 @@ export default function Login(): JSX.Element {
       if (data.error) {
         //user email does not exists in database
         setSubmitting(false);
-        updateSnackBarMessage('User email does not  exists, plz try sign up');
+        updateSnackBarMessage('User email does not  exists, please try sign up');
       } else if (data.success) {
         //user email exists in database, continue to login process
         setShowGoogleConnect(true);
-        updateLoginContext(data.success);
       }
     });
   };
   if (showGoogleConnect) {
     //TODO redirect to signup googleConnect compoenent, currently redirects to login
-    return <GoogleConnect asideText="Dont have an account?" btnText="Signup" />;
+    return <GoogleConnect rootPage="Login" />;
   }
 
   return (
-    <Grid container component="main" justify="center" className={classes.root}>
+    <Grid container component="main" justifyContent="center" className={classes.root}>
       <CssBaseline />
       <Grid item xs={12} sm={7} md={5}>
         <Box m={4}>

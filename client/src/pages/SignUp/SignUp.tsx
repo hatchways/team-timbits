@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { FormikHelpers } from 'formik';
 import useStyles from './useStyles';
-import { CssBaseline, Box, Grid, Paper, Typography, Button } from '@material-ui/core';
+import { CssBaseline, Box, Grid, Paper, Typography } from '@material-ui/core';
 import AuthHeader from '../../components/AuthHeader/AuthHeader';
-import { useAuth } from '../../context/useAuthContext';
 import { useSnackBar } from '../../context/useSnackbarContext';
 import AppLogo from '../../components/AppLogo';
 import SignUpFormSimple from './SignupFormSimple/SignUpFormSimple';
@@ -12,7 +11,6 @@ import GoogleConnect from '../../components/GoogleConnect/GoogleConnect';
 
 export default function Register(): JSX.Element {
   const classes = useStyles();
-  const { updateLoginContext } = useAuth();
   const { updateSnackBarMessage } = useSnackBar();
   const [showGoogleConnect, setShowGoogleConnect] = useState(false);
 
@@ -21,7 +19,7 @@ export default function Register(): JSX.Element {
       if (data.success) {
         //user email exists in database
         setSubmitting(false);
-        updateSnackBarMessage('User email already exists, plz try log in');
+        updateSnackBarMessage('User email already exists, please try log in');
       } else if (data.error) {
         //user email does not exists in database, continue to signup process
         setShowGoogleConnect(true);
@@ -29,10 +27,10 @@ export default function Register(): JSX.Element {
     });
   };
   if (showGoogleConnect) {
-    return <GoogleConnect asideText="Already have an account?" btnText="Log in" />;
+    return <GoogleConnect rootPage="Signup" />;
   }
   return (
-    <Grid container component="main" justify="center" className={classes.root}>
+    <Grid container component="main" justifyContent="center" className={classes.root}>
       <CssBaseline />
       <Grid item xs={12} sm={7} md={5}>
         <Box m={4}>
