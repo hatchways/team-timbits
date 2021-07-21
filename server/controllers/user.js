@@ -52,8 +52,6 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
 
   user.username = req.body.username;
   user.email = req.body.email;
-  user.url = req.body.url;
-  user.timezone = req.body.timezone;
 
   await user.save();
 
