@@ -5,6 +5,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: theme.shape.borderRadius,
     borderColor: 'rgba(247,105,0,1)',
     color: 'rgba(247,105,0,1)',
+    textDecoration: 'none',
     '&:hover': {
       backgroundColor: 'rgba(247,105,0,.1)',
       borderColor: 'rgba(247,105,0,1)',

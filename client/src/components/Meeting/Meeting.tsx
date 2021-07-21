@@ -18,6 +18,7 @@ import fetchEvents from './../../helpers/APICalls/fetchEvents';
 import { User } from '../../interface/User';
 import { useSnackBar } from '../../context/useSnackbarContext';
 import { Event } from '../../interface/Event';
+import { Link } from 'react-router-dom';
 
 interface Props {
   handleDrawerToggle?: () => void;
@@ -68,7 +69,9 @@ const Meetings = (): JSX.Element => {
         <Grid item>
           <Grid container>
             <Button variant="outlined" color="primary" className={classes.newEventButton} startIcon={<AddIcon />}>
-              <Typography variant="h6">New Event</Typography>
+              <Link to="/new-event-type" style={{ textDecoration: 'none', color: 'rgba(247,105,0,1)' }}>
+                <Typography variant="h6">New Event</Typography>
+              </Link>
             </Button>
           </Grid>
         </Grid>
