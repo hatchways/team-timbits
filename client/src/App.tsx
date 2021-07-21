@@ -14,7 +14,6 @@ import Login from './pages/Login/Login';
 import Signup from './pages/SignUp/SignUp';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Scheduler from './pages/Scheduler/Scheduler';
-import GoogleConnect from './components/GoogleConnect/GoogleConnect';
 import Onboarding from './pages/Onboarding/Onboarding';
 import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
@@ -29,7 +28,6 @@ function App(): JSX.Element {
             <Switch>
               <Route exact path="/login" component={Login} />
               <Route exact path="/signup" component={Signup} />
-              <Route exact path="/google" component={GoogleConnect} />
               <ProtectedRoute exact path="/dashboard" component={Dashboard} />
               <Route exact path="/new-event-type" component={EventMaker} />
               <Route exact path="/:username/:time">
