@@ -13,7 +13,6 @@ import updateUser from '../../helpers/APICalls/updateUser';
 import checkUserAvailability from '../../helpers/APICalls/checkUserAvailability';
 import updateUserAvailability from '../../helpers/APICalls/updateUserAvailability';
 import Grid from '@material-ui/core/Grid';
-import { Container } from '@material-ui/core';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

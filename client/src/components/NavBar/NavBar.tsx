@@ -1,4 +1,3 @@
-import React from 'react';
 import { useAuth } from '../../context/useAuthContext';
 import useStyles from './useStyles';
 import AvatarDisplay from '../AvatarDisplay/AvatarDisplay';

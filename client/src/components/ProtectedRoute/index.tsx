@@ -7,14 +7,14 @@ interface PrivateRouteProps extends RouteProps {
   component: any;
 }
 
-const ProtectedRoute = ({ component: Component, children, ...rest }: PrivateRouteProps) => {
+const ProtectedRoute = ({ component: Component, ...rest }: PrivateRouteProps) => {
   const { loggedInUser } = useAuth();
   //if loading
   if (loggedInUser === undefined) return <CircularProgress />;
   if (!loggedInUser) {
     return <Redirect to="/login" />;
   }
-  return Component ? <Route {...rest} render={(props) => <Component {...props} />} /> : <>children</>;
+  return <Route {...rest} render={(props) => <Component {...props} />} />;
 };
 
 export default ProtectedRoute;
