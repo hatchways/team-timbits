@@ -2,7 +2,7 @@ const asyncHandler = require('express-async-handler');
 const { google } = require('googleapis');
 const Availability = require('../models/Availability');
 
-exports.checkAvailabilitiy =  asyncHandler(async(req, res, next) => {
+exports.checkAvailability =  asyncHandler(async(req, res, next) => {
   const { day } = req.params.day;
   const userOfMeeting = Meeting.findOne({userId: req.params.user});
   const userAvailability = Availability.findOne({ availablility: userOfMeeting });
