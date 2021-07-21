@@ -2,7 +2,7 @@ const cloudinary = require("../utils/cloudinary");
 const User = require("../models/User");
 const asyncHandler =  require('express-async-handler');
 
-exports.loadImageToCloudinariy = asyncHandler(async (req, res, next) => {
+exports.loadImageToCloudinary = asyncHandler(async (req, res, next) => {
 
     try {
     // Upload image to cloudinary
