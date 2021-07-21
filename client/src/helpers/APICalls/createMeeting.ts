@@ -1,4 +1,3 @@
-import { AuthApiData } from '../../interface/AuthApiData';
 import { Event, EventApiData } from '../../interface/Event';
 import { FetchOptions } from '../../interface/FetchOptions';
 

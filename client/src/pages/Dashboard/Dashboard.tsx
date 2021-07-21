@@ -2,10 +2,7 @@
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import useStyles from './useStyles';
-// Context
-import { useAuth } from '../../context/useAuthContext';
 // Components
 import NavBar from '../../components/NavBar/NavBar';
 import EventType from '../../components/EventType/EventType';

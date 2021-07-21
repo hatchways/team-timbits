@@ -1,14 +1,15 @@
-import { TextField, InputAdornment, CircularProgress } from '@material-ui/core';
+import { TextField, InputAdornment, CircularProgress, Box, Button, Grid } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
-import Grid from '@material-ui/core/Grid';
 import moment from 'moment-timezone';
 import { Formik, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import { Typography } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import { useAuth } from '../../../context/useAuthContext';
-import { useEffect } from 'react';
-import { useSocket } from '../../../context/useSocketContext';
+import ProgressBar from '../ProgressBar';
+import useStyles from './useStyles';
+import AppLogo from '../../AppLogo';
+import Confirm from '../Confirm/Confirm';
 
 interface Props {
   handleSubmit: (
@@ -31,13 +32,8 @@ interface Props {
 
 const ProfileSetting = ({ handleSubmit }: Props): JSX.Element => {
   const { loggedInUser } = useAuth();
-  const { initSocket } = useSocket();
-
+  const classes = useStyles();
   const history = useHistory();
-
-  useEffect(() => {
-    initSocket();
-  }, [initSocket]);
 
   if (loggedInUser === undefined) return <CircularProgress />;
   if (!loggedInUser) {
@@ -46,61 +42,71 @@ const ProfileSetting = ({ handleSubmit }: Props): JSX.Element => {
   }
 
   return (
-    <Formik
-      initialValues={{
-        url: '',
-        timezone: '',
-      }}
-      isSubmitting={true}
-      isValidating={true}
-      validationSchema={Yup.object().shape({
-        url: Yup.string().required('Url is required'),
-        timezone: Yup.string().required('Please choose a timezone'), // set up a test
-      })}
-      onSubmit={handleSubmit}
-    >
-      {({ handleSubmit, handleChange, values, touched, errors }) => (
-        <form onSubmit={handleSubmit}>
-          <Grid container spacing={4} alignItems="center">
-            <Grid item xs={4}>
-              <Typography variant="h6">Create Your CalendApp URL: </Typography>
-            </Grid>
-            <Grid item xs={8}>
-              <TextField
-                id="url-field"
-                name="url"
-                variant="outlined"
-                value={values.url}
-                helperText={touched.url ? errors.url : ''}
-                error={touched.url && Boolean(errors.url)}
-                onChange={handleChange}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end" component="span">
-                      | {loggedInUser.username}
-                    </InputAdornment>
-                  ),
+    <Grid container spacing={5}>
+      <Grid item xs={12}>
+        <Box mt={6} className={classes.root}>
+          <AppLogo />
+          <Box className={classes.formWrapper}>
+            <ProgressBar progressText={'Welcome to CalendApp'} progressValue={25} />
+            <Box className={classes.formItemsWrapper}>
+              <Formik
+                initialValues={{
+                  url: '',
+                  timezone: '',
                 }}
-              />
-            </Grid>
-            <Grid item xs={4}>
-              <Typography variant="h6">Choose your timezone: </Typography>
-            </Grid>
-            <Grid item xs={8}>
-              <Autocomplete
-                id="timezone-field"
-                value={values.timezone}
-                options={moment.tz.names()}
-                getOptionLabel={(option) => option + ' (' + moment.tz(option).format('ha z') + ')'}
-                getOptionSelected={(option) => values.timezone === option}
-                renderInput={(params) => <TextField {...params} label="Select your timezone" variant="outlined" />}
-                onChange={handleChange}
-              />
-            </Grid>
-          </Grid>
-        </form>
-      )}
-    </Formik>
+                isValidating={true}
+                validationSchema={Yup.object().shape({
+                  url: Yup.string().required('Url is required'),
+                  timezone: Yup.string().required('Please choose a timezone'), // set up a test
+                })}
+                onSubmit={handleSubmit}
+              >
+                {({ handleSubmit, handleChange, values, touched, errors }) => (
+                  <form onSubmit={handleSubmit}>
+                    <Box mt={5} mb={2} mx={10} className={classes.formItem}>
+                      <Typography variant="h6" style={{ marginRight: '8px' }}>
+                        Create Your CalendApp URL:
+                      </Typography>
+                      <TextField
+                        id="url-field"
+                        name="url"
+                        style={{ width: 470 }}
+                        variant="outlined"
+                        value={values.url}
+                        helperText={touched.url ? errors.url : ''}
+                        error={touched.url && Boolean(errors.url)}
+                        onChange={handleChange}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end" component="span">
+                              | {loggedInUser.username}
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                    </Box>
+                    <Box mb={2} mx={10} className={classes.formItem}>
+                      <Typography variant="h6">Choose your timezone: </Typography>
+                      <Autocomplete
+                        id="timezone-field"
+                        value={values.timezone}
+                        style={{ width: 270 }}
+                        options={moment.tz.names()}
+                        getOptionLabel={(option) => option + ' (' + moment.tz(option).format('ha z') + ')'}
+                        getOptionSelected={(option) => values.timezone === option}
+                        renderInput={(params) => <TextField {...params} variant="outlined" />}
+                        onChange={handleChange}
+                      />
+                    </Box>
+                  </form>
+                )}
+              </Formik>
+              <Button>{<Confirm loggedInUser={loggedInUser} /> ? 'Contiune' : ''}</Button>
+            </Box>
+          </Box>
+        </Box>
+      </Grid>
+    </Grid>
   );
 };
 
