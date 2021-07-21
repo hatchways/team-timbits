@@ -15,7 +15,6 @@ import AvatarDisplay from '../AvatarDisplay/AvatarDisplay';
 import fetchEvents from './../../helpers/APICalls/fetchEvents';
 
 // Interface
-import { User } from '../../interface/User';
 import { useSnackBar } from '../../context/useSnackbarContext';
 import { Event } from '../../interface/Event';
 import { Link } from 'react-router-dom';
