@@ -1,86 +1,57 @@
 import React, { useState, useEffect } from 'react';
-//import { makeStyles } from '@material-ui/core/styles';
-import useStyles from '../EventType/useStyles';
-import Paper from '@material-ui/core/Paper';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import { Typography } from '@material-ui/core';
-//import Grid from '@material-ui/core/Grid';
-//import AvatarDisplay from '../AvatarDisplay/AvatarDisplay';
-import { User } from '../../interface/User';
-import Box from '@material-ui/core/Box';
-import Meeting from '../../components/Meeting/Meeting';
+import { useHistory } from 'react-router-dom';
+import useStyles from './useStyles';
+import AccessTimeIcon from '@material-ui/icons/AccessTime';
+import SettingsOutlinedIcon from '@material-ui/icons/SettingsOutlined';
+import { Container, Box, Button, Typography, Grid, Divider } from '@material-ui/core';
 
-interface Props {
-  loggedInUser: User;
-  handleDrawerToggle?: () => void;
-}
+// Context
+import { useAuth } from '../../context/useAuthContext';
 
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: unknown;
-  value: unknown;
-}
-
-const EventType = ({ loggedInUser }: Props): JSX.Element => {
+const EventType = (): JSX.Element => {
   const classes = useStyles();
-  const [value, setValue] = useState(0);
-  const [appointments, setAppointments] = useState(undefined);
-
-  const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
-    setValue(newValue);
-  };
-
-  function TabPanel(props: TabPanelProps) {
-    const { children, value, index, ...other } = props;
-
-    return (
-      <div
-        role="tabpanel"
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
-        {...other}
-      >
-        {value === index && (
-          <Box p={3}>
-            <Typography>{children}</Typography>
-          </Box>
-        )}
-      </div>
-    );
-  }
-
-  function a11yProps(index: unknown) {
-    return {
-      id: `simple-tab-${index}`,
-      'aria-controls': `simple-tabpanel-${index}`,
-    };
-  }
+  const history = useHistory();
+  const { loggedInUser } = useAuth();
 
   return (
-    <Paper className={classes.root}>
-      <Typography className={classes.title} variant="h6">
-        MyCalendarApp
-      </Typography>
-      <Tabs
-        value={value}
-        className={classes.left}
-        onChange={handleChange}
-        indicatorColor="primary"
-        textColor="primary"
-        centered
-      >
-        <Tab label="Meetings" {...a11yProps(0)} />
-        <Tab label="Schelduled Meetings" {...a11yProps(1)} />
-      </Tabs>
-      <TabPanel value={value} index={0}>
-        <Meeting loggedInUser={loggedInUser} />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <h1>{appointments}</h1>
-      </TabPanel>
-    </Paper>
+    <Box pb={10} style={{ background: 'ghostwhite', height: '100%' }}>
+      <Container>
+        <Box pt={5} display="flex" flexDirection="row">
+          <img src={loggedInUser?.picture} alt="profile picture" className={classes.logo} />
+          <Box display="flex" flexDirection="column">
+            <Typography className={classes.name}>{loggedInUser?.username}</Typography>
+            <Typography className={classes.link}>calendapp.com/{loggedInUser?.username}</Typography>
+          </Box>
+          <Button className={classes.button}>+ New event type</Button>
+        </Box>
+        <Grid container style={{ marginTop: '5rem' }}>
+          <Grid item md={4}>
+            <Box className={classes.eventBox} style={{ borderTop: '8px solid darkviolet' }}>
+              <Container>
+                <Box mb={4} ml={3} display="flex" flexDirection="column">
+                  <SettingsOutlinedIcon style={{ marginLeft: 'auto', marginTop: '1rem', fontSize: '1.5rem' }} />
+                  <Box className={classes.hover} onClick={() => history.push(`/${loggedInUser?.username}/15min`)}>
+                    <Typography className={classes.meetingLength}>15 Minute Meeting</Typography>
+                    <Typography className={classes.meetingType}>One-on-one</Typography>
+                  </Box>
+                </Box>
+                <Divider />
+                <Box mt={3} pb={2} display="flex" flexDirection="row" alignItems="center">
+                  <AccessTimeIcon />
+                  <Typography className={classes.time}>15 min</Typography>
+                  <Button className={classes.button} onClick={() => console.log('Good bye')}>
+                    Copy Link
+                  </Button>
+                </Box>
+              </Container>
+            </Box>
+          </Grid>
+        </Grid>
+        <Box mt={10} display="flex" flexDirection="row-reverse">
+          <Button className={classes.guideButton}>Getting Started Guide</Button>
+        </Box>
+      </Container>
+    </Box>
   );
 };
 

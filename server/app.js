@@ -18,6 +18,7 @@ require("./boot/passportConfig");
 
 // Routes
 const authRouter = require("./routes/auth");
+const profileRouter = require("./routes/profile");
 const userRouter = require("./routes/user");
 const meetingRouter = require("./routes/meeting");
 const appointmentRouter = require("./routes/appointment");
@@ -57,6 +58,7 @@ app.use(passport.session());
 
 
 app.use("/auth", authRouter);
+app.use("/profile", profileRouter);
 app.use("/users", userRouter);
 app.use("/meeting", meetingRouter);
 app.use("/appointment", appointmentRouter);

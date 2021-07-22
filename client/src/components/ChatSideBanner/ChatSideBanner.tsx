@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import useStyles from './useStyles';
 import { User } from '../../interface/User';
-import AvatarDisplay from '../AvatarDisplay/AvatarDisplay';
+// import AvatarDisplay from '../AvatarDisplay/AvatarDisplay';
 import Search from '../Search/Search';
 import AuthMenu from '../AuthMenu/AuthMenu';
 
@@ -29,7 +29,7 @@ const ChatSideBanner = ({ loggedInUser }: Props): JSX.Element => {
   return (
     <Grid className={classes.chatSideBanner}>
       <Box className={classes.userPanel}>
-        <AvatarDisplay loggedIn user={loggedInUser} />
+        {/* <AvatarDisplay loggedIn user={loggedInUser} /> */}
         <Typography className={classes.userText} variant="h5">
           {loggedInUser.username}
         </Typography>

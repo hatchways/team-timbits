@@ -11,7 +11,7 @@ import ScheduleIcon from '@material-ui/icons/Schedule';
 import AddIcon from '@material-ui/icons/Add';
 
 // Components
-import AvatarDisplay from '../AvatarDisplay/AvatarDisplay';
+// import AvatarDisplay from '../AvatarDisplay/AvatarDisplay';
 
 // Interface
 import { User } from '../../interface/User';
@@ -29,7 +29,7 @@ const Meetings = ({ loggedInUser }: Props): JSX.Element => {
     <Grid container spacing={3}>
       <Grid item xs={12}>
         <Divider />
-        <AvatarDisplay loggedIn user={loggedInUser} />
+        {/* <AvatarDisplay loggedIn user={loggedInUser} /> */}
         <Typography variant="h5">{loggedInUser.username}</Typography>
         <Typography variant="h5">{loggedInUser.email}</Typography>
         <Button variant="outlined" color="primary" href="#outlined-buttons" className={classes.right}>

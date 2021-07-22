@@ -1,27 +1,22 @@
-import React, { useState, MouseEvent } from 'react';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import { Box, Button, Typography } from '@material-ui/core';
+import { useState, MouseEvent } from 'react';
+import useStyles from './useStyles';
+
+import { Box, Button, Popper, MenuItem, Grow, Paper, ClickAwayListener, MenuList } from '@material-ui/core';
 
 // Context
 import { useAuth } from '../../context/useAuthContext';
 
 const AuthMenu = (): JSX.Element => {
+  const classes = useStyles();
   const { loggedInUser, logout } = useAuth();
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => setAnchorEl(event.currentTarget);
+  const handleClose = () => setAnchorEl(null);
   const handleLogout = () => {
     handleClose();
     logout();
   };
-
-  console.log(loggedInUser);
 
   return (
     <Box mr={3}>
@@ -29,31 +24,32 @@ const AuthMenu = (): JSX.Element => {
         aria-controls="simple-menu"
         aria-haspopup="true"
         onClick={handleClick}
-        style={{ fontWeight: 700, fontSize: '0.9rem', color: 'black' }}
+        disableRipple={true}
+        className={classes.button}
       >
-        <img
-          src={loggedInUser?.picture}
-          alt="profile picture"
-          style={{ width: '2.5rem', borderRadius: '100%', marginRight: '1rem' }}
-        />
+        <img src={loggedInUser?.picture} alt="profile picture" className={classes.logo} />
         {loggedInUser?.username}
       </Button>
-      <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
-        <MenuItem onClick={handleLogout}>Logout</MenuItem>
-        <MenuItem>Profile</MenuItem>
-      </Menu>
+
+      <Popper open={Boolean(anchorEl)} anchorEl={anchorEl} transition disablePortal>
+        {({ TransitionProps, placement }) => (
+          <Grow
+            {...TransitionProps}
+            style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+          >
+            <Paper>
+              <ClickAwayListener onClickAway={handleClose}>
+                <MenuList>
+                  <MenuItem onClick={handleClose}>Profile</MenuItem>
+                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                </MenuList>
+              </ClickAwayListener>
+            </Paper>
+          </Grow>
+        )}
+      </Popper>
     </Box>
   );
 };
 
 export default AuthMenu;
-
-{
-  /* <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-        {loggedInUser?.username}
-      </Button>
-      <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
-        <MenuItem onClick={handleLogout}>Logout</MenuItem>
-        <MenuItem>Profile</MenuItem>
-      </Menu> */
-}

@@ -19,12 +19,11 @@ const useStyles = makeStyles(() => ({
     marginLeft: '10rem',
   },
   navButtons: {
-    marginRight: '0px!important',
+    marginLeft: 'auto',
   },
   navLinks: {
     textDecoration: 'none!important',
-    float: 'right',
-    marginRight: '3rem!important',
+    marginRight: '3rem',
     fontWeight: 700,
     fontSize: '0.9rem',
   },

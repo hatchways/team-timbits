@@ -1,8 +1,9 @@
+import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 // Material-UI and Style
-import CssBaseline from '@material-ui/core/CssBaseline';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import useStyles from './useStyles';
+import { CssBaseline, CircularProgress, Container, Box, Button, Typography } from '@material-ui/core';
 
 // Context
 import { useAuth } from '../../context/useAuthContext';
@@ -11,35 +12,66 @@ import { useAuth } from '../../context/useAuthContext';
 import NavBar from '../../components/NavBar/NavBar';
 import EventType from '../../components/EventType/EventType';
 
-export default function Dashboard(): JSX.Element {
+import axios from 'axios';
+
+function Dashboard(): JSX.Element {
+  const classes = useStyles();
+
   const { loggedInUser } = useAuth();
+  const [view, setView] = useState<boolean>(false);
 
   const history = useHistory();
 
-  if (loggedInUser === undefined) return <CircularProgress />;
+  if (loggedInUser === undefined) {
+    return (
+      <Box style={{ height: '100vh', width: '100vw' }} display="flex" justifyContent="center" alignItems="center">
+        <CircularProgress size="5rem" />
+      </Box>
+    );
+  }
   if (!loggedInUser) {
     history.push('/login');
-    return <CircularProgress />;
+    return (
+      <Box style={{ height: '100vh', width: '100vw' }} display="flex" justifyContent="center" alignItems="center">
+        <CircularProgress size="5rem" />
+      </Box>
+    );
   }
 
+  const handleClick = () => {
+    axios
+      .get('/profile', { params: { id: loggedInUser?.mongoId }, withCredentials: true })
+      .then((res) => console.log(res));
+  };
+
   return (
-    <>
+    <Box>
       <CssBaseline />
       <NavBar />
-    </>
+      <Box mt={10}>
+        <Button onClick={() => handleClick()}>Test</Button>
+        <Container>
+          <Typography className={classes.header}>My CalendApp</Typography>
+          <Button
+            disableRipple={true}
+            className={!view ? classes.buttonSelected : classes.buttonNotSelected}
+            style={{ marginRight: '1rem' }}
+            onClick={() => setView(false)}
+          >
+            Event Types
+          </Button>
+          <Button
+            disableRipple={true}
+            className={!view ? classes.buttonNotSelected : classes.buttonSelected}
+            onClick={() => setView(true)}
+          >
+            Scheduled Events
+          </Button>
+        </Container>
+        {!view ? <EventType /> : <h1>Goodbye</h1>}
+      </Box>
+    </Box>
   );
 }
 
-{
-  /* <Container maxWidth={'lg'} component="main" className={`${classes.root} ${classes.dashboard}`}>
-      <CssBaseline />
-      <Grid container>
-        <Grid container>
-          <NavBar loggedInUser={loggedInUser} />
-        </Grid>
-        <Grid container>
-          <EventType loggedInUser={loggedInUser} />
-        </Grid>
-      </Grid>
-    </Container> */
-}
+export default Dashboard;
