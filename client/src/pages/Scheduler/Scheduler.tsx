@@ -18,6 +18,7 @@ function Scheduler(): JSX.Element {
 
   // Retrieve desired meeting length from url minus min
   const { username, time }: { username: string; time: string } = useParams();
+  console.log('🚀 ~ Scheduler ~ time', time);
   const withoutLetters = time.replace(/[A-z]/g, '');
 
   return (

@@ -21,6 +21,15 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  url: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  timezone: {
+    type: String,
+    required: true,
+  },
   id: {
     type: String,
     required: false

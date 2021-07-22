@@ -14,8 +14,11 @@ import Login from './pages/Login/Login';
 import Signup from './pages/SignUp/SignUp';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Scheduler from './pages/Scheduler/Scheduler';
-import GoogleConnect from './components/GoogleConnect/GoogleConnect';
 import Subscription from './pages/Subscription';
+import Onboarding from './pages/Onboarding/Onboarding';
+import ProtectedRoute from './components/ProtectedRoute';
+import './App.css';
+import EventMaker from './components/EventMaker/EventMaker';
 
 function App(): JSX.Element {
   return (
@@ -26,13 +29,14 @@ function App(): JSX.Element {
             <Switch>
               <Route exact path="/login" component={Login} />
               <Route exact path="/signup" component={Signup} />
-              <Route exact path="/google" component={GoogleConnect} />
               <Route path="/subscription" component={Subscription} />
-              <Route exact path="/dashboard">
-                <Dashboard />
-              </Route>
+              <ProtectedRoute exact path="/dashboard" component={Dashboard} />
+              <Route exact path="/new-event-type" component={EventMaker} />
               <Route exact path="/:username/:time">
                 <Scheduler />
+              </Route>
+              <Route exact path="/onboarding">
+                <Onboarding />
               </Route>
               <Route path="*">
                 <Redirect to="/login" />
