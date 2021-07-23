@@ -8,6 +8,7 @@ import './App.css';
 // Context
 import { AuthProvider } from './context/useAuthContext';
 import { SnackBarProvider } from './context/useSnackbarContext';
+import { SchedulerProvider } from './context/useSchedulerContext';
 
 // Components
 import Login from './pages/Login/Login';
@@ -26,22 +27,24 @@ function App(): JSX.Element {
       <BrowserRouter>
         <SnackBarProvider>
           <AuthProvider>
-            <Switch>
-              <Route exact path="/login" component={Login} />
-              <Route exact path="/signup" component={Signup} />
-              <Route path="/subscription" component={Subscription} />
-              <ProtectedRoute exact path="/dashboard" component={Dashboard} />
-              <Route exact path="/new-event-type" component={EventMaker} />
-              <Route exact path="/:username/:time">
-                <Scheduler />
-              </Route>
-              <Route exact path="/onboarding">
-                <Onboarding />
-              </Route>
-              <Route path="*">
-                <Redirect to="/login" />
-              </Route>
-            </Switch>
+            <SchedulerProvider>
+              <Switch>
+                <Route exact path="/login" component={Login} />
+                <Route exact path="/signup" component={Signup} />
+                <Route path="/subscription" component={Subscription} />
+                <ProtectedRoute exact path="/dashboard" component={Dashboard} />
+                <Route exact path="/new-event-type" component={EventMaker} />
+                <Route exact path="/:username/:time">
+                  <Scheduler />
+                </Route>
+                <Route exact path="/onboarding">
+                  <Onboarding />
+                </Route>
+                <Route path="*">
+                  <Redirect to="/login" />
+                </Route>
+              </Switch>
+            </SchedulerProvider>
           </AuthProvider>
         </SnackBarProvider>
       </BrowserRouter>

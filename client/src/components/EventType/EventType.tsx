@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useStyles from '../EventType/useStyles';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
@@ -19,7 +19,8 @@ interface TabPanelProps {
 
 const EventType = (): JSX.Element => {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
+  const [appointments, setAppointments] = useState(undefined);
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
@@ -70,6 +71,9 @@ const EventType = (): JSX.Element => {
       </Tabs>
       <TabPanel value={value} index={0}>
         <Meeting />
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        <h1>{appointments}</h1>
       </TabPanel>
     </Paper>
   );
