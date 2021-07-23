@@ -6,10 +6,13 @@ import Checkout from './Checkout';
 import DoneIcon from '@material-ui/icons/Done';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
+import NavBar from '../../components/NavBar/NavBar';
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
-const stripePromise = loadStripe('pk_test_A7jK4iCYHL045qgjjfzAfPxu');
+const stripePromise = loadStripe(
+  'pk_test_51JCSCDDei66orvOlzW1BS6yijtxiiDrCCbToZBWKnvpEXfYDoBRk52rRKQZBTbXG0oiG65Bcv1IMkzBQZSaOqoCf00kT78p1aY',
+);
 
 const Subscription = (): JSX.Element => {
   const classes = useStyles();
@@ -18,6 +21,7 @@ const Subscription = (): JSX.Element => {
   return (
     <Switch>
       <Route exact path={path}>
+        <NavBar />
         <Box className={classes.root}>
           <Box className={classes.titleContainer}>
             <Typography gutterBottom variant="h4" style={{ fontWeight: 700 }}>
@@ -40,7 +44,7 @@ const Subscription = (): JSX.Element => {
                     </Box>
                     <Box>
                       <Button variant="contained" color="primary" size="large" className={classes.upgradeButton}>
-                        <Link to={`${url}/checkout`} style={{ textDecoration: 'none', color: 'white' }}>
+                        <Link to={`${url}/checkout/premium`} style={{ textDecoration: 'none', color: 'white' }}>
                           Upgrade
                         </Link>
                       </Button>
@@ -72,7 +76,7 @@ const Subscription = (): JSX.Element => {
                     </Box>
                     <Box>
                       <Button variant="contained" color="primary" size="large" className={classes.upgradeButton}>
-                        <Link to={`${url}/checkout`} style={{ textDecoration: 'none', color: 'white' }}>
+                        <Link to={`${url}/checkout/professional`} style={{ textDecoration: 'none', color: 'white' }}>
                           Upgrade
                         </Link>
                       </Button>
@@ -99,9 +103,14 @@ const Subscription = (): JSX.Element => {
           </Box>
         </Box>
       </Route>
-      <Route exact path={`${path}/checkout`}>
+      <Route exact path={`${path}/checkout/premium`}>
         <Elements stripe={stripePromise}>
-          <Checkout />
+          <Checkout price={8} priceId="price_1JFrJIDei66orvOlnTMbonE0" />
+        </Elements>
+      </Route>
+      <Route exact path={`${path}/checkout/professional`}>
+        <Elements stripe={stripePromise}>
+          <Checkout price={12} priceId="price_1JFrJeDei66orvOlHUKyumw5" />
         </Elements>
       </Route>
     </Switch>
