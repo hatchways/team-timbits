@@ -9,7 +9,8 @@ const useStyles = makeStyles(() => ({
     fontSize: '1rem',
     fontWeight: 300,
     '&:hover': {
-      background: 'none',
+      background: 'none!important',
+      color: 'none',
       borderColor: 'darkOrange',
     },
   },

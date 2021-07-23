@@ -173,15 +173,16 @@ const useStyles = makeStyles((theme) => ({
   },
   mdFlow: {
     height: '89%',
-    overflow: 'hidden',
+    overflow: 'scroll',
+    overflowX: 'hidden',
   },
   smFlow: {
     height: '34rem',
-    overflow: 'hidden',
+    overflowX: 'hidden',
   },
   xsFlow: {
     height: '35rem',
-    overflow: 'hidden',
+    overflowX: 'hidden',
   },
 }));
 
