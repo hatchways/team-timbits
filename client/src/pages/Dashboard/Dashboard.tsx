@@ -13,6 +13,7 @@ import NavBar from '../../components/NavBar/NavBar';
 import EventType from '../../components/EventType/EventType';
 
 import axios from 'axios';
+import ScheduledAppointments from '../../components/ScheduledAppointments';
 
 function Dashboard(): JSX.Element {
   const classes = useStyles();
@@ -66,7 +67,7 @@ function Dashboard(): JSX.Element {
             Scheduled Events
           </Button>
         </Container>
-        {!view ? <EventType /> : <h1>Scheduled Events</h1>}
+        {!view ? <EventType /> : <ScheduledAppointments />}
       </Box>
     </Box>
   );
