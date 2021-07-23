@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+
 import useStyles from './useStyles';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import SettingsOutlinedIcon from '@material-ui/icons/SettingsOutlined';
@@ -7,11 +7,13 @@ import { Container, Box, Button, Typography, Grid, Divider } from '@material-ui/
 
 // Context
 import { useAuth } from '../../context/useAuthContext';
+import { useSettings } from '../../context/useSettingsContext';
 
 const EventType = (): JSX.Element => {
   const classes = useStyles();
   const history = useHistory();
   const { loggedInUser } = useAuth();
+  const { url } = useSettings();
 
   return (
     <Box pb={10} style={{ background: 'ghostwhite', height: '100%' }}>
@@ -20,7 +22,7 @@ const EventType = (): JSX.Element => {
           <img src={loggedInUser?.picture} alt="profile picture" className={classes.logo} />
           <Box display="flex" flexDirection="column">
             <Typography className={classes.name}>{loggedInUser?.username}</Typography>
-            <Typography className={classes.link}>calendapp.com/{loggedInUser?.username}</Typography>
+            <Typography className={classes.link}>calendapp.com/{url}</Typography>
           </Box>
           <Button className={classes.button}>+ New event type</Button>
         </Box>
