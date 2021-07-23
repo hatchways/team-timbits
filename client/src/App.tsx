@@ -14,6 +14,7 @@ import Login from './pages/Login/Login';
 import Signup from './pages/SignUp/SignUp';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Scheduler from './pages/Scheduler/Scheduler';
+import Subscription from './pages/Subscription';
 import Onboarding from './pages/Onboarding/Onboarding';
 import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
@@ -28,6 +29,7 @@ function App(): JSX.Element {
             <Switch>
               <Route exact path="/login" component={Login} />
               <Route exact path="/signup" component={Signup} />
+              <Route path="/subscription" component={Subscription} />
               <ProtectedRoute exact path="/dashboard" component={Dashboard} />
               <Route exact path="/new-event-type" component={EventMaker} />
               <Route exact path="/:username/:time">
