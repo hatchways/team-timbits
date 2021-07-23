@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { TextField, FormGroup, FormControlLabel, Checkbox, Box } from '@material-ui/core';
 import { Formik, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
-import ProgressBar from '../ProgressBar';
 import useStyles from './useStyles';
-import AppLogo from '../../AppLogo';
+import logo from '../../../Images/logo.png';
+import ProgressBar from '../ProgressBar';
 
 interface Props {
   handleSubmit: (
@@ -63,7 +63,7 @@ const Availability = ({ handleSubmit }: Props): JSX.Element => {
 
   return (
     <Box mt={6} className={classes.root}>
-      <AppLogo />
+      <img src={logo} alt="logo" />
       <Box className={classes.formWrapper}>
         <ProgressBar progressText={'Set your availability'} progressValue={100} />
         <Box className={classes.formItemsWrapper}>

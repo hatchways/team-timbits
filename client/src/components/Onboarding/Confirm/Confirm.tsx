@@ -1,9 +1,9 @@
 import { Box, Divider } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { User } from '../../../interface/User';
-import AppLogo from '../../AppLogo';
 import ProgressBar from '../ProgressBar';
 import useStyles from './useStyles';
+import logo from '../../../Images/logo.png';
 
 interface Props {
   loggedInUser: User;
@@ -12,7 +12,7 @@ function Confirm({ loggedInUser }: Props): JSX.Element {
   const classes = useStyles();
   return (
     <Box mt={5} className={classes.root}>
-      <AppLogo />
+      <img src={logo} alt="logo" />
       <Box className={classes.formWrapper}>
         <ProgressBar progressText={'Your Google Calendar is connected!'} progressValue={50} />
         <Box className={classes.formItemsWrapper}>

@@ -1,38 +1,35 @@
-import { useAuth } from '../../context/useAuthContext';
 import useStyles from './useStyles';
-import AvatarDisplay from '../AvatarDisplay/AvatarDisplay';
-import Link from '@material-ui/core/Link';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
+import { Link, AppBar, Toolbar, Box } from '@material-ui/core';
+
+// Context
+import { useAuth } from '../../context/useAuthContext';
+
+// Component
 import AuthMenu from '../AuthMenu/AuthMenu';
 
-interface Props {
-  handleDrawerToggle?: () => void;
-}
+import logo from '../../Images/logo.png';
 
 const NavBar = (): JSX.Element => {
-  const { loggedInUser } = useAuth();
   const classes = useStyles();
+  const { loggedInUser } = useAuth();
+
+  console.log(loggedInUser);
+
   return (
-    <AppBar className={classes.root} position="static">
-      <Toolbar>
-        <Typography className={classes.title} variant="h6">
-          MyCalendarApp
-        </Typography>
-        <Typography>
-          <Link color="textPrimary" variant="h6">
+    <AppBar position="static" className={classes.root}>
+      <Toolbar className={classes.navbar}>
+        <img src={logo} alt="logo" className={classes.logo} />
+        <Box className={classes.navButtons}>
+          <Link className={classes.navLinks} style={{ color: 'black' }}>
             Home
           </Link>
-          <Link color="textPrimary" variant="h6">
-            Intergation
+          <Link className={classes.navLinks} style={{ color: 'black' }}>
+            Integration
           </Link>
-          <Link color="textPrimary" variant="h6">
-            Upgrade
+          <Link className={classes.navLinks} style={{ color: 'darkOrange' }}>
+            Upgrade Account
           </Link>
-        </Typography>
-        <AvatarDisplay />
-        <Typography variant="h5">{loggedInUser?.username}</Typography>
+        </Box>
         <AuthMenu />
       </Toolbar>
     </AppBar>

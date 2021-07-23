@@ -20,12 +20,14 @@ require("./boot/passportConfig");
 
 // Routes
 const authRouter = require("./routes/auth");
+const profileRouter = require("./routes/profile");
 const userRouter = require("./routes/user");
 const meetingRouter = require("./routes/meeting");
 const appointmentRouter = require("./routes/appointment");
 const onboardingRouter = require("./routes/onboarding");
 const availableRouter = require("./routes/availability");
 const subscriptionRouter = require("./routes/subscription");
+const calendarRouter = require("./routes/calendar");
 
 const { json, urlencoded } = express;
 
@@ -60,6 +62,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use("/auth", authRouter);
+app.use("/profile", profileRouter);
 app.use("/users", userRouter);
 app.use("/meeting", meetingRouter);
 app.use("/appointment", appointmentRouter);
@@ -130,6 +133,7 @@ app.post("/webhook", async (req, res) => {
   }
   res.sendStatus(200);
 });
+app.use("/calendar", calendarRouter);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/client/build")));

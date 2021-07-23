@@ -1,6 +1,6 @@
 import { Box, Typography, withStyles } from '@material-ui/core';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import progressStyles from './progressStyles';
+import useStyles from './useStyles';
 
 interface Props {
   progressValue: number;
@@ -23,7 +23,7 @@ const Progress = withStyles(() => ({
 }))(LinearProgress);
 
 const ProgressBar = ({ progressValue, progressText }: Props): JSX.Element => {
-  const classes = progressStyles();
+  const classes = useStyles();
 
   return (
     <Box className={classes.container}>

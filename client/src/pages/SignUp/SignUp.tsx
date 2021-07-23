@@ -9,7 +9,7 @@ import SignUpFormSimple from './SignupFormSimple/SignUpFormSimple';
 import checkUserEmail from '../../helpers/APICalls/checkUserEmail';
 import GoogleConnect from '../../components/GoogleConnect/GoogleConnect';
 
-export default function Register(): JSX.Element {
+export default function Signup(): JSX.Element {
   const classes = useStyles();
   const { updateSnackBarMessage } = useSnackBar();
   const [showGoogleConnect, setShowGoogleConnect] = useState(false);

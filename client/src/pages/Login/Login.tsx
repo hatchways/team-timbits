@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import useStyles from './useStyles';
 import { CssBaseline, Box, Grid, Paper, Typography } from '@material-ui/core';
 import { FormikHelpers } from 'formik';
@@ -7,7 +8,6 @@ import AppLogo from './../../components/AppLogo';
 import checkUserEmail from '../../helpers/APICalls/checkUserEmail';
 import LoginFormSimple from './LoginFormSimple/LoginFormSimple';
 import GoogleConnect from '../../components/GoogleConnect/GoogleConnect';
-import { useState } from 'react';
 
 export default function Login(): JSX.Element {
   const classes = useStyles();

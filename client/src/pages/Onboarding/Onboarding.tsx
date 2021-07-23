@@ -3,16 +3,22 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { FormikHelpers } from 'formik';
-import checkUserUrl from '../../helpers/APICalls/checkUserUrl';
-import Confirm from '../../components/Onboarding/Confirm/Confirm';
+
 import { useAuth } from '../../context/useAuthContext';
-import ProfileSetting from '../../components/Onboarding/ProfileSetting/ProfileSetting';
 import { useHistory } from 'react-router-dom';
+
+import Grid from '@material-ui/core/Grid';
+
+// Components
+import Confirm from '../../components/Onboarding/Confirm/Confirm';
+import Profile from '../../components/Onboarding/Profile/Profile';
 import Availability from '../../components/Onboarding/Availability/Availability';
-import updateUser from '../../helpers/APICalls/updateUser';
+
+//API Calls
 import checkUserAvailability from '../../helpers/APICalls/checkUserAvailability';
 import updateUserAvailability from '../../helpers/APICalls/updateUserAvailability';
-import Grid from '@material-ui/core/Grid';
+import checkUserUrl from '../../helpers/APICalls/checkUserUrl';
+import updateUser from '../../helpers/APICalls/updateUser';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -70,7 +76,7 @@ function GetStepContent(stepIndex: number) {
 
   switch (stepIndex) {
     case 0:
-      return <ProfileSetting handleSubmit={HandleProfileSubmit} />;
+      return <Profile handleSubmit={HandleProfileSubmit} />;
     case 1:
       return <Confirm loggedInUser={loggedInUser} />;
     case 2:

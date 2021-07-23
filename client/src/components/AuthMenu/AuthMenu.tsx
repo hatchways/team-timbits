@@ -1,49 +1,54 @@
 import { useState, MouseEvent } from 'react';
-import IconButton from '@material-ui/core/IconButton';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import useStyles from './useStyles';
+
+import { Box, Button, Popper, MenuItem, Grow, Paper, ClickAwayListener, MenuList } from '@material-ui/core';
+
+// Context
 import { useAuth } from '../../context/useAuthContext';
 
 const AuthMenu = (): JSX.Element => {
+  const classes = useStyles();
+  const { loggedInUser, logout } = useAuth();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const { logout } = useAuth();
 
-  const handleClick = (event: MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => setAnchorEl(event.currentTarget);
+  const handleClose = () => setAnchorEl(null);
   const handleLogout = () => {
     handleClose();
     logout();
   };
 
   return (
-    <div>
-      <IconButton aria-label="show auth menu" aria-controls="auth-menu" aria-haspopup="true" onClick={handleClick}>
-        <MoreHorizIcon />
-      </IconButton>
-      <Menu
-        id="auth-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={open}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
-        }}
-        getContentAnchorEl={null}
+    <Box mr={3}>
+      <Button
+        aria-controls="simple-menu"
+        aria-haspopup="true"
+        onClick={handleClick}
+        disableRipple={true}
+        className={classes.button}
       >
-        <MenuItem onClick={handleLogout}>Logout</MenuItem>
-        <MenuItem>Profile</MenuItem>
-      </Menu>
-    </div>
+        <img src={loggedInUser?.picture} alt="profile picture" className={classes.logo} />
+        {loggedInUser?.username}
+      </Button>
+
+      <Popper open={Boolean(anchorEl)} anchorEl={anchorEl} transition disablePortal>
+        {({ TransitionProps, placement }) => (
+          <Grow
+            {...TransitionProps}
+            style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+          >
+            <Paper>
+              <ClickAwayListener onClickAway={handleClose}>
+                <MenuList>
+                  <MenuItem onClick={handleClose}>Profile</MenuItem>
+                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                </MenuList>
+              </ClickAwayListener>
+            </Paper>
+          </Grow>
+        )}
+      </Popper>
+    </Box>
   );
 };
 
