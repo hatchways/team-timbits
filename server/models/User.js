@@ -37,6 +37,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  cloudinary_id: {
+    type: String,
+    unique: true,
+  },
   refreshToken: {
     type: String,
     required: false,

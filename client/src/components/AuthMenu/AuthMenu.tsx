@@ -4,6 +4,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import { useAuth } from '../../context/useAuthContext';
+import Cloudinary from '../Cloudinary';
 
 const AuthMenu = (): JSX.Element => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -42,6 +43,9 @@ const AuthMenu = (): JSX.Element => {
       >
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
         <MenuItem>Profile</MenuItem>
+        <MenuItem>
+          <Cloudinary />
+        </MenuItem>
       </Menu>
     </div>
   );
