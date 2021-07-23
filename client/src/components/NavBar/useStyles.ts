@@ -16,7 +16,6 @@ const useStyles = makeStyles(() => ({
   },
   logo: {
     padding: '1rem',
-    marginLeft: '10rem',
   },
   navButtons: {
     marginLeft: 'auto',

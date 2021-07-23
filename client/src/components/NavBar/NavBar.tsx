@@ -1,6 +1,6 @@
 import useStyles from './useStyles';
-import { Link, AppBar, Toolbar, Box } from '@material-ui/core';
-
+import { AppBar, Toolbar, Box } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 // Context
 import { useAuth } from '../../context/useAuthContext';
 
@@ -20,13 +20,10 @@ const NavBar = (): JSX.Element => {
       <Toolbar className={classes.navbar}>
         <img src={logo} alt="logo" className={classes.logo} />
         <Box className={classes.navButtons}>
-          <Link className={classes.navLinks} style={{ color: 'black' }}>
+          <Link to="/dashboard" className={classes.navLinks} style={{ color: 'black' }}>
             Home
           </Link>
-          <Link className={classes.navLinks} style={{ color: 'black' }}>
-            Integration
-          </Link>
-          <Link className={classes.navLinks} style={{ color: 'darkOrange' }}>
+          <Link to="/subscription" className={classes.navLinks} style={{ color: 'darkOrange' }}>
             Upgrade Account
           </Link>
         </Box>

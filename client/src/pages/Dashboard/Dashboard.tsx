@@ -57,14 +57,14 @@ function Dashboard(): JSX.Element {
             style={{ marginRight: '1rem' }}
             onClick={() => setView(false)}
           >
-            Event Types
+            Events
           </Button>
           <Button
             disableRipple={true}
             className={!view ? classes.buttonNotSelected : classes.buttonSelected}
             onClick={() => setView(true)}
           >
-            Scheduled Events
+            Scheduled Appointments
           </Button>
         </Container>
         {!view ? <EventType /> : <ScheduledAppointments />}

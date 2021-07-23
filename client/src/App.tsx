@@ -34,7 +34,7 @@ function App(): JSX.Element {
                 <Route path="/subscription" component={Subscription} />
                 <ProtectedRoute exact path="/dashboard" component={Dashboard} />
                 <Route exact path="/new-event-type" component={EventMaker} />
-                <Route exact path="/:username/:time">
+                <Route exact path="/:userId/:username/:url/:time">
                   <Scheduler />
                 </Route>
                 <Route exact path="/onboarding" component={Onboarding} />

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-
+import dayjs from 'dayjs';
 // Material-UI and Style
 import Typography from '@material-ui/core/Typography';
 import { Box, Button, Grid, Paper } from '@material-ui/core';
-import useStyles from '../Meeting/useStyles';
+import useStyles from './useStyles';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Divider from '@material-ui/core/Divider';
 import ScheduleIcon from '@material-ui/icons/Schedule';
@@ -23,10 +23,10 @@ const ScheduledAppointments = (): JSX.Element => {
   const [appointments, setAppointments] = useState([]);
 
   useEffect(() => {
-    getScheduledAppointments(loggedInUser?.mongoId || '').then((data) => {
+    getScheduledAppointments(loggedInUser?.mongoId).then((data) => {
       if (data) {
         console.log('🚀 ~ getScheduledAppointments ~ data', data);
-        setAppointments(data);
+        setAppointments(data.success);
       } else {
         updateSnackBarMessage('Could not recieve events from backend server');
       }
@@ -38,40 +38,23 @@ const ScheduledAppointments = (): JSX.Element => {
     navigator.clipboard.writeText(url);
   };
   return (
-    <Grid container xs={12} className={classes.meetingContainer} spacing={3}>
-      {appointments.length &&
+    <Grid container justifyContent="center">
+      {appointments?.length &&
         appointments.map((eachAppointment: any, index: number) => (
-          <Grid key={index} item xs={12} md={4}>
+          <Grid key={index} item xs={12} md={8} style={{ margin: '1rem' }}>
             <Grid className={classes.cardStylingBar}></Grid>
             <Paper className={classes.meetingCard}>
-              <Box marginBottom={2} textAlign="left">
-                <Box display="flex" justifyContent="flex-end">
-                  <SettingsIcon />
-                </Box>
-                <Box paddingX={2}>
+              <Box textAlign="left">
+                <Box paddingX={1}>
                   <Typography variant="h5" className={classes.title}>
-                    {'eachEvent.name'}
+                    {eachAppointment.name}
                   </Typography>
-                  <Typography variant="body1">{'eachEvent.description'}</Typography>
+                  <Typography variant="h5" className={classes.title}>
+                    {dayjs(eachAppointment.time).format('HH:mm YYYY-MM-DD')}
+                  </Typography>
+                  <Typography variant="body1">Event: {eachAppointment.eventName}</Typography>
                 </Box>
               </Box>
-              <Grid>
-                <Divider className={classes.divider} />
-                <Grid container className={classes.cardFooter}>
-                  <Box display="flex" alignItems="center">
-                    <ScheduleIcon />
-                    <Typography variant="h5">{'eachEvent.duration'}</Typography>
-                  </Box>
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    onClick={() => copyToClipBoard('eachEvent.url')}
-                    className={classes.copyLinkButton}
-                  >
-                    Copy Link
-                  </Button>
-                </Grid>
-              </Grid>
             </Paper>
           </Grid>
         ))}

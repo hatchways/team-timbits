@@ -29,7 +29,6 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
     textAlign: 'center',
     color: theme.palette.text.secondary,
-    height: 200,
     boxShadow: 'rgb(0 0 0 / 0.15) 0px 2px 12px',
     '&:hover': {
       boxShadow: 'rgb(0 0 0 / 0.30) 0px 2px 12px',
