@@ -8,11 +8,11 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import Divider from '@material-ui/core/Divider';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import AddIcon from '@material-ui/icons/Add';
-import { useAuth } from '../../context/useAuthContext';
-// Components
-import AvatarDisplay from '../AvatarDisplay/AvatarDisplay';
 
 import fetchEvents from './../../helpers/APICalls/fetchEvents';
+
+// Context
+import { useAuth } from '../../context/useAuthContext';
 
 // Interface
 import { useSnackBar } from '../../context/useSnackbarContext';
@@ -55,7 +55,7 @@ const Meetings = (): JSX.Element => {
         <Grid item>
           <Grid container>
             <Box>
-              <AvatarDisplay />
+              <img src={loggedInUser?.picture} alt="profile picture" />
             </Box>
             <Box marginLeft={2}>
               <Typography component="h3" className={classes.title}>

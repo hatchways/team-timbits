@@ -7,11 +7,20 @@ import TextField from '@material-ui/core/TextField';
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
+import { useState } from 'react';
+
 function Confirm(): JSX.Element {
   const theme = useTheme();
   const classes = useStyles();
 
+  const [name, setName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+
   const mdWidth = useMediaQuery(theme.breakpoints.up('md'));
+
+  const handleSubmit = () => {
+    console.log(email);
+  };
   return (
     <>
       <CssBaseline />
@@ -32,14 +41,26 @@ function Confirm(): JSX.Element {
         >
           <Box mt={mdWidth ? 3 : 1}>
             <Typography className={classes.text}>Name</Typography>
-            <TextField id="outlined-basic" variant="outlined" className={classes.textField} />
+            <TextField
+              id="outlined-basic"
+              variant="outlined"
+              className={classes.textField}
+              onChange={(e) => setName(e.target.value)}
+            />
           </Box>
           <Box mt={1}>
             <Typography className={classes.text}>Email</Typography>
-            <TextField id="outlined-basic" variant="outlined" className={classes.textField} />
+            <TextField
+              id="outlined-basic"
+              variant="outlined"
+              className={classes.textField}
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </Box>
           <br />
-          <Button className={classes.backButton}>Schedule Event</Button>
+          <Button onClick={handleSubmit} className={classes.backButton}>
+            Schedule Event
+          </Button>
         </Box>
       </Box>
     </>
