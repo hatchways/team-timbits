@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 // Material-UI and Style
@@ -7,20 +7,23 @@ import { CssBaseline, CircularProgress, Container, Box, Button, Typography } fro
 
 // Context
 import { useAuth } from '../../context/useAuthContext';
+import { useSettings } from '../../context/useSettingsContext';
 
 // Components
 import NavBar from '../../components/NavBar/NavBar';
 import EventType from '../../components/EventType/EventType';
 
-import axios from 'axios';
-
 function Dashboard(): JSX.Element {
   const classes = useStyles();
-
   const { loggedInUser } = useAuth();
+  const { settings, updateDatabase } = useSettings();
   const [view, setView] = useState<boolean>(false);
 
   const history = useHistory();
+
+  useEffect(() => {
+    if (settings) updateDatabase();
+  }, [settings, updateDatabase]);
 
   if (loggedInUser === undefined) {
     return (
@@ -38,18 +41,11 @@ function Dashboard(): JSX.Element {
     );
   }
 
-  const handleClick = () => {
-    axios
-      .get('/profile', { params: { id: loggedInUser?.mongoId }, withCredentials: true })
-      .then((res) => console.log(res));
-  };
-
   return (
     <Box>
       <CssBaseline />
       <NavBar />
       <Box mt={10}>
-        <Button onClick={() => handleClick()}>Test</Button>
         <Container>
           <Typography className={classes.header}>My CalendApp</Typography>
           <Button

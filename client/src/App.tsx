@@ -7,6 +7,7 @@ import './App.css';
 
 // Context
 import { AuthProvider } from './context/useAuthContext';
+import { SettingsProvider } from './context/useSettingsContext';
 import { SnackBarProvider } from './context/useSnackbarContext';
 import { SchedulerProvider } from './context/useSchedulerContext';
 
@@ -23,17 +24,19 @@ function App(): JSX.Element {
       <BrowserRouter>
         <SnackBarProvider>
           <AuthProvider>
-            <SchedulerProvider>
-              <Switch>
-                <Route exact path="/login" component={Login} />
-                <Route exact path="/onboarding" component={Onboarding} />
-                <Route exact path="/dashboard" component={Dashboard} />
-                <Route exact path="/:username/:time" component={Scheduler} />
-                <Route path="*">
-                  <Redirect to="/login" />
-                </Route>
-              </Switch>
-            </SchedulerProvider>
+            <SettingsProvider>
+              <SchedulerProvider>
+                <Switch>
+                  <Route exact path="/login" component={Login} />
+                  <Route exact path="/onboarding" component={Onboarding} />
+                  <Route exact path="/dashboard" component={Dashboard} />
+                  <Route exact path="/:username/:time" component={Scheduler} />
+                  <Route path="*">
+                    <Redirect to="/login" />
+                  </Route>
+                </Switch>
+              </SchedulerProvider>
+            </SettingsProvider>
           </AuthProvider>
         </SnackBarProvider>
       </BrowserRouter>

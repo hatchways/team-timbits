@@ -1,34 +1,19 @@
-import React, { useState } from 'react';
-import { TextField, FormGroup, FormControlLabel, Checkbox, Box } from '@material-ui/core';
-import { Formik, FormikHelpers } from 'formik';
-import * as Yup from 'yup';
+import { useState, ChangeEvent } from 'react';
+import { useHistory } from 'react-router-dom';
+import { Formik } from 'formik';
+
+import { TextField, Checkbox, Box, Button, Typography } from '@material-ui/core';
 import useStyles from './useStyles';
-import logo from '../../../Images/logo.png';
-import ProgressBar from '../ProgressBar';
 
-interface Props {
-  handleSubmit: (
-    {
-      hours,
-      days,
-    }: {
-      hours: string;
-      days: string;
-    },
-    {
-      setStatus,
-      setSubmitting,
-    }: FormikHelpers<{
-      hours: string;
-      days: string;
-    }>,
-  ) => void;
-}
+// Context
+import { useSettings } from '../../../context/useSettingsContext';
 
-const Availability = ({ handleSubmit }: Props): JSX.Element => {
+const Availability = (): JSX.Element => {
   const classes = useStyles();
-  const [hours, setHours] = useState({ start: '9:00', end: '17:00' });
-  const [days, setDays] = useState({
+  const history = useHistory();
+  const { updateUnavailableContext, updateHoursContext, updateSettings } = useSettings();
+
+  const [days, setDays] = useState<Record<string, boolean>>({
     Sunday: false,
     Monday: true,
     Tuesday: true,
@@ -38,88 +23,109 @@ const Availability = ({ handleSubmit }: Props): JSX.Element => {
     Saturday: false,
   });
 
-  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setDays(event.target.value as any);
-    setHours(event.target.value as any);
+  const handleBoxChange = (event: ChangeEvent<{ name: string }>) => {
+    const selectedDay = event.target.name;
+    setDays({ ...days, [selectedDay]: !days[selectedDay] });
   };
 
-  // eslint-disable-next-line
-  function renderCheckBoxes(days: any) {
-    return Object.keys(days).map((day) => {
-      return (
-        <Box key={day} className={classes.checkboxWrap}>
-          <FormControlLabel
-            id={day + '-checkbox-field'}
-            key={day}
-            value={day}
-            control={<Checkbox checked={days[day]} onChange={handleChange} name={day} />}
-            label={day + 's'}
-            labelPlacement="bottom"
-          />
-        </Box>
-      );
-    });
-  }
+  const renderCheckBoxes = () => {
+    return Object.keys(days).map((day) => (
+      <Box
+        key={day}
+        borderTop={1}
+        borderLeft={1}
+        borderBottom={1}
+        borderRight={day === 'Saturday' ? 1 : 0}
+        width={110}
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        className={`${classes.boxes} ${day === 'Sunday' ? classes.sundayBorder : classes.boxes} ${
+          day === 'Saturday' ? classes.saturdayBorder : classes.boxes
+        }`}
+      >
+        <Checkbox
+          name={day}
+          checked={days[day]}
+          onChange={handleBoxChange}
+          style={days[day] ? { color: 'darkOrange' } : { color: 'grey' }}
+        />
+        <Typography className={classes.checkboxText} style={days[day] ? { color: 'black' } : { color: 'grey' }}>
+          {day}
+        </Typography>
+      </Box>
+    ));
+  };
+
+  const handleSubmit = (startTime?: string, endTime?: string) => {
+    const daysUnavailble = [];
+    for (const day in days) {
+      if (!days[day]) daysUnavailble.push(day);
+    }
+    updateUnavailableContext(daysUnavailble);
+    updateHoursContext([startTime ?? '', endTime ?? '']);
+    updateSettings(true);
+    history.push('/dashboard');
+  };
 
   return (
-    <Box mt={6} className={classes.root}>
-      <img src={logo} alt="logo" />
-      <Box className={classes.formWrapper}>
-        <ProgressBar progressText={'Set your availability'} progressValue={100} />
-        <Box className={classes.formItemsWrapper}>
-          <Formik
-            initialValues={{
-              hours: '',
-              days: '',
-            }}
-            isSubmitting={true}
-            isValidating={true}
-            validationSchema={Yup.object().shape({
-              hours: Yup.string().required('Please choose your hours.'),
-              days: Yup.object().required('Please select your days.'),
-            })}
-            onSubmit={handleSubmit}
-          >
-            {({ handleSubmit, handleChange, touched, errors }) => (
-              <form onSubmit={handleSubmit}>
-                <Box mx={7} mt={2} ml={6}>
-                  Available Hours:
-                </Box>
-                <Box mx={6} mt={1} ml={6} className={classes.formItem}>
-                  <TextField
-                    id="start-hours-field"
-                    value={hours}
-                    helperText={touched.hours ? errors.hours : ''}
-                    error={touched.hours && Boolean(errors.hours)}
-                    variant="outlined"
-                    type="time"
-                    name="start"
-                    onChange={handleChange}
-                  />
-                  <span>-</span>
-                  <TextField
-                    id="end-hours-field"
-                    value={hours}
-                    helperText={touched.hours ? errors.hours : ''}
-                    error={touched.hours && Boolean(errors.hours)}
-                    variant="outlined"
-                    type="time"
-                    name="end"
-                    onChange={handleChange}
-                  />
-                </Box>
-                <Box mx={6} mt={2} ml={6}>
-                  Available Days:
-                </Box>
-                <Box mx={2} mt={1} ml={6}>
-                  <FormGroup row>{renderCheckBoxes(days)}</FormGroup>
-                </Box>
-              </form>
-            )}
-          </Formik>
-        </Box>
-      </Box>
-    </Box>
+    <>
+      <Formik
+        initialValues={{
+          startTime: '08:00',
+          endTime: '17:00',
+        }}
+        onSubmit={(values) => {
+          handleSubmit(values.startTime, values.endTime);
+        }}
+      >
+        {({ handleSubmit, handleChange, values }) => (
+          <form onSubmit={handleSubmit}>
+            <Box mt={5} mx={10} display="flex">
+              <Typography className={classes.headerText}>Available Hours:</Typography>
+            </Box>
+            <br />
+            <Box mx={10} mb={5} className={classes.formItem}>
+              <TextField
+                defaultValue={values.startTime}
+                name="start"
+                variant="outlined"
+                id="time"
+                type="time"
+                InputProps={{
+                  style: { fontSize: '1rem', fontWeight: 700 },
+                }}
+                onChange={handleChange}
+              />
+              <Typography style={{ fontSize: '2rem', marginLeft: '3rem', marginRight: '3rem' }}>-</Typography>
+              <TextField
+                defaultValue={values.endTime}
+                onChange={handleChange}
+                name="end"
+                variant="outlined"
+                id="time"
+                type="time"
+                InputProps={{
+                  style: { fontSize: '1rem', fontWeight: 700 },
+                }}
+              />
+            </Box>
+
+            <Box mx={10}>
+              <Typography className={classes.headerText}>Available Days:</Typography>
+              <br />
+              <Box display="flex">{renderCheckBoxes()}</Box>
+            </Box>
+
+            <Box display="flex" alignItems="center" flexDirection="column" mt={8}>
+              <Button type="submit" className={classes.button}>
+                Finish
+              </Button>
+            </Box>
+          </form>
+        )}
+      </Formik>
+    </>
   );
 };
 

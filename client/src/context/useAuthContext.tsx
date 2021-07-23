@@ -4,6 +4,7 @@ import { AuthApiData, AuthApiDataSuccess } from '../interface/AuthApiData';
 import { User } from '../interface/User';
 import loginWithCookies from '../helpers/APICalls/loginWithCookies';
 import logoutAPI from '../helpers/APICalls/logout';
+import axios from 'axios';
 
 interface IAuthContext {
   loggedInUser: User | null | undefined;
@@ -46,9 +47,10 @@ export const AuthProvider: FunctionComponent = ({ children }): JSX.Element => {
       await loginWithCookies().then((data: AuthApiData) => {
         if (data.success) {
           updateLoginContext(data.success);
-          history.push('/dashboard');
+          axios.get('/profile', { params: { id: data.success.user.mongoId }, withCredentials: true }).then((res) => {
+            res.data.length ? history.push('/dashboard') : history.push('/onboarding');
+          });
         } else {
-          // don't need to provide error feedback as this just means user doesn't have saved cookies or the cookies have not been authenticated on the backend
           setLoggedInUser(null);
           history.push('/login');
         }

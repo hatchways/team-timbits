@@ -1,40 +1,34 @@
 import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles({
-  root: {
-    height: '100%',
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+  headerText: {
+    fontWeight: 700,
+    fontSize: '1rem',
   },
-  formItemsWrapper: {
-    width: '100%',
-    height: '100%',
-    borderTop: '2px solid lightgrey',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'space-apart',
+  button: {
+    background: 'linear-gradient(45deg, tomato 5%, darkOrange 90%)',
+    border: 0,
+    borderRadius: 3,
+    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+    color: 'white!important',
+    height: '3.5rem',
+    width: '10rem',
+    padding: '0 30px',
+    fontSize: '1rem',
   },
-  formItem: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  buttons: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  formWrapper: {
-    borderRadius: 6,
-    height: '60vh',
-    width: '80vh',
-    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.15)',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+  altButton: {
+    background: 'none',
+    border: 0,
+    color: 'grey',
+    height: '3.5rem',
+    width: '10rem',
+    padding: '0 30px',
+    fontSize: '1rem',
+    fontWeight: 300,
+    '&:hover': {
+      background: 'none',
+      color: 'black',
+    },
   },
 });
 

@@ -16,6 +16,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
+import { useSettings } from '../../context/useSettingsContext';
 import { useScheduler } from '../../context/useSchedulerContext';
 
 // Components
@@ -47,6 +48,7 @@ function Scheduler(): JSX.Element {
     modal,
     updateModalContext,
   } = useScheduler();
+  const { unavailable, hours } = useSettings();
 
   const [page, setPage] = useState<string>('schedule');
 
