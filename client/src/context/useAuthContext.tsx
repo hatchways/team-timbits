@@ -26,13 +26,12 @@ export const AuthProvider: FunctionComponent = ({ children }): JSX.Element => {
   const updateLoginContext = useCallback(
     (data: AuthApiDataSuccess) => {
       setLoggedInUser(data.user);
-      history.push('/google');
     },
+    // eslint-disable-next-line
     [history],
   );
 
   const logout = useCallback(async () => {
-    // needed to remove token cookie
     await logoutAPI()
       .then(() => {
         history.push('/login');
@@ -52,7 +51,6 @@ export const AuthProvider: FunctionComponent = ({ children }): JSX.Element => {
           });
         } else {
           setLoggedInUser(null);
-          history.push('/login');
         }
       });
     };

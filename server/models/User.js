@@ -1,50 +1,66 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
-
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   email: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   password: {
     type: String,
-    required: false
+    required: false,
   },
   strategy: {
     type: String,
-    required: true
+    required: true,
+  },
+  url: {
+    type: String,
+    required: false,
+    unique: true,
+  },
+  timezone: {
+    type: String,
+    required: false,
   },
   id: {
     type: String,
-    required: false
+    required: false,
   },
   picture: {
     type: String,
-    required: false
+    required: false,
   },
   refreshToken: {
     type: String,
-    required: false
+    required: false,
   },
   register_date: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
+  stripeId: {
+    type: String,
+    required: false,
+  },
+  planType: {
+    type: String,
+    required: false,
+    default: "Free",
+  },
 });
 
-if(userSchema.strategy === 'local'){
+if (userSchema.strategy === "local") {
   userSchema.methods.matchPassword = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
   };
 }
-
 
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
